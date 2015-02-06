@@ -17,8 +17,20 @@ public class VaccinationDistributionModel {
 	public static void main(String[] args) {
 		System.out.println("<b>Ebola</b>");
 		
-		City city = new City(1243, 112, 123, 123, 123, 762, 0);
-		System.out.println(city);
+		Parameters parameters = new Parameters();
+		parameters.infectionRate = 1;
+		
+		City city = new City(1000, 990, 0, 10, 0, 0, 0);
+		city.setParameters(parameters);
+		
+		for (int i = 0; i < 100; i++) {
+			city.update();
+			System.out.println(city);
+			
+			try {
+				Thread.sleep(3000);
+			} catch (Exception e) {}
+		}
 	}
 
 }

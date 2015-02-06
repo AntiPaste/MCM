@@ -35,7 +35,13 @@ public class City implements Modelable {
 	
 	@Override
 	public void update() {
-		// Do something
+		// susceptible -> infected
+		int peopleToInfect = (int)
+				((this.susceptible * this.infected * this.parameters.infectionRate)
+				/ (this.susceptible + this.infected));
+		
+		this.susceptible -= peopleToInfect;
+		this.infected += peopleToInfect;
 	}
 	
 	@Override

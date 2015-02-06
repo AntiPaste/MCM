@@ -1,7 +1,9 @@
 package vaccinationdistributionmodel;
 
 public class Parameters {
-	public int mortality;
+	/*public int mortality;
 	public int infectiveness;
-        public int mobility;
+        public int mobility;*/
+	
+	public double infectionRate;
 }
