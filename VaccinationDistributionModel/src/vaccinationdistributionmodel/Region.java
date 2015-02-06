@@ -14,34 +14,25 @@ import java.util.ArrayList;
  */
 public class Region implements Modelable{
     
-    ArrayList<Region> neighbouringRegions;
-    ArrayList<City> cities;
-    double mortality; // rate of death from ebola
-    double infectiveness; // rate of spread of ebola
-    int [][] weights;
+    private ArrayList<Region> neighbouringRegions;
+    private Graph cities;
+    private Parameters regionParams;
     
-    public Region(double mortality, double infectiveness) {
-        this(mortality, infectiveness, new ArrayList<>());
-    }
-    
-    public Region(double mortality, double infectiveness, ArrayList<City> cities) {
+    public Region(Parameters params, Graph cities){
         this.cities = cities;
-        this.mortality = mortality;
-        this.infectiveness = infectiveness;
-        
-        init();
+        this.regionParams = params;
     }
     
     private void init(){
-        for (City c: cities){
-            c.setParameters(mortality, infectiveness);
+        for (City c: cities.getCities()){
+            c.setParameters(regionParams);
         }
     }
     
     
     @Override
     public void update() {
-        for (City city: cities){
+        for (City city: cities.getCities()){
             city.update();
         }
     }
