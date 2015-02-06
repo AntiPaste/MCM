@@ -5,5 +5,8 @@ public class Parameters {
 	public int infectiveness;
         public int mobility;*/
 	
+	public double contaminationRate;
 	public double infectionRate;
+	public double mortalityRate;
+	public double recoveryRate;
 }
