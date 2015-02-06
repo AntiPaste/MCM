@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package vaccinationdistributionmodel;
 
 /**
@@ -12,11 +11,14 @@ package vaccinationdistributionmodel;
  */
 public class VaccinationDistributionModel {
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        System.out.println("<b>Ebola</b>");
-    }
-    
+	/**
+	 * @param args the command line arguments
+	 */
+	public static void main(String[] args) {
+		System.out.println("<b>Ebola</b>");
+		
+		City city = new City(1243, 112, 123, 123, 123, 762, 0);
+		System.out.println(city);
+	}
+
 }
