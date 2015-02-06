@@ -6,10 +6,21 @@
 
 package vaccinationdistributionmodel;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author ilari
  */
 public class Graph {
+    private ArrayList<City> cities;
+    private double[][] weights;
     
+    public Graph(ArrayList<City> cities, double[][] weights){
+        
+    }
+    
+    public ArrayList<City> getCities(){
+        return this.cities;
+    }
 }
