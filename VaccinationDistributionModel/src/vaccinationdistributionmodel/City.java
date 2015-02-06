@@ -11,6 +11,8 @@ public class City implements Modelable {
 	
 	private int dead = 0;
 	
+	private Parameters parameters;
+	
 	public City(int population) {
 		this.population = population;
 		this.susceptible = population;
@@ -27,6 +29,10 @@ public class City implements Modelable {
 		this.dead = dead;
 	}
 	
+	public void setParameters(Parameters parameters) {
+		this.parameters = parameters;
+	}
+	
 	@Override
 	public void update() {
 		// Do something
@@ -35,7 +41,7 @@ public class City implements Modelable {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		float fPopulation = (float) this.population;
+		double fPopulation = (double) this.population;
 		
 		builder.append(String.format("Population: %d\n", this.population));
 		builder.append(String.format("Susceptible: %d (%.2f%%)\n", this.susceptible, this.susceptible / fPopulation * 100));
