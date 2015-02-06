@@ -29,11 +29,29 @@ public class Region implements Modelable{
         }
     }
     
+    private void interact(Region nearRegion){
+        
+    }
+    
     
     @Override
     public void update() {
+        // city's internal changes
         for (City city: cities.getCities()){
             city.update();
+        }
+        
+        // city- city interaction
+        for (City one: cities.getCities()){
+            for (City other: cities.getCities()){
+                double w = cities.weight(one, other);
+                //one.interact(other, w);
+            }
+        }
+        
+        // region-region interaction
+        for (Region nearRegion: this.neighbouringRegions){
+            this.interact(nearRegion);
         }
     }
 }

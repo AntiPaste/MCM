@@ -23,4 +23,12 @@ public class Graph {
     public ArrayList<City> getCities(){
         return this.cities;
     }
+    
+    public double weight(City one, City two){
+        int i = cities.indexOf(one);
+        int j = cities.indexOf(two);
+        return weights[i][j];
+    }
+    
+    
 }
