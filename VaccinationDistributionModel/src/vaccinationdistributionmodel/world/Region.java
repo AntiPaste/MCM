@@ -15,64 +15,71 @@ import vaccinationdistributionmodel.Modelable;
  */
 public class Region implements Modelable {
 
-	private ArrayList<Region> neighbouringRegions;
-	private Graph<City> cities;
+    private ArrayList<Region> neighbouringRegions;
+    private Graph<City> cities;
     private List<City> bigCities;
-	private Parameters regionParams;
+    private Parameters regionParams;
 
-	public Region(Parameters params, Graph cities) {
-		this.cities = cities;
+    public Region(Parameters params, Graph cities) {
+        this.cities = cities;
         this.bigCities = new ArrayList();
-		this.regionParams = params;
-	}
-    
+        this.regionParams = params;
+    }
+
     public void setBigCities(List<City> bigCities) {
         this.bigCities = bigCities;
     }
 
-	private void init() {
-		for (City c : cities.getNodes()) {
-			c.setParameters(regionParams);
-		}
-	}
-
-	private void interact(Region nearRegion) {
-
-	}
-        
-        public List<City> getCities(){
-            return this.cities.getNodes();
+    private void init() {
+        for (City c : cities.getNodes()) {
+            c.setParameters(regionParams);
         }
-        
-        public List<City> nearCities(City city){
-            if (!cities.getNodes().contains(city)){
-                return new ArrayList<>();
+    }
+
+    public void interact(Region nearRegion, double weight) {
+        for (City myBig : this.bigCities) {
+            for (City otherBig : nearRegion.bigCities) {
+                myBig.interact(otherBig, weight);
             }
-            List<City> nearCities = new ArrayList<City>();
-           
-            this.cities.getEdges(city).stream().forEach((Edge<City> edge) -> {
-                if (edge.one.equals(city)) nearCities.add(edge.other);
-                else nearCities.add(edge.one);
-            });
-            
-            return nearCities;
+        }
+    }
+
+    public List<City> getCities() {
+        return this.cities.getNodes();
+    }
+
+    public List<City> nearCities(City city) {
+        if (!cities.getNodes().contains(city)) {
+            return new ArrayList<>();
+        }
+        List<City> nearCities = new ArrayList<City>();
+
+        this.cities.getEdges(city).stream().forEach((Edge<City> edge) -> {
+            if (edge.one.equals(city)) {
+                nearCities.add(edge.other);
+            } else {
+                nearCities.add(edge.one);
+            }
+        });
+
+        return nearCities;
+    }
+
+    @Override
+    public void update(int currentDay) {
+        // city's internal changes
+        for (City city : cities.getNodes()) {
+            city.update(currentDay);
         }
 
-	@Override
-	public void update(int currentDay) {
-		// city's internal changes
-		for (City city : cities.getNodes()) {
-			city.update(currentDay);
-		}
-
-		// city - city interaction
-        for (Edge<City> edge : this.cities.edges()){
+        // city - city interaction
+        for (Edge<City> edge : this.cities.edges()) {
             edge.one.interact(edge.other, edge.weight);
         }
 
 		// region-region interaction
 		/*for (Region nearRegion : this.neighbouringRegions) {
-			this.interact(nearRegion);
-		}*/
-	}
+         this.interact(nearRegion);
+         }*/
+    }
 }
