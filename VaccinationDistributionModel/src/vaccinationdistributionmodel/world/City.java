@@ -47,11 +47,11 @@ public class City implements Modelable {
     public void interact(City other, double weight) {
         // infect this city
         int contaminations = (int) (other.values.getContaminating()*weight);
-        this.values.infect(contaminations);
+        this.values.contaminate(contaminations);
         
         // infect the other city
         contaminations = (int) (this.values.getContaminating()*weight);
-        other.values.infect(contaminations);
+        other.values.contaminate(contaminations);
     }
 
     public void vaccinate(int amount, boolean targetInfected) {
@@ -62,31 +62,20 @@ public class City implements Modelable {
     public void update(int currentDay) {
         // infected -> recovered
         int peopleToRecover = (int) (this.values.infected * this.parameters.recoveryRate);
-
-        this.values.infected -= peopleToRecover;
-        this.values.recovered += peopleToRecover;
-
+        this.values.recover(peopleToRecover);
+        
         // infected -> removed
         int peopleToKill = (int) (this.values.infected * this.parameters.mortalityRate);
-
-        this.values.infected -= peopleToKill;
-        this.values.dead += peopleToKill;
+        this.values.kill(peopleToKill);
 
         // exposed -> infected
         int peopleToInfect = (int) (this.values.exposed * GlobalParameters.INFECTION_RATE);
-
-        this.values.exposed -= peopleToInfect;
-        this.values.infected += peopleToInfect;
+        this.values.infect(peopleToInfect);
 
         // susceptible -> exposed
         int peopleToContaminate = (int) ((this.values.susceptible * this.values.infected * this.parameters.contaminationRate)
                 / (this.values.susceptible + this.values.infected));
-
-        if (peopleToContaminate < 0) {
-            System.out.println(String.format("Dafuq? %d", peopleToContaminate));
-        }
-        this.values.susceptible -= peopleToContaminate;
-        this.values.exposed += peopleToContaminate;
+        this.values.contaminate(peopleToContaminate);
         
         this.history.addState(this.values);
     }

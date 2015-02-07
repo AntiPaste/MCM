@@ -38,7 +38,7 @@ public class VaccinationDistributionModel {
         List<City> selected = new ArrayList<>();
 
         City city = region.getCities().get(0);
-        city.getValues().infect(500_000);
+        city.getValues().contaminate(500_000);
         int toChart = 4;
         while (toChart > 0) {
             selected.add(city);

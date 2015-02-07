@@ -11,6 +11,7 @@ public class CityState {
     public long recovered = 0;
     public long vaccinated = 0;
 
+    public long[] exposedWaiting = new long[GlobalParameters.EXPOSED_PROBABILITIES.length];
     public int dead = 0;
 
     public CityState(int population) {
@@ -60,19 +61,38 @@ public class CityState {
             amount = this.susceptible;
         }
         
-        if (amount < 0) {
-            System.out.println(amount);
-        }
-        
         this.exposed += amount;
         this.susceptible -= amount;
     }
 
-    public void infect(int amount) {
+    public void contaminate(long amount) {
         // System.out.println(amount * (int) ((double) this.susceptible) / (this.susceptible + this.exposed));
         // = 721
         
         this.expose(amount * ((int) ((double) this.susceptible) / (this.susceptible + this.exposed)));
+    }
+    
+    public void kill(long amount) {
+        if (amount > this.infected) {
+            amount = this.infected;
+        }
+        
+        this.infected -= amount;
+        this.dead += amount;
+    }
+    
+    public void recover(long amount) {
+        if (amount > this.infected) {
+            amount = this.infected;
+        }
+        
+        this.infected -= amount;
+        this.recovered += amount;
+    }
+    
+    public void infect(long amount) {
+        //this.values.exposed -= peopleToInfect;
+        //this.values.infected += peopleToInfect;
     }
 
     public long getContaminating() {
