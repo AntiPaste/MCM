@@ -31,6 +31,10 @@ public class City implements Modelable {
 
     }
 
+    public void vaccinate(int amount, boolean targetInfected) {
+        this.values.vaccinate(amount, targetInfected);
+    }
+
     @Override
     public void update() {
         // infected -> recovered
