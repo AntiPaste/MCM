@@ -68,7 +68,6 @@ public class Globe implements Modelable {
         
         Parameters parameters = new Parameters();
         parameters.contaminationRate = 1;
-        parameters.infectionRate = 0.1;
         parameters.mortalityRate = 0.1;
         parameters.recoveryRate = 0.1;
         

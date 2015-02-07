@@ -73,7 +73,7 @@ public class City implements Modelable {
         this.values.dead += peopleToKill;
 
         // exposed -> infected
-        int peopleToInfect = (int) (this.values.exposed * this.parameters.infectionRate);
+        int peopleToInfect = (int) (this.values.exposed * GlobalParameters.INFECTION_RATE);
 
         this.values.exposed -= peopleToInfect;
         this.values.infected += peopleToInfect;
