@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package vaccinationdistributionmodel;
 
 /**
@@ -11,7 +10,17 @@ package vaccinationdistributionmodel;
  * @author ilari
  */
 public class Edge<T> {
-    T one;
-    T other;
-    double weight;
+
+    public T one;
+    public T other;
+    public double weight;
+
+    public Edge() {
+    }
+
+    public Edge(T one, T other, double weight) {
+        this.one = one;
+        this.other = other;
+        this.weight = weight;
+    }
 }

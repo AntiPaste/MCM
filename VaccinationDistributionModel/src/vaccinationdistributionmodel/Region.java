@@ -39,13 +39,10 @@ public class Region implements Modelable {
 			city.update();
 		}
 
-		// city- city interaction
-		for (City one : cities.getNodes()) {
-			for (City other : cities.getNodes()) {
-				double w = cities.weight(one, other);
-				one.interact(other, w);
-			}
-		}
+		// city - city interaction
+        for (Edge<City> edge : this.cities.edges()){
+            edge.one.interact(edge.other, edge.weight);
+        }
 
 		// region-region interaction
 		for (Region nearRegion : this.neighbouringRegions) {
