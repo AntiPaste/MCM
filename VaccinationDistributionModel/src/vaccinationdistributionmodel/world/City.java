@@ -82,6 +82,9 @@ public class City implements Modelable {
         int peopleToContaminate = (int) ((this.values.susceptible * this.values.infected * this.parameters.contaminationRate)
                 / (this.values.susceptible + this.values.infected));
 
+        if (peopleToContaminate < 0) {
+            System.out.println(String.format("Dafuq? %d", peopleToContaminate));
+        }
         this.values.susceptible -= peopleToContaminate;
         this.values.exposed += peopleToContaminate;
         
@@ -92,7 +95,7 @@ public class City implements Modelable {
     public String toString() {
         StringBuilder builder = new StringBuilder();
         double fPopulation = (double) this.values.population;
-        builder.append(this.name+"\n");
+        builder.append(String.format("Name: %s\n", this.name));
         builder.append(String.format("Population: %d\n", this.values.population));
         builder.append(String.format("Susceptible: %d (%.2f%%)\n", this.values.susceptible, this.values.susceptible / fPopulation * 100));
         builder.append(String.format("Exposed: %d (%.2f%%)\n", this.values.exposed, this.values.exposed / fPopulation * 100));

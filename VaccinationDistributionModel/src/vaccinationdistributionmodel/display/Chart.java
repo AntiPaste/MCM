@@ -29,18 +29,18 @@ public class Chart extends JFrame {
     }
 
     public void draw() {
-        Map<String, List<Integer>> lines = this.history.getData();
+        Map<String, List<Long>> lines = this.history.getData();
 
         int id = 0;
-        for (Map.Entry<String, List<Integer>> e : lines.entrySet()) {
+        for (Map.Entry<String, List<Long>> e : lines.entrySet()) {
             XYSeries series = new XYSeries(e.getKey());
-            List<Integer> values = e.getValue();
+            List<Long> values = e.getValue();
 
             for (int i = 1; i < values.size(); i++) {
                 series.add(i, values.get(i - 1));
             }
 
-            this.renderer.setSeriesStroke(id++, new BasicStroke(2.0f));
+            this.renderer.setSeriesStroke(id++, new BasicStroke(1.5f));
             this.dataset.addSeries(series);
         }
 

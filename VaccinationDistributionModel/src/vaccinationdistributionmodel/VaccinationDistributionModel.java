@@ -7,10 +7,9 @@ package vaccinationdistributionmodel;
 
 import java.util.ArrayList;
 import java.util.List;
-import vaccinationdistributionmodel.display.AreaChart;
+import vaccinationdistributionmodel.display.Chart;
 import vaccinationdistributionmodel.world.City;
 import vaccinationdistributionmodel.world.Globe;
-import vaccinationdistributionmodel.world.Parameters;
 import vaccinationdistributionmodel.world.Region;
 
 /**
@@ -40,7 +39,6 @@ public class VaccinationDistributionModel {
 
         City city = region.getCities().get(0);
         city.getValues().infect(500_000);
-        System.out.println(city.name+" is now TAINTED with <b>EBOLA</b> !!!");
         int toChart = 4;
         while (toChart > 0) {
             selected.add(city);
@@ -48,16 +46,15 @@ public class VaccinationDistributionModel {
             toChart--;
         }
 
-        for (int j = 0; j < 10_000; j++) {
-            for (City c : selected){
-                c.update(j);
-            }
+        for (int j = 0; j < 200; j++) {
+            region.update(j);
         }
 
         selected.stream().forEach((chartable) -> {
             System.out.println(chartable);
             
-            AreaChart chart = new AreaChart(chartable.getHistory());
+            Chart chart = new Chart(chartable.getHistory());
+            chart.setTitle(chartable.name);
             chart.draw();
             chart.pack();
             chart.setVisible(true);

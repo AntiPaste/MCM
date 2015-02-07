@@ -25,16 +25,16 @@ public class AreaChart extends JFrame {
 	}
 
 	public void draw() {
-		Map<String, List<Integer>> lines = this.history.getData();
+		Map<String, List<Long>> lines = this.history.getData();
 		double[][] data = new double[lines.size() - 1][];
 
 		int id = 0;
-		for (Map.Entry<String, List<Integer>> e : lines.entrySet()) {
+		for (Map.Entry<String, List<Long>> e : lines.entrySet()) {
 			if (e.getKey().equals("population")) {
 				continue;
 			}
 
-			List<Integer> values = e.getValue();
+			List<Long> values = e.getValue();
 
 			double[] entries = new double[values.size()];
 

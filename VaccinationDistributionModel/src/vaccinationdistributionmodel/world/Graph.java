@@ -60,7 +60,7 @@ public class Graph<T> {
         SortedSet<City> citiesByPopulation = new TreeSet(new Comparator<City>() {
             @Override
             public int compare(City c1, City c2) {
-                return (c2.getValues().population - c1.getValues().population);
+                return (int) (c2.getValues().population - c1.getValues().population);
             }
         });
         

@@ -8,13 +8,13 @@ import java.util.Map;
 
 public class History {
 
-    private Map<String, List<Integer>> states;
+    private Map<String, List<Long>> states;
 
     public History() {
         this.states = new HashMap();
     }
 
-    public Map<String, List<Integer>> getStates() {
+    public Map<String, List<Long>> getStates() {
         return this.states;
     }
 
@@ -28,7 +28,7 @@ public class History {
         this.addData("dead", state.dead);
     }
 
-    public void addData(String key, int value) {
+    public void addData(String key, long value) {
         if (!this.states.containsKey(key)) {
             this.states.put(key, new ArrayList());
         }
@@ -36,7 +36,7 @@ public class History {
         this.states.get(key).add(value);
     }
 
-    public Map<String, List<Integer>> getData() {
+    public Map<String, List<Long>> getData() {
         return this.states;
     }
 }

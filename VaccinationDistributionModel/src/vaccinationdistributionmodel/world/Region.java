@@ -56,7 +56,7 @@ public class Region implements Modelable {
 	public void update(int currentDay) {
 		// city's internal changes
 		for (City city : cities.getNodes()) {
-			city.update(0);
+			city.update(currentDay);
 		}
 
 		// city - city interaction
@@ -65,8 +65,8 @@ public class Region implements Modelable {
         }
 
 		// region-region interaction
-		for (Region nearRegion : this.neighbouringRegions) {
+		/*for (Region nearRegion : this.neighbouringRegions) {
 			this.interact(nearRegion);
-		}
+		}*/
 	}
 }
