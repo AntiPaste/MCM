@@ -8,9 +8,11 @@ package vaccinationdistributionmodel.world;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
@@ -23,7 +25,7 @@ import java.util.TreeSet;
  */
 public class Graph<T> {
 
-    private List<Edge<T>> edges;
+    private Set<Edge<T>> edges;
     private List<T> nodes;
     private Map<T, List<Edge<T>>> neighbours;
 
@@ -31,7 +33,7 @@ public class Graph<T> {
         this.neighbours = new HashMap();
     }
     
-    public void setEdges(List<Edge<T>> edges) {
+    public void setEdges(Set<Edge<T>> edges) {
         this.edges = edges;
         this.generateNodesList();
     }
@@ -45,12 +47,12 @@ public class Graph<T> {
     }
     
     public void makeCityEdges(List<City> cities) {
-        this.edges = new ArrayList();
+        this.edges = new HashSet();
         
-        SortedMap<Edge<City>, Double> distances = new TreeMap(new Comparator<Map.Entry<Edge<City>, Double>>() {
+        SortedMap<String, Edge<City>> distances = new TreeMap<String, Edge<City>>(new Comparator<String>() {
             @Override
-            public int compare(Map.Entry<Edge<City>, Double> e1, Map.Entry<Edge<City>, Double> e2) {
-                return (int) (e1.getValue() - e2.getValue());
+            public int compare(String e1, String e2) {
+                return (int) (Double.parseDouble(e1) - Double.parseDouble(e2));
             }
         });
         
@@ -65,8 +67,9 @@ public class Graph<T> {
             for (City other : cities) {
                 if (city == other) continue;
                 
-                Edge<City> pair = new Edge(city, other, 0);
-                distances.put(pair, this.distance(city.latitude, city.longitude, other.latitude, other.longitude));
+                Double distance = this.distance(city.latitude, city.longitude, other.latitude, other.longitude);
+                Edge<City> pair = new Edge(city, other, 1 / distance);
+                distances.put(distance.toString(), pair);
             }
             
             citiesByPopulation.add(city);
@@ -88,12 +91,16 @@ public class Graph<T> {
             for (City other : cities) {
                 if (bigCity == other) continue;
                 
-                Edge<T> edge = new Edge(bigCity, other, 0);
+                Edge<T> edge = new Edge(bigCity, other, 1 / this.distance(bigCity.latitude, bigCity.longitude, other.latitude, other.longitude));
                 this.edges.add(edge);
             }
         }
         
-        
+        int citiesToConnect = (int) (cities.size() * Math.sqrt(cities.size()));
+        for (Map.Entry<String, Edge<City>> entry : distances.entrySet()) {
+            this.edges.add((Edge<T>) entry.getValue());
+            if (citiesToConnect-- <= 0) break;
+        }
         
         this.initMap();
         this.generateNodesList();
@@ -132,7 +139,7 @@ public class Graph<T> {
         return this.neighbours.get(node);
     }
 
-    public List<Edge<T>> edges() {
+    public Set<Edge<T>> edges() {
         return this.edges;
     }
 
@@ -152,6 +159,27 @@ public class Graph<T> {
 
     private double toDegrees(double radians) {
         return (radians * 180 / Math.PI);
+    }
+    
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        for (Map.Entry<T, List<Edge<T>>> entry : this.neighbours.entrySet()) {
+            builder.append(String.format("%s: ", entry.getKey().toString()));
+            
+            for (Edge<T> edge : entry.getValue()) {
+                if (edge.one == entry.getKey()) {
+                    builder.append(String.format("%s, ", edge.other.toString()));
+                } else {
+                    builder.append(String.format("%s, ", edge.one.toString()));
+                }
+            }
+            
+            builder.setLength(builder.length() - 2);
+            builder.append("\n");
+        }
+        
+        return builder.toString();
     }
 
 }

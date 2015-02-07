@@ -48,14 +48,15 @@ public class Globe implements Modelable {
             Graph<City> graph = new Graph();
             graph.makeCityEdges(entry.getValue());
             
+            System.out.println("Region: " + entry.getKey() + "\n");
+            System.out.println(graph);
+            
             Region region = new Region(new Parameters(), graph);
             regions.add(region);
         }
         
         Graph<Region> graph = new Graph();
         graph.makeRegionEdges(regions);
-        
-        System.out.println(graph);
     }
     
     public Graph<Region> getRegions(){

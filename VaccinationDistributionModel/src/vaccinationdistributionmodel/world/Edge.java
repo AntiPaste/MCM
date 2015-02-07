@@ -23,4 +23,24 @@ public class Edge<T> {
         this.other = other;
         this.weight = weight;
     }
+
+    @Override
+    public int hashCode() {
+        return (this.one.hashCode() + this.other.hashCode());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+        
+        if (this.getClass() != obj.getClass())
+            return false;
+        
+        Edge<T> other = (Edge<T>) obj;
+        return ((this.one == other.one && this.other == other.other)
+                || (this.one == other.other && this.other == other.one));
+    }
+
+    
 }

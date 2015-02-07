@@ -90,7 +90,7 @@ public class City implements Modelable {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        /*StringBuilder builder = new StringBuilder();
         double fPopulation = (double) this.values.population;
 
         builder.append(String.format("Population: %d\n", this.values.population));
@@ -101,6 +101,8 @@ public class City implements Modelable {
         builder.append(String.format("Recovered: %d (%.2f%%)\n", this.values.recovered, this.values.recovered / fPopulation * 100));
         builder.append(String.format("Dead: %d (%.2f%%)\n", this.values.dead, this.values.dead / fPopulation * 100));
 
-        return builder.toString();
+        return builder.toString();*/
+        
+        return this.name;
     }
 }
