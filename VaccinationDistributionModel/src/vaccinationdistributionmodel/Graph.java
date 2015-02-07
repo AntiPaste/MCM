@@ -14,21 +14,20 @@ import java.util.List;
  */
 public class Graph<T> {
 
-	private List<T> nodes;
-	private double[][] weights;
+    private List<T> nodes;
+    private List<List<Edge<T>>> adjancencyList;
 
-	public Graph(List<T> cities, double[][] weights) {
+    public Graph(List<T> cities, List<List<Edge<T>>> neighbours) {
+        this.nodes = cities;
+        this.adjancencyList = neighbours;
+    }
 
-	}
+    public List<T> getNodes() {
+        return this.nodes;
+    }
 
-	public List<T> getNodes() {
-		return this.nodes;
-	}
-
-	public double weight(T one, T two) {
-		int i = this.nodes.indexOf(one);
-		int j = this.nodes.indexOf(two);
-		return this.weights[i][j];
-	}
+    public List<Edge<T>> neighbours(T element) {
+        return this.adjancencyList.get(this.nodes.indexOf(element));
+    }
 
 }
