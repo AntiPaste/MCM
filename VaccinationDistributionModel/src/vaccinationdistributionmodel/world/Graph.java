@@ -27,6 +27,7 @@ public class Graph<T> {
 
     private Set<Edge<T>> edges;
     private List<T> nodes;
+    private List<City> bigCities;
     private Map<T, List<Edge<T>>> neighbours;
 
     public Graph() {
@@ -45,6 +46,10 @@ public class Graph<T> {
             if (!nodes.contains(edge.one)) nodes.add(edge.one);
             if (!nodes.contains(edge.other)) nodes.add(edge.other);
         }
+    }
+    
+    public List<City> getBigCities() {
+        return this.bigCities;
     }
     
     public void makeCityEdges(List<City> cities) {
@@ -76,19 +81,19 @@ public class Graph<T> {
             citiesByPopulation.add(city);
         }
         
-        List<City> bigCities = new ArrayList();
+        this.bigCities = new ArrayList();
         int bigCityCount = (int) Math.sqrt(cities.size());
         Iterator<City> it = citiesByPopulation.iterator();
         
         for (int i = 0; it.hasNext() && i < bigCityCount; i++) {
-            bigCities.add(it.next());
+            this.bigCities.add(it.next());
         }
         
         // List<City> bigCities - List of big cities
         // SortedSet<City> citiesByPopulation - List of cities sorted by population
         // Map<Edge<City>, Double> distances - Matrix of distances between cities
         
-        for (City bigCity : bigCities) {
+        for (City bigCity : this.bigCities) {
             for (City other : cities) {
                 if (bigCity == other) continue;
                 

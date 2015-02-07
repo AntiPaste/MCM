@@ -55,6 +55,7 @@ public class Globe implements Modelable {
             //System.out.println(graph);
             
             Region region = new Region(new Parameters(), graph);
+            region.setBigCities(graph.getBigCities());
             regions.add(region);
         }
         

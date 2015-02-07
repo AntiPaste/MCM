@@ -17,12 +17,18 @@ public class Region implements Modelable {
 
 	private ArrayList<Region> neighbouringRegions;
 	private Graph<City> cities;
+    private List<City> bigCities;
 	private Parameters regionParams;
 
 	public Region(Parameters params, Graph cities) {
 		this.cities = cities;
+        this.bigCities = new ArrayList();
 		this.regionParams = params;
 	}
+    
+    public void setBigCities(List<City> bigCities) {
+        this.bigCities = bigCities;
+    }
 
 	private void init() {
 		for (City c : cities.getNodes()) {
