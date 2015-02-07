@@ -6,41 +6,35 @@ import java.util.List;
 import java.util.Map;
 
 public class History {
-	private List<CityState> states;
-	
+	private Map<String, List<Integer>> states;
+
 	public History() {
-		this.states = new ArrayList();
+		this.states = new HashMap();
 	}
-	
-	public List<CityState> getStates() {
+
+	public Map<String, List<Integer>> getStates() {
 		return this.states;
 	}
-        
-        public Map<String, List<Integer>> getData(){
-            HashMap<String, List<Integer>> map = new HashMap<>();
-            
-            map.put("population", new ArrayList<>());
-            map.put("susceptible", new ArrayList<>());
-            map.put("exposed", new ArrayList<>());
-            map.put("infected", new ArrayList<>());
-            map.put("advanced", new ArrayList<>());
-            map.put("recovered", new ArrayList<>());
-            map.put("dead", new ArrayList<>());
-            
-            for (CityState state: this.states){
-                map.get("population").add(state.population);
-                map.get("susceptible").add(state.susceptible);
-                map.get("exposed").add(state.exposed);
-                map.get("infected").add(state.infected);
-                map.get("advanced").add(state.advanced);
-                map.get("recovered").add(state.recovered);
-                map.get("dead").add(state.dead);
-            }
-            
-            return map;
-        }
-	
+
 	public void addState(CityState state) {
-		this.states.add(state);
+		this.addData("population", state.population);
+		this.addData("susceptible", state.susceptible);
+		this.addData("exposed", state.exposed);
+		this.addData("infected", state.infected);
+		this.addData("advanced", state.advanced);
+		this.addData("recovered", state.recovered);
+		this.addData("dead", state.dead);
+	}
+
+	public void addData(String key, int value) {
+		if (!this.states.containsKey(key)) {
+			this.states.put(key, new ArrayList());
+		}
+
+		this.states.get(key).add(value);
+	}
+
+	public Map<String, List<Integer>> getData() {
+		return this.states;
 	}
 }

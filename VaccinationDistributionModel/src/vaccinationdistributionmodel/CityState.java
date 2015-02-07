@@ -1,6 +1,6 @@
 package vaccinationdistributionmodel;
 
-public class CityState implements Cloneable {
+public class CityState {
 
 	public int population;
 
@@ -26,12 +26,5 @@ public class CityState implements Cloneable {
 		this.advanced = advanced;
 		this.recovered = recovered;
 		this.dead = dead;
-	}
-
-	@Override
-	public CityState clone() {
-		CityState clone = new CityState(this.population, this.susceptible, this.exposed,
-			this.infected, this.advanced, this.recovered, this.dead);
-		return clone;
 	}
 }

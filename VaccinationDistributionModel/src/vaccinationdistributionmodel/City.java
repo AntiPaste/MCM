@@ -15,7 +15,7 @@ public class City implements Modelable {
 			infected, advanced, recovered, dead);
 		
 		this.history = new History();
-		this.history.addState(this.values.clone());
+		this.history.addState(this.values);
 	}
 	
 	public History getHistory() {
@@ -54,7 +54,7 @@ public class City implements Modelable {
 		this.values.susceptible -= peopleToContaminate;
 		this.values.exposed += peopleToContaminate;
 		
-		this.history.addState(this.values.clone());
+		this.history.addState(this.values);
 	}
 	
 	@Override
