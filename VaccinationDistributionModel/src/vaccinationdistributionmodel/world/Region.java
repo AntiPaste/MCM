@@ -30,16 +30,43 @@ public class Region implements Modelable {
         this.init();
     }
     
+    private double toRadians(double degrees) {
+        return (degrees * Math.PI / 180.0);
+    }
+
+    private double toDegrees(double radians) {
+        return (radians * 180 / Math.PI);
+    }
+    
+    
     private void computeAverageLatitudeAndLongitude(){
-        // the arithmetic average will not cause problems
-        double latSum = 0;
-        double lonSum = 0;
+        
+        double R = 6378.1;
+        double x = 0, y = 0, z = 0;
+        int n = this.cities.getNodes().size();
+        
         for (City city : this.cities.getNodes()){
-            latSum += city.latitude;
-            lonSum += city.longitude;
+            double phii = toRadians(city.latitude);
+            double lambda = toRadians(city.longitude);
+            x += R*Math.cos(phii)*Math.cos(lambda);
+            y += R*Math.sin(phii)*Math.cos(lambda);
+            z += R*Math.sin(lambda);
         }
-        latitude = latSum / this.cities.getNodes().size();
-        longitude = lonSum / this.cities.getNodes().size();
+        
+        x/=n; y/=n; z/=n;
+        
+        latitude = toDegrees(Math.atan2(y,x));
+        longitude = toDegrees(Math.atan2(z, Math.sqrt(x*x + y*y)));
+        
+        // the arithmetic average will not cause problems
+//        double latSum = 0;
+//        double lonSum = 0;
+//        for (City city : this.cities.getNodes()){
+//            latSum += city.latitude;
+//            lonSum += city.longitude;
+//        }
+//        latitude = latSum / this.cities.getNodes().size();
+//        longitude = lonSum / this.cities.getNodes().size();
     }
 
     public void setBigCities(List<City> bigCities) {
