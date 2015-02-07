@@ -12,7 +12,7 @@ import vaccinationdistributionmodel.Modelable;
 
 public class Globe implements Modelable {
 
-    private Graph regionGraph;
+    private Graph<Region> regionGraph;
 
     public Globe() {
         Map<String, List<City>> countries = new HashMap();
@@ -56,6 +56,10 @@ public class Globe implements Modelable {
         graph.makeRegionEdges(regions);
         
         System.out.println(graph);
+    }
+    
+    public Graph<Region> getRegions(){
+        return this.regionGraph;
     }
 
     @Override

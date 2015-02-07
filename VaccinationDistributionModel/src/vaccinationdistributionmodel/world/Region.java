@@ -6,6 +6,7 @@
 package vaccinationdistributionmodel.world;
 
 import java.util.ArrayList;
+import java.util.List;
 import vaccinationdistributionmodel.Modelable;
 
 /**
@@ -32,6 +33,10 @@ public class Region implements Modelable {
 	private void interact(Region nearRegion) {
 
 	}
+        
+        public List<City> getCities(){
+            return this.cities.getNodes();
+        }
 
 	@Override
 	public void update(int currentDay) {
