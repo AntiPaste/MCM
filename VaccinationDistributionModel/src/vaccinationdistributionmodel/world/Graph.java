@@ -112,9 +112,9 @@ public class Graph<T> {
         this.generateNodesList();
     }
     
-    public void makeRegionEdges(List<Region> regions) {
-        this.nodes = (List<T>) regions;
-        //this.generateNodesList();
+    public void makeRegionEdges(List<T> regions) {
+        this.nodes = regions;
+        
     }
     
     public List<T> getNodes(){

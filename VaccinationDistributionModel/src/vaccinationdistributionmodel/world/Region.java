@@ -19,17 +19,32 @@ public class Region implements Modelable {
     private Graph<City> cities;
     private List<City> bigCities;
     private Parameters regionParams;
+    private double latitude;
+    private double longitude;
 
-    public Region(Parameters params, Graph cities) {
+    public Region(Parameters params, Graph<City> cities) {
         this.cities = cities;
         this.bigCities = new ArrayList();
         this.regionParams = params;
+        this.computeAverageLatitudeAndLongitude();
+    }
+    
+    private void computeAverageLatitudeAndLongitude(){
+        // the arithmetic average will not cause problems
+        double latSum = 0;
+        double lonSum = 0;
+        for (City city : this.cities.getNodes()){
+            latSum += city.latitude;
+            lonSum += city.longitude;
+        }
+        latitude = latSum / this.cities.getNodes().size();
+        longitude = lonSum / this.cities.getNodes().size();
     }
 
     public void setBigCities(List<City> bigCities) {
         this.bigCities = bigCities;
     }
-
+    
     private void init() {
         for (City c : cities.getNodes()) {
             c.setParameters(regionParams);
