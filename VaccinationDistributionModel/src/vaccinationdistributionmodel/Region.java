@@ -45,7 +45,7 @@ public class Region implements Modelable{
         for (City one: cities.getCities()){
             for (City other: cities.getCities()){
                 double w = cities.weight(one, other);
-                //one.interact(other, w);
+                one.interact(other, w);
             }
         }
         

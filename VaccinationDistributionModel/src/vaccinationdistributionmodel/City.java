@@ -25,6 +25,10 @@ public class City implements Modelable {
 	public void setParameters(Parameters parameters) {
 		this.parameters = parameters;
 	}
+        
+        public void interact(City other, double weight){
+            
+        }
 	
 	@Override
 	public void update() {
