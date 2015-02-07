@@ -10,6 +10,8 @@ package vaccinationdistributionmodel;
  *
  * @author ilari
  */
-public class Edge {
-    
+public class Edge<T> {
+    T one;
+    T other;
+    double weight;
 }

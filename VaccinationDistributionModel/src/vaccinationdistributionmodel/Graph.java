@@ -14,20 +14,14 @@ import java.util.List;
  */
 public class Graph<T> {
 
-    private List<T> nodes;
-    private List<List<Edge<T>>> adjancencyList;
+    private List<Edge<T>> adjancencyList;
 
-    public Graph(List<T> cities, List<List<Edge<T>>> neighbours) {
-        this.nodes = cities;
+    public Graph(List<Edge<T>> neighbours) {
         this.adjancencyList = neighbours;
     }
 
-    public List<T> getNodes() {
-        return this.nodes;
-    }
-
-    public List<Edge<T>> neighbours(T element) {
-        return this.adjancencyList.get(this.nodes.indexOf(element));
+    public List<Edge<T>> edges() {
+        return this.adjancencyList;
     }
 
 }
