@@ -53,7 +53,7 @@ public class Region implements Modelable {
     
     private CityParameters generateCityParameters(){
         CityParameters params = new CityParameters();
-        params.contaminationRate = 0.1;
+        params.contaminationRate = this.regionParams.mobility*this.regionParams.hygiene;
         params.mortalityRate = GlobalParameters.GLOBAL_MORTALITY_RATE * this.regionParams.hygiene;
         return params;
     }
