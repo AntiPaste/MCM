@@ -13,43 +13,43 @@ import java.util.ArrayList;
  */
 public class Region implements Modelable {
 
-    private ArrayList<Region> neighbouringRegions;
-    private Graph<City> cities;
-    private Parameters regionParams;
+	private ArrayList<Region> neighbouringRegions;
+	private Graph<City> cities;
+	private Parameters regionParams;
 
-    public Region(Parameters params, Graph cities) {
-        this.cities = cities;
-        this.regionParams = params;
-    }
+	public Region(Parameters params, Graph cities) {
+		this.cities = cities;
+		this.regionParams = params;
+	}
 
-    private void init() {
-        for (City c : cities.getCities()) {
-            c.setParameters(regionParams);
-        }
-    }
+	private void init() {
+		for (City c : cities.getNodes()) {
+			c.setParameters(regionParams);
+		}
+	}
 
-    private void interact(Region nearRegion) {
+	private void interact(Region nearRegion) {
 
-    }
+	}
 
-    @Override
-    public void update() {
-        // city's internal changes
-        for (City city : cities.getCities()) {
-            city.update();
-        }
+	@Override
+	public void update() {
+		// city's internal changes
+		for (City city : cities.getNodes()) {
+			city.update();
+		}
 
-        // city- city interaction
-        for (City one : cities.getCities()) {
-            for (City other : cities.getCities()) {
-                double w = cities.weight(one, other);
-                one.interact(other, w);
-            }
-        }
+		// city- city interaction
+		for (City one : cities.getNodes()) {
+			for (City other : cities.getNodes()) {
+				double w = cities.weight(one, other);
+				one.interact(other, w);
+			}
+		}
 
-        // region-region interaction
-        for (Region nearRegion : this.neighbouringRegions) {
-            this.interact(nearRegion);
-        }
-    }
+		// region-region interaction
+		for (Region nearRegion : this.neighbouringRegions) {
+			this.interact(nearRegion);
+		}
+	}
 }

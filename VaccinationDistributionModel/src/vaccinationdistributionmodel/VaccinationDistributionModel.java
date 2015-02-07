@@ -5,6 +5,9 @@
  */
 package vaccinationdistributionmodel;
 
+import vaccinationdistributionmodel.vaccination.VaccinationProgram;
+import vaccinationdistributionmodel.vaccination.VaccineOrder;
+
 /**
  *
  * @author ilari

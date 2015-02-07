@@ -28,7 +28,7 @@ public class City implements Modelable {
     }
 
     public void interact(City other, double weight) {
-
+		
     }
 
     public void vaccinate(int amount, boolean targetInfected) {
