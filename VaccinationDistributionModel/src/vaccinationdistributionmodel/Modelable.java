@@ -1,5 +1,6 @@
 package vaccinationdistributionmodel;
 
 public interface Modelable {
-	public void update();
+
+    public void update();
 }

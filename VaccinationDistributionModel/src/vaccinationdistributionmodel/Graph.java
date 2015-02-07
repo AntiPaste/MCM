@@ -11,20 +11,21 @@ import java.util.ArrayList;
 /**
  *
  * @author ilari
+ * @param <T>
  */
-public class Graph {
-    private ArrayList<City> cities;
+public class Graph <T> {
+    private ArrayList<T> cities;
     private double[][] weights;
     
-    public Graph(ArrayList<City> cities, double[][] weights){
+    public Graph(ArrayList<T> cities, double[][] weights){
         
     }
     
-    public ArrayList<City> getCities(){
+    public ArrayList<T> getCities(){
         return this.cities;
     }
     
-    public double weight(City one, City two){
+    public double weight(T one, T two){
         int i = cities.indexOf(one);
         int j = cities.indexOf(two);
         return weights[i][j];
