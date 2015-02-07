@@ -102,7 +102,7 @@ public class CityState {
     }
     
     public void moveWaiting() {
-        long people = this.exposedWaiting[this.exposedWaiting.length];
+        long people = this.exposedWaiting[this.exposedWaiting.length - 1];
         this.exposed += people;
         this.susceptible -= people;
         

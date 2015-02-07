@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import vaccinationdistributionmodel.display.Chart;
 import vaccinationdistributionmodel.world.City;
+import vaccinationdistributionmodel.world.CityParameters;
 import vaccinationdistributionmodel.world.Globe;
 import vaccinationdistributionmodel.world.Region;
 
@@ -23,6 +24,25 @@ public class VaccinationDistributionModel {
      */
     public static void main(String[] args) {
         //System.out.println("<b>Ebola</b>");
+
+        City x = new City(10000, 9900, 0, 100, 0, 0, 0);
+        
+        CityParameters params = new CityParameters();
+        params.contaminationRate = 0.1;
+        params.mortalityRate = 0.1;
+        params.recoveryRate = 0.1;
+        
+        x.setParameters(params);
+        
+        System.out.println(x);
+        
+        for (int i = 0; i < 22; i++) {
+            x.update(i);
+            System.out.println(i);
+            System.out.println(x);
+        }
+        
+        System.exit(0);
         
         Globe globe = new Globe();
 
