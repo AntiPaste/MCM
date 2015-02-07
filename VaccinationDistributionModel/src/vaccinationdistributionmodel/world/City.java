@@ -62,13 +62,11 @@ public class City implements Modelable {
     public void update(int currentDay) {
         this.values.moveWaiting();
         
-        // infected -> recovered
-        int peopleToRecover = (int) (this.values.infected * this.parameters.recoveryRate);
-        this.values.recover(peopleToRecover);
+        // advanced -> dead / recovered
+        this.values.remove(this.parameters.mortalityRate);
         
-        // infected -> removed
-        int peopleToKill = (int) (this.values.infected * this.parameters.mortalityRate);
-        this.values.kill(peopleToKill);
+        // infected -> advanced
+        this.values.advance();
 
         // exposed -> infected
         this.values.infect();

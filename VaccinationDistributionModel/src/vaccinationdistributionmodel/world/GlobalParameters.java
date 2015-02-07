@@ -9,6 +9,16 @@ public class GlobalParameters {
         1,
     };
     
+    public static final double[] INFECTED_PROBABILITIES = new double[] {
+        0.01, 0.04, 0.10, 0.15, 0.50,
+        0.70, 0.85, 0.99, 1, 1,
+    };
+    
+    public static final double[] ADVANCED_PROBABILITIES = new double[] {
+        0.01, 0.01, 0.02, 0.05, 0.10,
+        0.20, 0.50, 0.70, 0.80, 1,
+    };
+    
     public static final double GLOBAL_MORTALITY_RATE = 0.9;
           
 }

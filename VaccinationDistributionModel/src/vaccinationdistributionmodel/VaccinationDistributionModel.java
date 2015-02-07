@@ -30,7 +30,6 @@ public class VaccinationDistributionModel {
         CityParameters params = new CityParameters();
         params.contaminationRate = 0.1;
         params.mortalityRate = 0.1;
-        params.recoveryRate = 0.1;
         
         x.setParameters(params);
         

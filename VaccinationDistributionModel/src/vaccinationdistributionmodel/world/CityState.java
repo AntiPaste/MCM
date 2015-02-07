@@ -12,6 +12,9 @@ public class CityState {
     public long vaccinated = 0;
 
     public long[] exposedWaiting = new long[GlobalParameters.EXPOSED_PROBABILITIES.length];
+    public long[] infectedWaiting = new long[GlobalParameters.INFECTED_PROBABILITIES.length];
+    public long[] advancedWaiting = new long[GlobalParameters.ADVANCED_PROBABILITIES.length];
+    
     public int dead = 0;
 
     public CityState(int population) {
@@ -89,6 +92,35 @@ public class CityState {
         this.recovered += amount;
     }
     
+    public void remove(double mortalityRate) {
+        for (int i = 0; i < this.advancedWaiting.length; i++) {
+            long people = this.advancedWaiting[i];
+            double probability = GlobalParameters.ADVANCED_PROBABILITIES[i];
+            
+            long result = (long) (people * probability);
+            this.advancedWaiting[i] -= result;
+                    
+            this.dead += result * mortalityRate;
+            this.recovered += result * (1 - mortalityRate);
+            
+            this.advanced -= result;
+        }
+    }
+    
+    public void advance() {
+        for (int i = 0; i < this.infectedWaiting.length; i++) {
+            long people = this.infectedWaiting[i];
+            double probability = GlobalParameters.INFECTED_PROBABILITIES[i];
+            
+            long result = (long) (people * probability);
+            this.infectedWaiting[i] -= result;
+            this.advancedWaiting[i] += result;
+            
+            this.advanced += result;
+            this.infected -= result;
+        }
+    }
+    
     public void infect() {
         for (int i = 0; i < this.exposedWaiting.length; i++) {
             long people = this.exposedWaiting[i];
@@ -102,15 +134,25 @@ public class CityState {
     }
     
     public void moveWaiting() {
-        long people = this.exposedWaiting[this.exposedWaiting.length - 1];
+        /*long people = this.exposedWaiting[this.exposedWaiting.length - 1];
         this.exposed += people;
-        this.susceptible -= people;
+        this.susceptible -= people;*/
         
         for (int i = this.exposedWaiting.length - 1; i > 0; i--) {
             this.exposedWaiting[i] = this.exposedWaiting[i - 1];
         }
         
+        for (int i = this.infectedWaiting.length - 1; i > 0; i--) {
+            this.infectedWaiting[i] = this.infectedWaiting[i - 1];
+        }
+        
+        for (int i = this.advancedWaiting.length - 1; i > 0; i--) {
+            this.advancedWaiting[i] = this.advancedWaiting[i - 1];
+        }
+        
         this.exposedWaiting[0] = 0;
+        this.infectedWaiting[0] = 0;
+        this.advancedWaiting[0] = 0;
     }
 
     public long getContaminating() {
