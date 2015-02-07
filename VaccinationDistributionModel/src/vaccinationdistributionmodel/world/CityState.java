@@ -56,20 +56,19 @@ public class CityState {
         }
     }
 
-    private void expose(long amount) {
-        if (amount > this.susceptible) {
-            amount = this.susceptible;
-        }
-        
-        this.exposed += amount;
-        this.susceptible -= amount;
-    }
-
     public void contaminate(long amount) {
         // System.out.println(amount * (int) ((double) this.susceptible) / (this.susceptible + this.exposed));
         // = 721
         
-        this.expose(amount * ((int) ((double) this.susceptible) / (this.susceptible + this.exposed)));
+        amount = amount * ((int) ((double) this.susceptible) / (this.susceptible + this.exposed));
+        
+        if (amount > this.susceptible) {
+            amount = this.susceptible;
+        }
+        
+        this.exposedWaiting[0] = amount;
+        this.susceptible -= amount;
+        this.exposed += amount;
     }
     
     public void kill(long amount) {
@@ -90,9 +89,28 @@ public class CityState {
         this.recovered += amount;
     }
     
-    public void infect(long amount) {
-        //this.values.exposed -= peopleToInfect;
-        //this.values.infected += peopleToInfect;
+    public void infect() {
+        for (int i = 0; i < this.exposedWaiting.length; i++) {
+            long people = this.exposedWaiting[i];
+            double probability = GlobalParameters.EXPOSED_PROBABILITIES[i];
+            
+            long result = (long) (people * probability);
+            this.exposedWaiting[i] -= result;
+            this.infected += result;
+            this.exposed -= result;
+        }
+    }
+    
+    public void moveWaiting() {
+        long people = this.exposedWaiting[this.exposedWaiting.length];
+        this.exposed += people;
+        this.susceptible -= people;
+        
+        for (int i = this.exposedWaiting.length - 1; i > 0; i--) {
+            this.exposedWaiting[i] = this.exposedWaiting[i - 1];
+        }
+        
+        this.exposedWaiting[0] = 0;
     }
 
     public long getContaminating() {

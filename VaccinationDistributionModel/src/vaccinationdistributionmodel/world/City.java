@@ -60,6 +60,8 @@ public class City implements Modelable {
 
     @Override
     public void update(int currentDay) {
+        this.values.moveWaiting();
+        
         // infected -> recovered
         int peopleToRecover = (int) (this.values.infected * this.parameters.recoveryRate);
         this.values.recover(peopleToRecover);
@@ -69,8 +71,7 @@ public class City implements Modelable {
         this.values.kill(peopleToKill);
 
         // exposed -> infected
-        int peopleToInfect = (int) (this.values.exposed * GlobalParameters.INFECTION_RATE);
-        this.values.infect(peopleToInfect);
+        this.values.infect();
 
         // susceptible -> exposed
         int peopleToContaminate = (int) ((this.values.susceptible * this.values.infected * this.parameters.contaminationRate)

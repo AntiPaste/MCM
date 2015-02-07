@@ -1,7 +1,6 @@
 package vaccinationdistributionmodel.world;
 
 public class GlobalParameters {
-    public static final double INFECTION_RATE = 1.0;
     public static final double[] EXPOSED_PROBABILITIES = new double[] {
         0.01, 0.04, 0.10, 0.15, 0.20,
         0.25, 0.30, 0.35, 0.40, 0.45,
