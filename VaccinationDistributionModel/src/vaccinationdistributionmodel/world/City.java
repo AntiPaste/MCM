@@ -41,7 +41,13 @@ public class City implements Modelable {
     }
 
     public void interact(City other, double weight) {
-		
+        // infect this city
+        int contaminations = (int) (other.values.getContaminating()*weight);
+        this.values.infect(contaminations);
+        
+        // infect the other city
+        contaminations = (int) (this.values.getContaminating()*weight);
+        other.values.infect(contaminations);
     }
 
     public void vaccinate(int amount, boolean targetInfected) {

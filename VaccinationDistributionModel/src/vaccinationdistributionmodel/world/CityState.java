@@ -54,4 +54,18 @@ public class CityState {
 			this.vaccinated += susceptibleHits + exposedHits;
 		}
 	}
+        
+        private void expose(int amount){
+            if (amount > this.susceptible) amount = this.susceptible;
+            this.exposed += amount;
+            this.susceptible -= amount;
+        }
+        
+        public void infect(int amount){
+            expose(amount*(this.susceptible)/(this.susceptible+this.exposed));
+        }
+        
+        public int getContaminating(){
+            return this.advanced + this.infected;
+        }
 }
