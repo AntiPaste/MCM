@@ -6,8 +6,15 @@
 package vaccinationdistributionmodel.world;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.SortedSet;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 /**
  *
@@ -21,6 +28,7 @@ public class Graph<T> {
     private Map<T, List<Edge<T>>> neighbours;
 
     public Graph() {
+        this.neighbours = new HashMap();
     }
     
     public void setEdges(List<Edge<T>> edges) {
@@ -37,11 +45,62 @@ public class Graph<T> {
     }
     
     public void makeCityEdges(List<City> cities) {
-        this.nodes = new ArrayList();
+        this.edges = new ArrayList();
+        
+        SortedMap<Edge<City>, Double> distances = new TreeMap(new Comparator<Map.Entry<Edge<City>, Double>>() {
+            @Override
+            public int compare(Map.Entry<Edge<City>, Double> e1, Map.Entry<Edge<City>, Double> e2) {
+                return (int) (e1.getValue() - e2.getValue());
+            }
+        });
+        
+        SortedSet<City> citiesByPopulation = new TreeSet(new Comparator<City>() {
+            @Override
+            public int compare(City c1, City c2) {
+                return (c2.getValues().population - c1.getValues().population);
+            }
+        });
+        
+        for (City city : cities) {
+            for (City other : cities) {
+                if (city == other) continue;
+                
+                Edge<City> pair = new Edge(city, other, 0);
+                distances.put(pair, this.distance(city.latitude, city.longitude, other.latitude, other.longitude));
+            }
+            
+            citiesByPopulation.add(city);
+        }
+        
+        List<City> bigCities = new ArrayList();
+        int bigCityCount = (int) Math.sqrt(cities.size());
+        Iterator<City> it = citiesByPopulation.iterator();
+        
+        for (int i = 0; it.hasNext() && i < bigCityCount; i++) {
+            bigCities.add(it.next());
+        }
+        
+        // List<City> bigCities - List of big cities
+        // SortedSet<City> citiesByPopulation - List of cities sorted by population
+        // Map<Edge<City>, Double> distances - Matrix of distances between cities
+        
+        for (City bigCity : bigCities) {
+            for (City other : cities) {
+                if (bigCity == other) continue;
+                
+                Edge<T> edge = new Edge(bigCity, other, 0);
+                this.edges.add(edge);
+            }
+        }
+        
+        
+        
+        this.initMap();
+        this.generateNodesList();
     }
     
     public void makeRegionEdges(List<Region> regions) {
-        this.nodes = new ArrayList();
+        this.generateNodesList();
     }
     
     public List<T> getNodes(){
