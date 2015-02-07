@@ -38,7 +38,21 @@ public class Graph<T> {
     }
     
     private void initMap(){
-        
+        for (Edge<T> edge : this.edges){
+            injectNodes(edge.one, edge);
+            injectNodes(edge.other, edge);
+        }
+    }
+    
+    private void injectNodes(T node, Edge<T> edge){
+        if (neighbours.containsKey(node)){
+            List<Edge<T>> adjacent = this.neighbours.get(node);
+            if (!adjacent.contains(edge)) adjacent.add(edge);
+        }else{
+            List<Edge<T>> adjacent = new ArrayList<>();
+            adjacent.add(edge);
+            neighbours.put(node,adjacent);
+        }
     }
     
     public List<Edge<T>> getEdges(T node){
