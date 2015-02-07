@@ -1,5 +1,6 @@
-package vaccinationdistributionmodel;
+package vaccinationdistributionmodel.display;
 
+import vaccinationdistributionmodel.world.CityState;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

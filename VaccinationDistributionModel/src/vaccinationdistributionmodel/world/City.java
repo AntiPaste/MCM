@@ -1,4 +1,7 @@
-package vaccinationdistributionmodel;
+package vaccinationdistributionmodel.world;
+
+import vaccinationdistributionmodel.display.History;
+import vaccinationdistributionmodel.Modelable;
 
 public class City implements Modelable {
 
@@ -36,7 +39,7 @@ public class City implements Modelable {
     }
 
     @Override
-    public void update() {
+    public void update(int currentDay) {
         // infected -> recovered
         int peopleToRecover = (int) (this.values.infected * this.parameters.recoveryRate);
 

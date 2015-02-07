@@ -1,4 +1,4 @@
-package vaccinationdistributionmodel;
+package vaccinationdistributionmodel.display;
 
 import java.awt.Color;
 import java.util.List;

@@ -1,7 +1,8 @@
-package vaccinationdistributionmodel;
+package vaccinationdistributionmodel.world;
 
 import java.util.ArrayList;
 import java.util.List;
+import vaccinationdistributionmodel.Modelable;
 
 public class Globe implements Modelable {
 
@@ -46,7 +47,7 @@ public class Globe implements Modelable {
     }
     
     @Override
-    public void update() {
+    public void update(int currentDay) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

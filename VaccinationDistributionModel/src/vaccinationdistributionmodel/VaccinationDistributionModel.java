@@ -5,7 +5,10 @@
  */
 package vaccinationdistributionmodel;
 
-import vaccinationdistributionmodel.vaccination.VaccinationProgram;
+import vaccinationdistributionmodel.display.AreaChart;
+import vaccinationdistributionmodel.world.Parameters;
+import vaccinationdistributionmodel.world.City;
+import vaccinationdistributionmodel.vaccination.VaccinationSchedule;
 import vaccinationdistributionmodel.vaccination.VaccineOrder;
 
 /**
@@ -32,7 +35,7 @@ public class VaccinationDistributionModel {
 		System.out.println(city);
 		
 		for (int i = 0; i < 100; i++) {
-			city.update();
+			city.update(0);
 			System.out.println(city);
 			
 			try {

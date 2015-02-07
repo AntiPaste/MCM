@@ -2,14 +2,14 @@ package vaccinationdistributionmodel.vaccination;
 
 import java.util.SortedSet;
 import java.util.TreeSet;
-import vaccinationdistributionmodel.City;
+import vaccinationdistributionmodel.world.City;
 import vaccinationdistributionmodel.Modelable;
 
-public class VaccinationProgram implements Modelable {
-	SortedSet<VaccineOrder> orders;
-	City city;
+public class VaccinationSchedule implements Modelable {
+	private SortedSet<VaccineOrder> orders;
+	private City city;
 	
-	public VaccinationProgram(City city) {
+	public VaccinationSchedule(City city) {
 		this.orders = new TreeSet();
 		this.city = city;
 	}
@@ -23,7 +23,10 @@ public class VaccinationProgram implements Modelable {
 	}
 	
 	@Override
-	public void update() {
-		
+	public void update(int currentDay) {
+		for (VaccineOrder order : this.orders) {
+            if (order.days > currentDay) break;
+            this.city.vaccinate(order.vaccines, true);
+        }
 	}
 }

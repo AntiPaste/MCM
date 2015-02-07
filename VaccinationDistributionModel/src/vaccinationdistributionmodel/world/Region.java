@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package vaccinationdistributionmodel;
+package vaccinationdistributionmodel.world;
 
 import java.util.ArrayList;
+import vaccinationdistributionmodel.Modelable;
 
 /**
  *
@@ -33,10 +34,10 @@ public class Region implements Modelable {
 	}
 
 	@Override
-	public void update() {
+	public void update(int currentDay) {
 		// city's internal changes
 		for (City city : cities.getNodes()) {
-			city.update();
+			city.update(0);
 		}
 
 		// city - city interaction

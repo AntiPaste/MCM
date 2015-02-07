@@ -1,4 +1,4 @@
-package vaccinationdistributionmodel;
+package vaccinationdistributionmodel.world;
 
 public class Parameters {
     /*public int mortality;
