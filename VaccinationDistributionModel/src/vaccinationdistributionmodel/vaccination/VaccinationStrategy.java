@@ -6,12 +6,15 @@
 
 package vaccinationdistributionmodel.vaccination;
 
+import vaccinationdistributionmodel.world.City;
+
 /**
  *
  * @author ilari
  */
 public interface VaccinationStrategy {
     
-    public void deliverVaccines(int amount);
+    public VaccinationSchedule createVaccinationSchedule(City city);
+    public void setProductionSpeed(int vaccinesPerDay);
     
 }

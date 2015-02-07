@@ -6,6 +6,8 @@
 
 package vaccinationdistributionmodel.vaccination;
 
+import vaccinationdistributionmodel.world.City;
+
 /**
  *
  * This is a skeleton for the actual vaccinationStrategies to be developed from
@@ -17,9 +19,15 @@ public class FirstVaccinator implements VaccinationStrategy {
     public FirstVaccinator(){
         
     }
-    
+
     @Override
-    public void deliverVaccines(int amount){
-        
+    public VaccinationSchedule createVaccinationSchedule(City city) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public void setProductionSpeed(int vaccinesPerDay) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
 }
