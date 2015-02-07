@@ -24,7 +24,7 @@ public class VaccinationDistributionModel {
      */
     public static void main(String[] args) {
         //System.out.println("<b>Ebola</b>");
-
+/*
         City x = new City(10000, 9900, 0, 100, 0, 0, 0);
         
         CityParameters params = new CityParameters();
@@ -42,7 +42,7 @@ public class VaccinationDistributionModel {
         }
         
         System.exit(0);
-        
+  */      
         Globe globe = new Globe();
 
         int i = 0;

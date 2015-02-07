@@ -27,6 +27,7 @@ public class Region implements Modelable {
         this.bigCities = new ArrayList();
         this.regionParams = params;
         this.computeAverageLatitudeAndLongitude();
+        this.init();
     }
     
     private void computeAverageLatitudeAndLongitude(){
