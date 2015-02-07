@@ -5,6 +5,10 @@ import vaccinationdistributionmodel.Modelable;
 
 public class City implements Modelable {
 
+    private String name = "";
+    private double latitude = 0.0;
+    private double longitude = 0.0;
+    
     private History history;
     private CityState values;
     private Parameters parameters;
@@ -28,6 +32,12 @@ public class City implements Modelable {
 
     public void setParameters(Parameters parameters) {
         this.parameters = parameters;
+    }
+    
+    public void setInformation(String name, double latitude, double longitude) {
+        this.name = name;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public void interact(City other, double weight) {

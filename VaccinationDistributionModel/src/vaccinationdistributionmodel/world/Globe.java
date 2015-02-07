@@ -1,51 +1,63 @@
 package vaccinationdistributionmodel.world;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.Set;
 import vaccinationdistributionmodel.Modelable;
 
 public class Globe implements Modelable {
 
     private Graph regionGraph;
-    
+
     public Globe() {
+        Map<String, List<City>> countries = new HashMap();
         List<Region> regions = new ArrayList();
         
-        City h = new City(10000);
-        City i = new City(200000);
-        City j = new City(20000);
-        City k = new City(100000);
+        try {
+            Scanner reader = new Scanner(new File("cities"));
+            while (reader.hasNext()) {
+                String line = reader.nextLine();
+                String[] data = line.split("\t");
+
+                String name = data[0];
+                String country = data[1];
+                int population = Integer.parseInt(data[2]);
+                
+                String[] coordinates = data[3].split(",");
+                double latitude = Double.parseDouble(coordinates[0]);
+                double longitude = Double.parseDouble(coordinates[1]);
+                
+                if (!countries.containsKey(country))
+                    countries.put(country, new ArrayList());
+
+                City city = new City(population);
+                city.setInformation(name, latitude, longitude);
+                countries.get(country).add(city);
+            }
+        } catch (Exception e) {
+            System.out.println("Could not read file");
+            System.exit(0);
+        }
         
-        List<City> cities = new ArrayList();
-        cities.add(h);
-        cities.add(i);
+        for (Map.Entry<String, List<City>> entry : countries.entrySet()) {
+            Graph<City> graph = new Graph();
+            graph.makeCityEdges(entry.getValue());
+            
+            Region region = new Region(new Parameters(), graph);
+            regions.add(region);
+        }
         
-        List<Edge<City>> edges = new ArrayList();
-        edges.add(new Edge(h, i, 1));
+        Graph<Region> graph = new Graph();
+        graph.makeRegionEdges(regions);
         
-        Graph<City> cityGraph = new Graph(edges);
-        
-        Region rH = new Region(new Parameters(), cityGraph);
-        regions.add(rH);
-        
-        cities.clear();
-        cities.add(j);
-        cities.add(k);
-        
-        edges.clear();
-        edges.add(new Edge(j, k, 1));
-        
-        cityGraph = new Graph(edges);
-        
-        Region rI = new Region(new Parameters(), cityGraph);
-        regions.add(rI);
-        
-        List<Edge<Region>> regionEdges = new ArrayList();
-        edges.add(new Edge(rH, rI, 1));
-        
-        this.regionGraph = new Graph(regionEdges);
+        System.out.println(graph);
     }
-    
+
     @Override
     public void update(int currentDay) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

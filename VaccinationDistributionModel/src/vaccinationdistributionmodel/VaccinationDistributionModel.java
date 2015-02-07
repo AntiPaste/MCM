@@ -8,8 +8,7 @@ package vaccinationdistributionmodel;
 import vaccinationdistributionmodel.display.AreaChart;
 import vaccinationdistributionmodel.world.Parameters;
 import vaccinationdistributionmodel.world.City;
-import vaccinationdistributionmodel.vaccination.VaccinationSchedule;
-import vaccinationdistributionmodel.vaccination.VaccineOrder;
+import vaccinationdistributionmodel.world.Globe;
 
 /**
  *
@@ -22,6 +21,9 @@ public class VaccinationDistributionModel {
 	 */
 	public static void main(String[] args) {
 		System.out.println("<b>Ebola</b>");
+        
+        new Globe();
+        System.exit(0);
 		
 		Parameters parameters = new Parameters();
 		parameters.contaminationRate = 1;
