@@ -23,7 +23,7 @@ public class VaccinationDistributionModel {
      */
     public static void main(String[] args) {
         //System.out.println("<b>Ebola</b>");
-
+        
         Globe globe = new Globe();
 
         int i = 0;

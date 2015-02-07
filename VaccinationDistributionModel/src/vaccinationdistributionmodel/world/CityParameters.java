@@ -1,6 +1,6 @@
 package vaccinationdistributionmodel.world;
 
-public class Parameters {
+public class CityParameters {
     /*public int mortality;
      public int infectiveness;
      public int mobility;*/

@@ -11,7 +11,7 @@ public class City implements Modelable {
     
     private History history;
     private CityState values;
-    private Parameters parameters;
+    private CityParameters parameters;
 
     public City(int population) {
         this(population, population, 0, 0, 0, 0, 0);
@@ -34,7 +34,7 @@ public class City implements Modelable {
         return this.values;
     }
 
-    public void setParameters(Parameters parameters) {
+    public void setParameters(CityParameters parameters) {
         this.parameters = parameters;
     }
     
