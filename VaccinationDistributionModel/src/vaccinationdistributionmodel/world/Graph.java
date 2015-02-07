@@ -108,7 +108,8 @@ public class Graph<T> {
     }
     
     public void makeRegionEdges(List<Region> regions) {
-        this.generateNodesList();
+        this.nodes = (List<T>) regions;
+        //this.generateNodesList();
     }
     
     public List<T> getNodes(){

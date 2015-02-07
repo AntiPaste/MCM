@@ -14,7 +14,7 @@ public class City implements Modelable {
     private Parameters parameters;
 
     public City(int population) {
-        this(population, 0, 0, 0, 0, 0, 0);
+        this(population, population, 0, 0, 0, 0, 0);
     }
 
     public City(int population, int susceptible, int exposed,
@@ -84,15 +84,15 @@ public class City implements Modelable {
 
         this.values.susceptible -= peopleToContaminate;
         this.values.exposed += peopleToContaminate;
-
+        
         this.history.addState(this.values);
     }
 
     @Override
     public String toString() {
-        /*StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder();
         double fPopulation = (double) this.values.population;
-
+        builder.append(this.name+"\n");
         builder.append(String.format("Population: %d\n", this.values.population));
         builder.append(String.format("Susceptible: %d (%.2f%%)\n", this.values.susceptible, this.values.susceptible / fPopulation * 100));
         builder.append(String.format("Exposed: %d (%.2f%%)\n", this.values.exposed, this.values.exposed / fPopulation * 100));
@@ -101,8 +101,6 @@ public class City implements Modelable {
         builder.append(String.format("Recovered: %d (%.2f%%)\n", this.values.recovered, this.values.recovered / fPopulation * 100));
         builder.append(String.format("Dead: %d (%.2f%%)\n", this.values.dead, this.values.dead / fPopulation * 100));
 
-        return builder.toString();*/
-        
-        return this.name;
+        return builder.toString();
     }
 }
