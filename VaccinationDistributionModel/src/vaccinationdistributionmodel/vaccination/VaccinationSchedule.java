@@ -4,6 +4,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import vaccinationdistributionmodel.world.City;
 import vaccinationdistributionmodel.Modelable;
+import vaccinationdistributionmodel.world.CityState;
 
 public class VaccinationSchedule implements Modelable {
 
@@ -13,6 +14,10 @@ public class VaccinationSchedule implements Modelable {
     public VaccinationSchedule(City city) {
         this.orders = new TreeSet();
         this.city = city;
+    }
+    
+    public CityState getState(){
+        return this.city.getValues();
     }
 
     public SortedSet<VaccineOrder> getOrders() {

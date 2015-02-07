@@ -122,6 +122,10 @@ public class Graph<T> {
            }
         });
         
+        for (T region: regions){
+            regionsByCityNumber.add(region);
+        }
+        
         List<T> bigRegions = new ArrayList<>();
         
         for (int i=0; i<15;i++){

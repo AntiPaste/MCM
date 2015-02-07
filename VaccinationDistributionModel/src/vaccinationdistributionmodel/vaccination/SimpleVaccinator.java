@@ -8,6 +8,7 @@ package vaccinationdistributionmodel.vaccination;
 
 import java.util.List;
 import vaccinationdistributionmodel.world.City;
+import vaccinationdistributionmodel.world.CityState;
 import vaccinationdistributionmodel.world.Globe;
 import vaccinationdistributionmodel.world.Region;
 
@@ -27,9 +28,18 @@ public class SimpleVaccinator implements VaccinationStrategy {
         this.constraints = new Constraints(100, 1000);
     }
     
+    private void issueNewOrders(VaccinationSchedule plan){
+        CityState progress = plan.getState();
+        if (progress.susceptible <= 0){
+            return; // stop vaccination
+        }
+        //VaccineOrder newOrder = new VaccineOrder();
+    }
+    
     @Override
     public void update(int day){
         this.schedules.stream().forEach((plan) -> {
+            issueNewOrders(plan);
             plan.update(myDay);
         });
         myDay++;
