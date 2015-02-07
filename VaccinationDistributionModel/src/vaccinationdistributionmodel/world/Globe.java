@@ -49,7 +49,7 @@ public class Globe implements Modelable {
             graph.makeCityEdges(entry.getValue());
             
             System.out.println("Region: " + entry.getKey() + "\n");
-            System.out.println(graph);
+            //System.out.println(graph);
             
             Region region = new Region(new Parameters(), graph);
             regions.add(region);
@@ -57,6 +57,7 @@ public class Globe implements Modelable {
         
         Graph<Region> graph = new Graph();
         graph.makeRegionEdges(regions);
+        this.regionGraph = graph;
     }
     
     public Graph<Region> getRegions(){

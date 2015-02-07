@@ -37,6 +37,20 @@ public class Region implements Modelable {
         public List<City> getCities(){
             return this.cities.getNodes();
         }
+        
+        public List<City> nearCities(City city){
+            if (!cities.getNodes().contains(city)){
+                return new ArrayList<>();
+            }
+            List<City> nearCities = new ArrayList<City>();
+           
+            this.cities.getEdges(city).stream().forEach((Edge<City> edge) -> {
+                if (edge.one.equals(city)) nearCities.add(edge.other);
+                else nearCities.add(edge.one);
+            });
+            
+            return nearCities;
+        }
 
 	@Override
 	public void update(int currentDay) {

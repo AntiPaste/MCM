@@ -31,6 +31,7 @@ public class Graph<T> {
 
     public Graph() {
         this.neighbours = new HashMap();
+        this.edges = new HashSet<>();
     }
     
     public void setEdges(Set<Edge<T>> edges) {
