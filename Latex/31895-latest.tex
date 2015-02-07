@@ -1,0 +1,404 @@
+\documentclass[12pt]{article}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{epstopdf}
+\usepackage{comment}
+\usepackage{alltt}
+\usepackage{url}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\title{Dynamic Water Distribution Reformer - Algorithmic Approach to Saudi Arabia's Water Management}
+\author{Team 24060}
+\date{}                                           % Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+\begin{abstract}
+\end{abstract}
+\setlength{\parindent}{0cm}
+\newpage
+\tableofcontents
+\newpage
+
+
+\section{Introduction}
+
+With the constant urbanization of the world, the number of automobiles increases quickly, and thus highways are getting more and more crowded as building new ones consumes a lot of time and money. Therefore it is important to utilize the highway lanes effectively to assure a smooth flow of traffic, while still keeping the roads safe by demanding rules for safe passings, as a large proportion of everyday car accidents are results of risky overtakings.\\
+
+ The general rule for controlling  traffic and thus preventing road accidents is to demand that cars stay on the rightmost lane, except when passing, after which they return to the rightmost lane (of course, in countries with left-hand traffic, most notably in the UK and Australia and India, it is the opposite).  However, this rule results in only partial use of the highway, meaning that the capacity  of the road could be much larger. We propose various passing rules, including a rule controlled by an intelligent system (which could be built into every car in the future), and analyze their safety and effectiveness in terms of traffic flow and numerous related quatities. Our results indicate that the keep-right rule could be replaced with a more efficient system, while maintaining safety. %Mikä systeemi
+\\\\
+
+
+When studying road safety, the most important question one should adress is: What causes traffic accidents? According to [??], 93 per cent of the accidents have driver influence, and 57 per cent of them result solely from drivers' behavior, decision making and reaction speed. The key element in cars' interaction is of course overtaking, and lane-changing in general, which can be thought to include junction activity. In addition, [??] indicates that the risk  of collisions increases exponentially with speed. We assume that the damage is proportional to the difference of squared speeds, due to change of kinetic energy. Safety issues are indeed of vital importance, since according to WHO research in 2009, road injuries will become the fifth most common cause of death in the world by 2030 [?].
+\newpage
+
+
+
+
+
+
+
+\section{Plan of Attack}
+
+There are two basic approaches to traffic flow, namely microscopic and macroscopic analysis. In the former, cars are considered individually, while the latter is based on the assumption that traffic flows smoothly and continuously in the large scale. The continuous method is  outlined in chapter [?], and the discrete version is dealt with in chapters ??, with results shown in chapter ??.\\
+
+
+We remark that there are several models for microscopic traffic flow, including car-following models (e.g. Wiedemann model) in which every car is represented as a function, and cellular automata, such as the Nagel-Schrekenberg model and Biham-Middleton-Levine model. However, none of these models is suitable to study passings on a multilane highway (some of the ignore, passings; others neglect the effect of several lanes). Hence, a new model had to be produced.
+[Lähteet]\\
+
+Also in the continuous analysis, M. J. Lighthill and G. B. Whitham [??] presented a theory that can be used to detrmine the flux and its density analytically \textit{if the movement is one-dimensional,} i.e. lanes are not separated. However, our problem contains two-dimensional movement in time, resulting in a rather general form of Navier-Stokes equations from fluid dynamics [??]. Only numerical simulation could solve the problem reasonably, but it would be rather time-consuming, and moreover, it is not quite clear how often cars move forward and how often sideways if they know the traffic density everywhere. 
+Certainly, the answer cannot be just the direction at which the density is the smallest, as that might result in backing up or circular movement.\\ %http://rspa.royalsocietypublishing.org/content/229/1178/317
+
+
+
+Our approach is based on considering a long  rectangular grid in which $x$-coordinate denotes displacement along the highway and the $y$-coordinate represents lanes, and cars are modeled as small rectangles. Each car has a safety area which should stay clear of the other vehicles, and if a car is driving faster than the next one, it will pass left or right, in case there is enough room.\\
+
+
+
+ There can also be smaller junctions  to the highway, from which vehicles enter or leave the road, in which case cars leaving the road try to get to the rightmost lane before the junction. We are going to  analyze several passing rules:\\
+
+
+\begin{itemize}
+
+\item (Keep Right) A car passes to the right whenever possible (even if it could maintain its speed). Otherwise, it first considers going left and then slowing down.
+
+\item (No rules) If a car cannot maintain its speed on the lane, it  randomly chooses a direction and tries to pass there. If it cannot, it tries to go to the other direction. The last case is reducing speed. 
+
+\item (Laminar Flow) If a car sees a slower car directly in front of it, it tries to pass towards the center of the road. Otherwise, if the car followed by a faster one, the former tries to move away from the center of the road. If neither can be done, the car slows down or speeds up according to the speed of the one in front of it.
+
+\item (The Faster Ones Go Left)  Otherwise similar to Laminar flow, except the faster cars try to go left and the slower ones right.
+
+
+\end{itemize}
+
+
+
+
+
+
+\newpage
+
+
+%Wikipedia: right-hand traffic SAFE
+
+
+\section{Assumptions}
+
+\begin{enumerate}
+\item A straight highway segment of fixed length is considered. It may have junctions, but what happens outside our highway segment (e.g. bottlenecks) is neglected.
+
+\item Cars enter the highway segment uniformly randomly at constant intervals, according to certain parameters so that we may model light and heavy traffic.
+
+\item We select some points to be junctions, where cars will exit the highway, or new cars will enter the highway.
+
+\item Every car has a specific speed they wish to maintain, approximately the speed limit, but with randomized variation. They never surpass this speed.
+
+\item A car will always prefer overtaking to slowing down, according to its behavior pattern, explained in subsection 2.1.
+
+\item Our distribution of car types is based on [???], and according to it, 5 per cent of vehicles in the US are trucks, which are usually involved in major accidents. 
+
+\item We assume citizen abide the rules  (which isn't necessarily very realistic).
+
+\item Safety of a passing rule is determined by passings in our model, since, as mentioned before, many car accidents involve overtakings. More precisely, we have a formula given in chapter [?] to compare total injuries for a given rule, given all the speeds of passings.
+
+%order of importance
+
+
+
+\end{enumerate}
+
+\newpage
+
+\subsection{Definitions}
+
+\begin{enumerate}
+
+\item A highway segment of length $L$ in considered.
+\item The highway is dissected in $N$ lanes $l_{1},l_{2}, \ldots, l_{N}$ ($N \in \mathbb{N}, N > 1$) thought as line segments.
+\item Cars $c_{1}, c_{2},\ldots,c_{k}$ are represented by subsegments of lanes: $c_{i} = [a_{i},b_{i}[ \times\{ j_{i}\}$ (so $c_{i}$ is moving on the $j_{i}$:th lane) for $i \in \{1,2,\ldots,k \}$. . Yes, there are $k$ cars $(k \in \mathbb{N})$. Cars occupy an area starting at the rear end of the car and ending at the end of the car's (proper) following distance (3-second rule).  Now, it is beneficial to note that it is irrelevant where in the lane the car is moving (e.g. right or left): it either fully occupies that segment of the lane, or does not.
+\item Cars, that is car-segments, are pairwise disjoint, i.e. for $i \neq j$, $c_{i} \cap c_{j} = \emptyset$. Cars have their own private space.
+%was some overlap with assumptions
+
+\end{enumerate}
+
+That's enough for now, almost. We still need some concrete values. Let's just write down some values
+
+\begin{enumerate}
+
+\item $L = 20000$. Length in meters. Why? It's definitely long enough to reveal most of the fundamental trends.%needed?
+\item $N \in \{2,3,4,6,10,15\}$. These values of $N$ are enough to get a big picture on the effect of number of lanes. And more than 15 on a side is already quite rare [2].%lähde
+  Presumably, the behavior on roads with more lanes than this, can be derived from these results.
+\item The average car is five meters in length [3]. Length of the car's $b_{i}-a_{i}$ space also consists of the following distance. It depends on the speed of the car.
+
+
+\end{enumerate}
+
+
+
+
+\newpage
+
+\section{QED - The Algorithm}
+
+\begin{comment}
+
+$t=0$  (initial time)\\
+
+$cars=\emptyset$ (Initially, there are no cars)\\
+
+$C=\{cars\}$\\
+
+$V=\{velocities\}$\\
+
+for $t\in \{0,dt, 2dt, ...,T\}$  (time is considered in discrete steps):\\
+
+   Choose numbers $j_1,..,j_{\ell}$ at random from $\{1,2,...,N\}.$\\
+
+   Put cars to the points $(0,j_i)$ to $C$ (new cars enter)\\
+   
+     for c in C:\\
+
+         $c$ is moved forward by $v_idt$ if it is allowed by our rule\\
+         
+$c\to c+(v_idt,0)$ or $c\to (0,v_i dt)$ 
+\end{comment}
+
+           
+Our algorithm is based on the assumptions, plan of attack (containing the possible passing rules) and definitions above, and in pseudocode one can write it as:\\
+
+\begin{alltt}
+Choose a rule \(R\) which we analyze (Keep Right, No Rules, Laminar Flow, Faster to Left).
+Choose a discrete time unit \(dt\).
+Choose the number \(\mu\) of cars entering the road per unit time
+For each time \(mdt\), \(m\in \{0,1,2,...\}\):
+   Choose \(\mu\) distinct  lanes \(j(1),...,j(\mu)\) at random, and put cars to the points \((j(i),0)\)
+   For each car \(c\):
+       Check which case of the rule \(R\) holds for \(c\)
+       If the rule tells \(c\) to slow down, it slows down linearly to the speed \(u\),
+           where \(u\) is the speed of the car in front of \(c\) and \(D\) distance to it
+       Else if: \(c\) is not at the end of the road, \(c\) moves the distance \(vdt\)
+           (where \(v\) is its optimal speed) left, right or forward, as detrmined by  \(R\)
+       Else: \(c\) is removed from the set of cars (it reached the end of the road)
+    Plot the cars, with colors according to their speed
+\end{alltt}
+    
+
+
+
+
+
+
+
+
+
+
+
+\newpage
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Discrete Approach to Traffic Flow}
+
+\section{Continuous Approach to Traffic Flow}
+
+\subsection{Laminar Flow}
+
+
+
+
+
+
+
+
+
+
+
+
+\newpage
+
+
+
+
+
+%Define q, rho, phi\\
+%Haight, Frank mcm
+
+Especially on crowded roadways, the placement of individual cars becomes irrelevant, and the flux of cars can be considered as continuous, similarly to water flow in a pipe. [Main source II] The Navier-Stokes equations imply that the fluid can be turbulent or laminar, that is, with or without eddies. [Wiki: Navier] Obviously,  a pipe flow with a reasonable speed is laminar, and similarly there should be no turbulence in the flux of cars. The flow of cars is forced to be mostly parallel to the direction of the road, with some sideway movement due to passings.\\
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+This leads us to expect that the kinematic wave equation 
+\begin{align*}
+\frac{\partial q}{\partial t}+C\frac{\partial q}{\partial x}=D\frac{\partial^2{q}}{\partial x^2},
+\end{align*}
+where $C,D>0$ and $q(x,t)$ is the number of cars per unit length of road (car density), should be a good model for traffic flow on busy roads.  Indeed, this model is generally used to analyze pressure-driven or gravity-driven flows such as water flow in a pipe or land slides, and also traffic flow [Wiki Kinematic, Wiki raffic flow]. The constants $C$ and $D$ determine different properties of the flow, such as viscosity. \\
+
+Introducing the variables$\xi=x$,  $\eta=t-\frac{1}{C}x$, the equation becomes by the chain rule
+\begin{align*}
+\frac{\partial q}{\partial \eta}=D\frac{\partial^2 q}{\partial\xi^2},
+\end{align*}
+which is the heat equation. We pose the initial condition $q(x,0)=\tilde{q}(x)$ to get by the solution formula for the heat equation Assuming that the road is long, the solution is given by
+\begin{align*}
+q(\xi, \eta)=\int_{-\infty}^{\infty} \tilde{q}(y)e^{-\frac{|\xi-y|^2}{4\eta}}dy,
+\end{align*}
+that is, 
+\begin{align*}
+q(x,t)=\int_{-\infty}^{\infty} \tilde{q}(y)e^{-\frac{|x-y|^2}{4(t-\frac{1}{C}x)}}dy.
+\end{align*}
+
+In studies of traffic flow, it has been verified that the fundamental flows to traffic quantity are the traffic density $q(x,t)$ (the number of cars in a unit area), $\varphi(x,t)$ (the number of cars passing a point in a unit of time), and $u(x,t)$ (the velocity of the flow), defined by $u(x,t)=\rho(x,t)\varphi(x,t)$ [Burgers paper, Main Source II].\\
+
+We assume that the traffic density has a maximum $\rho_{max}$, which is directly proportional to the number $N$ of lanes, beyond which the cars are stuck in a traffic jam. Also the speed is limited to $u_{max}$, and we assume that the dependence between $u$ and $\rho$ is linear in such a way that $\rho=\rho_{max}$ gives $u=0$ and $\rho=0$ gives $u=u_{max}$. This leads to
+\begin{align*}
+u(\rho)=u_{max}\left(1-\frac{\rho}{\rho_{max}}\right).
+\end{align*}
+
+The conservation of flow us that the change in flow from $x_1$ to $x_2$ is $\phi(x_1,t)-\phi(x_2,t)$, so
+\begin{align*}
+\frac{d}{dt}\int_{x_1}^{x_2} \rho(x,t)dx=\int_{x_1}^{x_2}\frac{\partial \rho}{\partial t }=\phi(x_1,t)-\phi(x_2,t)=-\int_{x_1}^{x_2}\frac{\partial \phi}{\partial x}dx,
+\end{align*}
+and as this holds for all intervals $[x_1,x_2]$ with $x_1<x_2$, we obtain
+\begin{align*}
+\frac{\partial \rho}{\partial t}+\frac{\partial \phi}{\partial x}=0.
+\end{align*}
+By our assumption on speed,
+\begin{align*}
+\varphi(x,t)=u_{max}\left(\rho-\frac{\rho^2}{\rho_{max}}\right),
+\end{align*}
+and hence we arrive at
+\begin{align*}
+\frac{\partial \rho}{\partial t}+u_{max}\frac{\partial \rho}{\partial x}=2\frac{u_{max}}{\rho_{max}}\rho \frac{\partial \rho}{\partial x}.
+\end{align*}
+Denoting $\rho_1=2\frac{u_{max}}{\rho_{max}}\rho-u_{max}$, the equation becomes
+
+\newpage
+
+\section{Our Results}
+
+
+\newpage
+
+\section{Strengths and Weaknesses}
+%http://en.wikipedia.org/wiki/Microscopic_traffic_flow_model
+
+
+
+
+\newpage
+\section{Conclusions}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%http://wiki.answers.com/Q/Length_of_average_car?#slide=2    Car length
+%http://en.wikipedia.org/wiki/Two-second_rule                  equivalent to one car length per 8km/h
+
+%http://en.wikipedia.org/wiki/Traffic_collision       K.Rumar 93% of accidents have deiver influence, and 57% solely driver influence This comes e.g. from driver behavior, decision making and reaction speed
+%The U.S. Department of Transportation's Federal Highway Administration review research on traffic speed in 1998.[19] The summary states:
+\begin{comment}
+    That the evidence shows that the risk of having a crash is increased both for vehicles traveling slower than the average speed, and for those traveling above the average speed.
+    That the risk of being injured increases exponentially with speeds much faster than the median speed. http://www.google.fi/url?sa=t&rct=j&q=&esrc=s&source=web&cd=2&ved=0CDoQFjAB&url=http%3A%2F%2Fwww.nhtsa.gov%2Fpeople%2Finjury%2Fenforce%2Fspeed_forum_presentations%2Fferguson.pdf&ei=wK33UqCMJur_4QSupIHwCw&usg=AFQjCNHpOM5oSlenu9He-Ylm2hetdEpFUg&sig2=Cc72KNU9t507fvRwtcNLHg&bvm=bv.60983673,d.bGE
+    That the severity/lethality of a crash depends on the vehicle speed change at impact.
+    That there is limited evidence that suggests that lower speed limits result in lower speeds on a system wide basis.
+    That most crashes related to speed involve speed too fast for the conditions.
+    That more research is needed to determine the effectiveness of traffic calming.
+
+
+
+The safety performance of roadways are almost always reported as rates. That is, some measure of harm (deaths, injuries, or number of crashes) divided by some measure of exposure to the risk of this harm. 
+
+WHO 2009:
+road traffic injuries will rise to become the fifth leading cause of death by 2030 [40]
+
+http://wiki.answers.com/Q/How_many_commercial_trucks_in_US?#slide=2   Number of trucks in us 15.5 million vs  US Bureau of Transportation Statistics for 2009 there are 254,212,610 registered passenger vehicles
+
+\end{comment}
+
+
+\begin{comment}
+Wiki:traffic flow
+Traffic phenomena are complex and nonlinear, depending on the interactions of a large number of vehicles. Due to the individual reactions of human drivers, vehicles do not interact simply following the laws of mechanics, but rather show phenomena of cluster formation and shock wave propagation,[citation needed] both forward and backward, depending on vehicle density in a given area. Some mathematical models in traffic flow make use of a vertical queue assumption, where the vehicles along a congested link do not spill back along the length of the link.
+
+In a free-flowing network, traffic flow theory refers to the traffic stream variables of speed, flow, and concentration. These relationships are mainly concerned with uninterrupted traffic flow, primarily found on freeways or expressways.[1] "Optimum density" for US freeways is sometimes described as 40–50 vehicles per mile per lane.[citation needed] As the density reaches the maximum flow rate (or flux) and exceeds the optimum density, traffic flow becomes unstable, and even a minor incident can result in persistent stop-and-go driving conditions. Jam density refers to extreme traffic density associated with completely stopped traffic flow, usually in the range of 185–250 vehicles per mile per lane.
+
+However, calculations within congested networks are more complex and rely more on empirical studies and extrapolations from actual road counts. Because these are often urban or suburban in nature, other factors (such as road-user safety and environmental considerations) also dictate the optimum conditions.
+
+
+\end{comment}
+
+
+
+
+
+
+
+
+\end{document}
