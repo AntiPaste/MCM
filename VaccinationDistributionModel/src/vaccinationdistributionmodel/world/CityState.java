@@ -63,33 +63,18 @@ public class CityState {
         // System.out.println(amount * (int) ((double) this.susceptible) / (this.susceptible + this.exposed));
         // = 721
         
-        amount = amount * ((int) ((double) this.susceptible) / (this.susceptible + this.exposed));
+        double dSusceptible = (double) this.susceptible;
+        double base = (double) (this.susceptible + this.exposed);
+        double ratio = (dSusceptible / base);
+        amount = (long) (amount * ratio);
         
         if (amount > this.susceptible) {
             amount = this.susceptible;
         }
         
-        this.exposedWaiting[0] = amount;
+        this.exposedWaiting[0] += amount;
         this.susceptible -= amount;
         this.exposed += amount;
-    }
-    
-    public void kill(long amount) {
-        if (amount > this.infected) {
-            amount = this.infected;
-        }
-        
-        this.infected -= amount;
-        this.dead += amount;
-    }
-    
-    public void recover(long amount) {
-        if (amount > this.infected) {
-            amount = this.infected;
-        }
-        
-        this.infected -= amount;
-        this.recovered += amount;
     }
     
     public void remove(double mortalityRate) {
@@ -99,7 +84,7 @@ public class CityState {
             
             long result = (long) (people * probability);
             this.advancedWaiting[i] -= result;
-                    
+            
             this.dead += result * mortalityRate;
             this.recovered += result * (1 - mortalityRate);
             
@@ -128,6 +113,8 @@ public class CityState {
             
             long result = (long) (people * probability);
             this.exposedWaiting[i] -= result;
+            this.infectedWaiting[0] += result;
+            
             this.infected += result;
             this.exposed -= result;
         }
@@ -138,16 +125,16 @@ public class CityState {
         this.exposed += people;
         this.susceptible -= people;*/
         
-        for (int i = this.exposedWaiting.length - 1; i > 0; i--) {
-            this.exposedWaiting[i] = this.exposedWaiting[i - 1];
+        for (int i = this.advancedWaiting.length - 1; i > 0; i--) {
+            this.advancedWaiting[i] = this.advancedWaiting[i - 1];
         }
         
         for (int i = this.infectedWaiting.length - 1; i > 0; i--) {
             this.infectedWaiting[i] = this.infectedWaiting[i - 1];
         }
         
-        for (int i = this.advancedWaiting.length - 1; i > 0; i--) {
-            this.advancedWaiting[i] = this.advancedWaiting[i - 1];
+        for (int i = this.exposedWaiting.length - 1; i > 0; i--) {
+            this.exposedWaiting[i] = this.exposedWaiting[i - 1];
         }
         
         this.exposedWaiting[0] = 0;
@@ -157,5 +144,29 @@ public class CityState {
 
     public long getContaminating() {
         return this.advanced + this.infected;
+    }
+    
+    public void printWaiting() {
+        System.out.print("ExposedWaiting: ");
+        for (int i = 0; i < this.exposedWaiting.length - 1; i++) {
+            System.out.print(this.exposedWaiting[i] + " ");
+        }
+        
+        System.out.println();
+        
+        System.out.print("InfectedWaiting: ");
+        for (int i = 0; i < this.infectedWaiting.length - 1; i++) {
+            System.out.print(this.infectedWaiting[i] + " ");
+        }
+        
+        System.out.println();
+        
+        System.out.print("AdvancedWaiting: ");
+        for (int i = 0; i < this.advancedWaiting.length - 1; i++) {
+            System.out.print(this.advancedWaiting[i] + " ");
+        }
+        
+        System.out.println();
+        System.out.println();
     }
 }

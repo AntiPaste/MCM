@@ -24,8 +24,8 @@ public class VaccinationDistributionModel {
      */
     public static void main(String[] args) {
         //System.out.println("<b>Ebola</b>");
-/*
-        City x = new City(10000, 9900, 0, 100, 0, 0, 0);
+
+        /*City x = new City(100000, 90000, 0, 10000, 0, 0, 0);
         
         CityParameters params = new CityParameters();
         params.contaminationRate = 0.1;
@@ -35,14 +35,20 @@ public class VaccinationDistributionModel {
         
         System.out.println(x);
         
-        for (int i = 0; i < 22; i++) {
+        for (int i = 0; i < 100; i++) {
             x.update(i);
-            System.out.println(i);
-            System.out.println(x);
         }
         
-        System.exit(0);
-  */      
+        Chart y = new Chart(x.getHistory());
+        y.setTitle(x.name);
+        y.draw();
+        y.pack();
+        y.setVisible(true);
+        
+        try {
+            Thread.sleep(1000000);
+        } catch (Exception e) {}*/
+        
         Globe globe = new Globe();
 
         int i = 0;
@@ -58,14 +64,14 @@ public class VaccinationDistributionModel {
 
         City city = region.getCities().get(0);
         city.getValues().contaminate(500_000);
-        int toChart = 4;
+        int toChart = 1;
         while (toChart > 0) {
             selected.add(city);
             city = region.nearCities(city).get(3);
             toChart--;
         }
 
-        for (int j = 0; j < 200; j++) {
+        for (int j = 0; j < 100; j++) {
             region.update(j);
         }
 
