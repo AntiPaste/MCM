@@ -19,8 +19,8 @@ public class Region implements Modelable {
     private Graph<City> cities;
     private List<City> bigCities;
     private RegionParameters regionParams;
-    private double latitude;
-    private double longitude;
+    public double latitude;
+    public double longitude;
 
     public Region(RegionParameters params, Graph<City> cities) {
         this.cities = cities;

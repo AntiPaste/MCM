@@ -115,6 +115,56 @@ public class Graph<T> {
     public void makeRegionEdges(List<T> regions) {
         this.nodes = regions;
         
+        SortedSet<T> regionsByCityNumber = new TreeSet<>(new Comparator<T>(){
+           @Override
+           public int compare(T one, T other){
+               return ((Region) one).getCities().size() - ((Region)other).getCities().size();
+           }
+        });
+        
+        List<T> bigRegions = new ArrayList<>();
+        
+        for (int i=0; i<15;i++){
+            T take = regionsByCityNumber.last();
+            bigRegions.add(take);
+            regionsByCityNumber.remove(take);
+        }
+        
+        // the main "hub" regions are all connected to one-another
+        
+        for (T one : bigRegions){
+            for (T other : bigRegions){
+                if (one == other) continue;
+                Region region = (Region) one;
+                Region otherRegion = (Region) one;
+                this.edges.add(new Edge<>(one, other, ((double)1)/distance(
+                    region.latitude,region.longitude, otherRegion.latitude, otherRegion.longitude)));
+            }
+        }
+        
+        // connect smaller regions to "hubs"
+        
+        for (T other : regionsByCityNumber){ // the not hubs will remain
+            T closest = null;
+            Region me = (Region) other;
+            for (T hub : bigRegions){
+                if (closest == null) {
+                    closest = hub;
+                    continue;
+                }
+                Region c = (Region) closest;
+                Region h = (Region) hub;
+                if (distance(me.latitude, me.longitude, c.latitude, c.longitude) >
+                        distance(me.latitude, me.longitude, h.latitude, h.longitude)){
+                    // this hub is closer;
+                    closest = hub;
+                }
+            }
+            Region connect = (Region) closest;
+            this.edges.add(new Edge<>(other, closest, ((double)1) / distance(
+                me.latitude, me.longitude, connect.latitude, connect.longitude)));
+        }
+        
     }
     
     public List<T> getNodes(){
