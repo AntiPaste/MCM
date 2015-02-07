@@ -7,5 +7,4 @@ public class CityParameters {
 
     public double contaminationRate;
     public double mortalityRate;
-    public double recoveryRate;
 }

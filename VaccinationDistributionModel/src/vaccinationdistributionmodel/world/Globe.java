@@ -38,7 +38,6 @@ public class Globe implements Modelable {
 
                 City city = new City(population);
                 //System.out.println(population);
-                this.giveParams(city);
 
                 city.setInformation(name, latitude, longitude);
                 countries.get(country).add(city);
@@ -54,7 +53,7 @@ public class Globe implements Modelable {
 
             //System.out.println("Region: " + entry.getKey() + "\n");
             //System.out.println(graph);
-            Region region = new Region(new CityParameters(), graph);
+            Region region = new Region(new RegionParameters(), graph);
             region.setBigCities(graph.getBigCities());
             regions.add(region);
         }
@@ -64,15 +63,7 @@ public class Globe implements Modelable {
         this.regionGraph = graph;
     }
 
-    private void giveParams(City c) {
 
-        CityParameters parameters = new CityParameters();
-        parameters.contaminationRate = 1;
-        parameters.mortalityRate = 0.1;
-        parameters.recoveryRate = 0.1;
-
-        c.setParameters(parameters);
-    }
 
     public Graph<Region> getRegions() {
         return this.regionGraph;

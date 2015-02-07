@@ -8,4 +8,7 @@ public class GlobalParameters {
         0.75, 0.80, 0.85, 0.9, 0.95,
         1,
     };
+    
+    public static final double GLOBAL_MORTALITY_RATE = 0.9;
+          
 }

@@ -18,11 +18,11 @@ public class Region implements Modelable {
     private ArrayList<Region> neighbouringRegions;
     private Graph<City> cities;
     private List<City> bigCities;
-    private CityParameters regionParams;
+    private RegionParameters regionParams;
     private double latitude;
     private double longitude;
 
-    public Region(CityParameters params, Graph<City> cities) {
+    public Region(RegionParameters params, Graph<City> cities) {
         this.cities = cities;
         this.bigCities = new ArrayList();
         this.regionParams = params;
@@ -47,8 +47,15 @@ public class Region implements Modelable {
     
     private void init() {
         for (City c : cities.getNodes()) {
-            c.setParameters(regionParams);
+            c.setParameters(generateCityParameters());
         }
+    }
+    
+    private CityParameters generateCityParameters(){
+        CityParameters params = new CityParameters();
+        params.contaminationRate = 0.1;
+        params.mortalityRate = GlobalParameters.GLOBAL_MORTALITY_RATE * this.regionParams.hygiene;
+        return params;
     }
 
     public void interact(Region nearRegion, double weight) {

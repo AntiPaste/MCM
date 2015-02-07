@@ -15,6 +15,11 @@ public class RegionParameters {
     double mobility;
     double hygiene;
     
+    public RegionParameters(){
+        mobility = 0.5;
+        hygiene = 0.5;
+    }
+    
     public RegionParameters(double mobility, double hygiene) {
         this.mobility = mobility;
         this.hygiene = hygiene;
