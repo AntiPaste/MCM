@@ -6,19 +6,25 @@
 
 package vaccinationdistributionmodel.vaccination;
 
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.PriorityQueue;
 import vaccinationdistributionmodel.Modelable;
 import vaccinationdistributionmodel.world.City;
+import vaccinationdistributionmodel.world.Graph;
 
 /**
  *
  * @author ilari
  */
 public class VaccinationFactory implements Modelable{
-    City homeCity;
-    int openingDay;
-    int batchProductionTime;
-    int batchSize;
-    int vaccinesAvailable;
+    private City homeCity;
+    private int openingDay;
+    private int batchProductionTime;
+    private int batchSize;
+    private int vaccinesAvailable;
+    private double targetRatio = 1;
+    private PriorityQueue<City> cities;
     
     public VaccinationFactory(City home, int openingDay, int productionTime, int size){
         this.homeCity = home;
@@ -26,6 +32,12 @@ public class VaccinationFactory implements Modelable{
         this.batchProductionTime = productionTime;
         this.batchSize = size;
         this.vaccinesAvailable = 0;
+        this.cities = new PriorityQueue<>(new Comparator<City>(){
+            @Override
+            public int compare(City c1, City c2) {
+                return (int) (Graph.distance(homeCity,c1) - Graph.distance(homeCity, c2));
+            }
+        });
     }
 
     @Override
@@ -35,13 +47,35 @@ public class VaccinationFactory implements Modelable{
             vaccinesAvailable += this.batchSize;
         }
         
+        processQueue(currentDay);
+        
     }
     
-    public int getVaccines(int request){
-        request = Math.min(request, this.vaccinesAvailable);
-        this.vaccinesAvailable -= request;
-        return request;
+    private void processQueue(int day){
+        Iterator<City> it = this.cities.iterator();
+        while (it.hasNext()){
+            if (vaccinesAvailable==0) break;
+            City c = it.next();
+            if (c.scheduleInAction()){
+                continue; // don't 
+            }
+            int vaccines = this.vaccinesAvailable;
+            VaccinationSchedule plan = new VaccinationSchedule(c,day,vaccines,targetRatio);
+            this.vaccinesAvailable -= vaccines;
+            c.setSchedule(plan);
+            it.remove();
+        }
     }
-    
-    
+
+    public City getHomeCity() {
+        return homeCity;
+    }
+
+    public int getBatchProductionTime() {
+        return batchProductionTime;
+    }
+
+    public int getBatchSize() {
+        return batchSize;
+    }
 }

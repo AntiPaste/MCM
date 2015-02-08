@@ -18,7 +18,6 @@ public class VaccinationSchedule implements Modelable {
         this.targetingRatio = targetingRatio;
         this.city = city;
         this.startingDay = startingDay;
-
     }
 
     public CityState getState() {
@@ -38,5 +37,7 @@ public class VaccinationSchedule implements Modelable {
                
         this.city.vaccinate(inf, true);
         this.city.vaccinate(uninf, false);
+        
+        if (this.vaccinations==0) this.city.setScheduleFinished();
     }
 }
