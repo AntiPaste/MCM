@@ -11,7 +11,7 @@ package vaccinationdistributionmodel.vaccination;
  * @author ilari
  */
 public class Constraints {
-    public static int maximumDailyVaccination= 100;
-    public static int maximumDailyProduction = 1000;
+    public static int maximumDailyVaccination= 1000;
+    public static int maximumDailyProduction = 100000;
     
 }

@@ -11,12 +11,13 @@ public class VaccinationSchedule implements Modelable {
     private City city;
     private int vaccinations;
     private double targetingRatio;
+    private int startingDay;
 
     public VaccinationSchedule(City city, int startingDay, int vaccinations, double targetingRatio) {
         this.vaccinations = vaccinations;
         this.targetingRatio = targetingRatio;
         this.city = city;
-        int activationDay = startingDay;
+        this.startingDay = startingDay;
 
     }
 
@@ -26,6 +27,8 @@ public class VaccinationSchedule implements Modelable {
 
     @Override
     public void update(int currentDay) {
+        if (currentDay < this.startingDay) return;
+        
         int give = Constraints.maximumDailyVaccination;
         if (give > vaccinations) {
             give = vaccinations;
