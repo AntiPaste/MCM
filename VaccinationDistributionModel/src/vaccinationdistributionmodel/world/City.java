@@ -76,7 +76,9 @@ public class City implements Modelable {
                 / this.values.population);
         this.values.contaminate(peopleToContaminate);
         
-        //this.values.printWaiting();
+        if (this.name.equals("Surakarta"))
+            this.values.printWaiting();
+        
         this.history.addState(this.values);
     }
 

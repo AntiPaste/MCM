@@ -13,13 +13,12 @@ public class CityState {
 
     public long[] exposedWaiting = new long[GlobalParameters.EXPOSED_PROBABILITIES.length];
     public long[] infectedWaiting = new long[GlobalParameters.INFECTED_PROBABILITIES.length];
-    public long[] advancedWaiting = new long[GlobalParameters.ADVANCED_PROBABILITIES.length];
+    public long[] advancedWaiting = new long[GlobalParameters.ADVANCED_DAYS];
     
     public int dead = 0;
 
     public CityState(int population) {
-        this.population = population;
-        this.susceptible = population;
+        this(population, population, 0, 0, 0, 0, 0);
     }
 
     public CityState(int population, int susceptible, int exposed,
@@ -31,6 +30,10 @@ public class CityState {
         this.advanced = advanced;
         this.recovered = recovered;
         this.dead = dead;
+        
+        this.exposedWaiting[0] = exposed;
+        this.infectedWaiting[0] = infected;
+        this.advancedWaiting[0] = advanced;
     }
 
     public void vaccinate(long amount, boolean targetInfected) {
@@ -80,15 +83,17 @@ public class CityState {
     public void remove(double mortalityRate) {
         for (int i = 0; i < this.advancedWaiting.length; i++) {
             long people = this.advancedWaiting[i];
-            double probability = GlobalParameters.ADVANCED_PROBABILITIES[i];
             
-            long result = (long) (people * probability);
-            this.advancedWaiting[i] -= result;
+            double mortalityProbability = GlobalParameters.getMortalityProbabilities(mortalityRate)[i];
+            double recoveryProbability = GlobalParameters.getRecoveryProbabilities(mortalityRate)[i];
             
-            this.dead += result * mortalityRate;
-            this.recovered += result * (1 - mortalityRate);
+            long total = (long) (people * mortalityProbability + people * recoveryProbability);
+            this.advancedWaiting[i] -= total;
             
-            this.advanced -= result;
+            this.dead += people * mortalityProbability;
+            this.recovered += people * recoveryProbability;
+            
+            this.advanced -= total;
         }
     }
     

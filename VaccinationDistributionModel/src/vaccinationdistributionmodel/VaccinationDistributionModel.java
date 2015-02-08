@@ -13,6 +13,7 @@ import vaccinationdistributionmodel.display.Chart;
 import vaccinationdistributionmodel.world.City;
 import vaccinationdistributionmodel.world.CityParameters;
 import vaccinationdistributionmodel.world.Edge;
+import vaccinationdistributionmodel.world.GlobalParameters;
 import vaccinationdistributionmodel.world.Globe;
 import vaccinationdistributionmodel.world.Region;
 
@@ -27,7 +28,23 @@ public class VaccinationDistributionModel {
      */
     public static void main(String[] args) {
         //chartRegionHubs(7);
-        chartSomeCities(4);
+        System.out.println("0.01 / 0.99");
+        System.out.println();
+        
+        System.out.println("Mortality: ");
+        for (int i = 0; i < GlobalParameters.ADVANCED_DAYS- 10; i++) {
+            System.out.println(String.format("%.3f / %.3f", GlobalParameters.getMortalityProbabilities(0.01)[i], GlobalParameters.getMortalityProbabilities(0.99)[i]));
+        }
+        
+        System.out.println();
+        System.out.println("Recovery: ");
+        
+        for (int i = 0; i < GlobalParameters.ADVANCED_DAYS - 10; i++) {
+            System.out.println(String.format("%.3f / %.3f", GlobalParameters.getRecoveryProbabilities(0.01)[i], GlobalParameters.getRecoveryProbabilities(0.99)[i]));
+        }
+        
+        System.out.println();
+        chartOneCity();
     }
     
     public static void sth(){
@@ -61,21 +78,23 @@ public class VaccinationDistributionModel {
     public static void chartOneCity(){
         
         CityParameters parameters = new CityParameters();
+        parameters.contaminationRate = GlobalParameters.CONTAMINATION_RATE;
+        parameters.mortalityRate = GlobalParameters.MORTALITY_RATE;
         
-        City city = new City(10000, 9900, 100, 0, 0, 0, 0);
+        City city = new City(100000, 90000, 10000, 0, 0, 0, 0);
         city.setParameters(parameters);
-
-        System.out.println(city);
-
+        city.name = "Surakarta";
+        
         for (int i = 0; i < 100; i++) {
-            city.update(0);
-            System.out.println(city);
+            city.update(i);
 
             try {
                 //Thread.sleep(3000);
             } catch (Exception e) {
             }
         }
+
+        System.out.println(city);
 
         AreaChart chart = new AreaChart(city.getHistory());
         chart.draw();
