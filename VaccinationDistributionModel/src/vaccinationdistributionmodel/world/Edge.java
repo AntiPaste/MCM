@@ -14,6 +14,7 @@ public class Edge<T> {
     public T one;
     public T other;
     public double weight;
+    public double distance = -1;
 
     public Edge() {
     }
@@ -23,6 +24,7 @@ public class Edge<T> {
         this.other = other;
         this.weight = weight;
     }
+    
 
     @Override
     public int hashCode() {
