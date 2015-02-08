@@ -15,7 +15,9 @@ import vaccinationdistributionmodel.world.CityParameters;
 import vaccinationdistributionmodel.world.Edge;
 import vaccinationdistributionmodel.world.GlobalParameters;
 import vaccinationdistributionmodel.world.Globe;
+import vaccinationdistributionmodel.world.Graph;
 import vaccinationdistributionmodel.world.Region;
+import vaccinationdistributionmodel.world.RegionParameters;
 
 /**
  *
@@ -28,23 +30,24 @@ public class VaccinationDistributionModel {
      */
     public static void main(String[] args) {
         //chartRegionHubs(7);
-        System.out.println(GlobalParameters.MORTALITY_RATE + " / 0.99");
+        /*System.out.println("0.01 / 0.99");
         System.out.println();
         
         System.out.println("Mortality: ");
         for (int i = 0; i < GlobalParameters.ADVANCED_DAYS- 10; i++) {
-            System.out.println(String.format("%.3f / %.3f", GlobalParameters.getMortalityProbabilities(GlobalParameters.MORTALITY_RATE)[i], GlobalParameters.getMortalityProbabilities(0.99)[i]));
+            System.out.println(String.format("%.3f / %.3f", GlobalParameters.getMortalityProbabilities(0.01)[i], GlobalParameters.getMortalityProbabilities(0.99)[i]));
         }
         
         System.out.println();
         System.out.println("Recovery: ");
         
         for (int i = 0; i < GlobalParameters.ADVANCED_DAYS - 10; i++) {
-            System.out.println(String.format("%.3f / %.3f", GlobalParameters.getRecoveryProbabilities(GlobalParameters.MORTALITY_RATE)[i], GlobalParameters.getRecoveryProbabilities(0.99)[i]));
+            System.out.println(String.format("%.3f / %.3f", GlobalParameters.getRecoveryProbabilities(0.01)[i], GlobalParameters.getRecoveryProbabilities(0.99)[i]));
         }
         
         System.out.println();
-        chartOneCity();
+        chartOneCity();*/
+        palikat();
     }
     
     public static void sth(){
@@ -100,10 +103,6 @@ public class VaccinationDistributionModel {
         chart.draw();
         chart.pack();
         chart.setVisible(true);
-    }
-    
-    public static void chartTwoCities() {
-        
     }
     
     public static void chartSomeCities(int citiesToChart){
@@ -175,4 +174,45 @@ public class VaccinationDistributionModel {
         }
     }
 
+    public static void palikat(){
+        List<Region> regions = new ArrayList<>();
+        
+        regions.add(createRegion("Hienomesta"));
+        //regions.add(createRegion("Ebolamesta"));
+        
+        regions.get(0).getCities().get(0).getValues().contaminate(10_000);
+        
+        for (int i = 0; i < 100; i++) {
+            for (Region r: regions){
+                r.update(i);
+            }
+        }
+        
+        
+        
+        regions.stream().forEach((Region r) -> {
+            for (City c: r.getCities()){
+            Chart chart = new Chart(c.getHistory());
+            chart.setTitle(c.name);
+            chart.draw();
+            chart.pack();
+            chart.setVisible(true);
+            }
+        });
+    }
+    
+    public static Region createRegion(String name){
+        Graph<City> cities = new Graph<>();
+        RegionParameters params = new RegionParameters();
+        List<City> list = new ArrayList<>();
+        String[] names = {"Ankkalinna", "Helsinki", "Ouagadougou"};
+        for (int i=0; i<3; i++){
+            City c = new City(100000);
+            c.name = name + "-" +names[i];
+            list.add(c); 
+        }
+        cities.makeCityEdges(list);
+        
+        return new Region(params, cities);
+    } 
 }
