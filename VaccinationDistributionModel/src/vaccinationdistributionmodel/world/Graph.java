@@ -251,7 +251,7 @@ public class Graph<T> {
         return this.edges;
     }
 
-    private double distance(double latitude1, double longitude1, double latitude2, double longitude2) {
+    public static double distance(double latitude1, double longitude1, double latitude2, double longitude2) {
         double theta = longitude1 - longitude2;
         double distance = Math.sin(toRadians(latitude1)) * Math.sin(toRadians(latitude2)) + Math.cos(toRadians(latitude1)) * Math.cos(toRadians(latitude2)) * Math.cos(toRadians(theta));
         distance = Math.acos(distance);
@@ -260,12 +260,12 @@ public class Graph<T> {
 
         return distance;
     }
-
-    private double toRadians(double degrees) {
+    
+    public static double toRadians(double degrees) {
         return (degrees * Math.PI / 180.0);
     }
 
-    private double toDegrees(double radians) {
+    public static double toDegrees(double radians) {
         return (radians * 180.0 / Math.PI);
     }
 

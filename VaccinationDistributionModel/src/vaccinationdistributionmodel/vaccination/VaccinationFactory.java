@@ -6,19 +6,23 @@
 
 package vaccinationdistributionmodel.vaccination;
 
+import java.util.Comparator;
+import java.util.PriorityQueue;
 import vaccinationdistributionmodel.Modelable;
 import vaccinationdistributionmodel.world.City;
+import vaccinationdistributionmodel.world.Graph;
 
 /**
  *
  * @author ilari
  */
 public class VaccinationFactory implements Modelable{
-    City homeCity;
-    int openingDay;
-    int batchProductionTime;
-    int batchSize;
-    int vaccinesAvailable;
+    private City homeCity;
+    private int openingDay;
+    private int batchProductionTime;
+    private int batchSize;
+    private int vaccinesAvailable;
+    private PriorityQueue<City> cities;
     
     public VaccinationFactory(City home, int openingDay, int productionTime, int size){
         this.homeCity = home;
@@ -26,6 +30,12 @@ public class VaccinationFactory implements Modelable{
         this.batchProductionTime = productionTime;
         this.batchSize = size;
         this.vaccinesAvailable = 0;
+        this.cities = new PriorityQueue<>(new Comparator<City>(){
+            @Override
+            public int compare(City c1, City c2) {
+                return (int) (Graph.distance(homeCity,c1) - Graph.distance(homeCity, c2));
+            }
+        });
     }
 
     @Override
@@ -42,6 +52,16 @@ public class VaccinationFactory implements Modelable{
         this.vaccinesAvailable -= request;
         return request;
     }
-    
-    
+
+    public City getHomeCity() {
+        return homeCity;
+    }
+
+    public int getBatchProductionTime() {
+        return batchProductionTime;
+    }
+
+    public int getBatchSize() {
+        return batchSize;
+    }
 }
