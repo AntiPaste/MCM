@@ -44,19 +44,23 @@ public class CityState {
     
     public void vaccinateExposed(long amount){
         long shots = amount;
+        double divisor = ((double) amountOfExposed());
         for (int i = 0; i < this.exposedWaiting.length; i++){
-            long heal = amount * ((long) (this.exposedWaiting[i]/((double) amountOfExposed())));
+            long heal = (long) (amount * (this.exposedWaiting[i]/ divisor));
+            heal++;
             if (heal > this.exposedWaiting[i]) heal = this.exposedWaiting[i];
             if (heal > shots) heal = shots;
             shots -= heal;
             this.exposedWaiting[i] -= heal;
         }
+        if (shots != 0) System.out.println("wasting vaccines: " + shots);
+        
         this.vaccinated += amount;
     }
 
     public void vaccinate(long amount, boolean targetInfected) {
         if (this.susceptible == 0 && this.amountOfExposed() ==0) return; 
-        
+        long origAmount = amount;
         if (targetInfected) {
             if (amount > this.infected) {
                 amount = this.infected;
@@ -71,7 +75,7 @@ public class CityState {
                     break;
                 }
             }
-            this.vaccinated += amount;
+            this.vaccinated += origAmount;
         } else {
             long susceptibleHits = amount * this.susceptible / (this.susceptible + this.amountOfExposed());
             if (susceptibleHits > amount) susceptibleHits = amount;
