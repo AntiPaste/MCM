@@ -211,6 +211,9 @@ public class Graph<T> {
             this.edges.add((Edge<T>) heap.poll());
         }
 
+        this.initMap();
+        this.generateNodesList();
+        
     }
 
     public List<T> getNodes() {

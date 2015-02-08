@@ -30,6 +30,10 @@ public class Region implements Modelable {
         this.init();
     }
     
+    public Graph<City> getGraph(){
+        return this.cities;
+    }
+    
     private double toRadians(double degrees) {
         return (degrees * Math.PI / 180.0);
     }
@@ -81,8 +85,8 @@ public class Region implements Modelable {
     
     private CityParameters generateCityParameters(){
         CityParameters params = new CityParameters();
-        params.contaminationRate = this.regionParams.mobility*this.regionParams.hygiene;
-        params.mortalityRate = GlobalParameters.GLOBAL_MORTALITY_RATE * this.regionParams.hygiene;
+        params.contaminationRate = GlobalParameters.CONTAMINATION_RATE;
+        params.mortalityRate = GlobalParameters.MORTALITY_RATE * this.regionParams.hygiene;
         return params;
     }
 
@@ -93,7 +97,7 @@ public class Region implements Modelable {
             }
         }
     }
-
+    
     public List<City> getCities() {
         return this.cities.getNodes();
     }

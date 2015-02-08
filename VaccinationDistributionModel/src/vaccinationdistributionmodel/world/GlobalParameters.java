@@ -21,7 +21,7 @@ public class GlobalParameters {
         0.20, 0.50, 0.70, 0.80, 1,
     };
     
-    public static final double GLOBAL_MORTALITY_RATE = 0.4;
+    public static final double MORTALITY_RATE = 0.4;
     public static final double CONTAMINATION_RATE = 0.27;
           
 }
