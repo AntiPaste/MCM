@@ -19,25 +19,30 @@ public class GlobalParameters {
     
     public static final int ADVANCED_DAYS = 27;
 
-    public static final double MORTALITY_RATE = 0.01;
+    public static final double MORTALITY_RATE = 0.4;
     public static final double CONTAMINATION_RATE = 0.27;
 
     public static double[] getRecoveryProbabilities(double deathRate) {
         double[] data = {1, 2, 4, 7, 11, 14, 17, 19, 20, 21, 20, 19, 18, 16, 14, 13, 11, 10, 9, 7, 5, 4, 3, 2, 2, 1, 1};
         double[] data2 = {1, 25, 23, 15, 12, 10, 8, 6, 5, 4, 3, 2, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        double[] muData = new double[data.length];
         
         int days = data.length;
         double mu = (271.0 * deathRate) / (117.0 * (1.0 - deathRate));
+        
+        for (int i = 0; i < data.length; i++) {
+            muData[i] = data2[i] * mu;
+        }
         
         double[] sums = new double[days];
         double[] sums2 = new double[days];
         double[] recovery = new double[days];
         
         sums[0] = data[0];
-        sums2[0] = mu * data2[0];
+        sums2[0] = muData[0];
         for (int i = 1; i < days; i++) {
             sums[i] += data[i] + sums[i - 1];
-            sums2[i] += mu * data2[i] + sums2[i - 1];
+            sums2[i] += muData[i] + sums2[i - 1];
         }
         recovery[0] = data[0] / (sums[days - 1] + sums2[days - 1]);
         for (int i = 1; i < days; i++) {
@@ -50,9 +55,14 @@ public class GlobalParameters {
     public static double[] getMortalityProbabilities(double deathRate) {
         double[] data = {1, 2, 4, 7, 11, 14, 17, 19, 20, 21, 20, 19, 18, 16, 14, 13, 11, 10, 9, 7, 5, 4, 3, 2, 2, 1, 1};
         double[] data2 = {1, 25, 23, 15, 12, 10, 8, 6, 5, 4, 3, 2, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        double[] muData = new double[data.length];
         
         int days = data.length;
         double mu = (271.0 * deathRate) / (117.0 * (1.0 - deathRate));
+        
+        for (int i = 0; i < data.length; i++) {
+            muData[i] = data2[i] * mu;
+        }
         
         double[] sums = new double[days];
         double[] sums2 = new double[days];
@@ -62,12 +72,12 @@ public class GlobalParameters {
         sums2[0] = mu * data2[0];
         for (int i = 1; i < days; i++) {
             sums[i] += data[i] + sums[i - 1];
-            sums2[i] += mu * data2[i] + sums2[i - 1];
+            sums2[i] += muData[i] + sums2[i - 1];
         }
         
-        mortality[0] = mu * data2[0] / (sums[days - 1] + sums2[days - 1]);
+        mortality[0] = muData[0] / (sums[days - 1] + sums2[days - 1]);
         for (int i = 1; i < days; i++) {
-            mortality[i] = data2[i] / (sums[days - 1] + sums2[days - 1] - sums[i - 1] - sums2[i - 1]);
+            mortality[i] = muData[i] / (sums[days - 1] + sums2[days - 1] - sums[i - 1] - sums2[i - 1]);
         }
         
         return mortality;

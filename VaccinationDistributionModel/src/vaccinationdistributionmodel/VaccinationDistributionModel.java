@@ -28,19 +28,19 @@ public class VaccinationDistributionModel {
      */
     public static void main(String[] args) {
         //chartRegionHubs(7);
-        System.out.println("0.01 / 0.99");
+        System.out.println(GlobalParameters.MORTALITY_RATE + " / 0.99");
         System.out.println();
         
         System.out.println("Mortality: ");
         for (int i = 0; i < GlobalParameters.ADVANCED_DAYS- 10; i++) {
-            System.out.println(String.format("%.3f / %.3f", GlobalParameters.getMortalityProbabilities(0.01)[i], GlobalParameters.getMortalityProbabilities(0.99)[i]));
+            System.out.println(String.format("%.3f / %.3f", GlobalParameters.getMortalityProbabilities(GlobalParameters.MORTALITY_RATE)[i], GlobalParameters.getMortalityProbabilities(0.99)[i]));
         }
         
         System.out.println();
         System.out.println("Recovery: ");
         
         for (int i = 0; i < GlobalParameters.ADVANCED_DAYS - 10; i++) {
-            System.out.println(String.format("%.3f / %.3f", GlobalParameters.getRecoveryProbabilities(0.01)[i], GlobalParameters.getRecoveryProbabilities(0.99)[i]));
+            System.out.println(String.format("%.3f / %.3f", GlobalParameters.getRecoveryProbabilities(GlobalParameters.MORTALITY_RATE)[i], GlobalParameters.getRecoveryProbabilities(0.99)[i]));
         }
         
         System.out.println();
@@ -100,6 +100,10 @@ public class VaccinationDistributionModel {
         chart.draw();
         chart.pack();
         chart.setVisible(true);
+    }
+    
+    public static void chartTwoCities() {
+        
     }
     
     public static void chartSomeCities(int citiesToChart){
