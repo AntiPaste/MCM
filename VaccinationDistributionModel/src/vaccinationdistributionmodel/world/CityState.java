@@ -99,7 +99,7 @@ public class CityState {
             
             long result = (long) (people * probability);
             this.infectedWaiting[i] -= result;
-            this.advancedWaiting[i] += result;
+            this.advancedWaiting[0] += result;
             
             this.advanced += result;
             this.infected -= result;
