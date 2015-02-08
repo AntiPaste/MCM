@@ -7,6 +7,7 @@
 package vaccinationdistributionmodel.vaccination;
 
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.PriorityQueue;
 import vaccinationdistributionmodel.Modelable;
 import vaccinationdistributionmodel.world.City;
@@ -22,6 +23,7 @@ public class VaccinationFactory implements Modelable{
     private int batchProductionTime;
     private int batchSize;
     private int vaccinesAvailable;
+    private double targetRatio = 1;
     private PriorityQueue<City> cities;
     
     public VaccinationFactory(City home, int openingDay, int productionTime, int size){
@@ -45,12 +47,24 @@ public class VaccinationFactory implements Modelable{
             vaccinesAvailable += this.batchSize;
         }
         
+        processQueue(currentDay);
+        
     }
     
-    public int getVaccines(int request){
-        request = Math.min(request, this.vaccinesAvailable);
-        this.vaccinesAvailable -= request;
-        return request;
+    private void processQueue(int day){
+        Iterator<City> it = this.cities.iterator();
+        while (it.hasNext()){
+            if (vaccinesAvailable==0) break;
+            City c = it.next();
+            if (c.scheduleInAction()){
+                continue; // don't 
+            }
+            int vaccines = this.vaccinesAvailable;
+            VaccinationSchedule plan = new VaccinationSchedule(c,day,vaccines,targetRatio);
+            this.vaccinesAvailable -= vaccines;
+            c.setSchedule(plan);
+            it.remove();
+        }
     }
 
     public City getHomeCity() {

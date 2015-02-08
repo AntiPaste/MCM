@@ -251,6 +251,10 @@ public class Graph<T> {
         return this.edges;
     }
 
+    public static double distance(City c1, City c2){
+        return distance(c1.latitude, c1.longitude, c2.latitude, c2.longitude);
+    }
+    
     public static double distance(double latitude1, double longitude1, double latitude2, double longitude2) {
         double theta = longitude1 - longitude2;
         double distance = Math.sin(toRadians(latitude1)) * Math.sin(toRadians(latitude2)) + Math.cos(toRadians(latitude1)) * Math.cos(toRadians(latitude2)) * Math.cos(toRadians(theta));
