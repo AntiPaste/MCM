@@ -101,7 +101,7 @@ public class City implements Modelable {
         builder.append(String.format("Name: %s\n", this.name));
         builder.append(String.format("Population: %d\n", this.values.population));
         builder.append(String.format("Susceptible: %d (%.2f%%)\n", this.values.susceptible, this.values.susceptible / fPopulation * 100));
-        builder.append(String.format("Exposed: %d (%.2f%%)\n", this.values.exposed, this.values.exposed / fPopulation * 100));
+        builder.append(String.format("Exposed: %d (%.2f%%)\n", this.values.amountOfExposed(), this.values.amountOfExposed() / fPopulation * 100));
         builder.append(String.format("Infected: %d (%.2f%%)\n", this.values.infected, this.values.infected / fPopulation * 100));
         builder.append(String.format("Advanced: %d (%.2f%%)\n", this.values.advanced, this.values.advanced / fPopulation * 100));
         builder.append(String.format("Recovered: %d (%.2f%%)\n", this.values.recovered, this.values.recovered / fPopulation * 100));

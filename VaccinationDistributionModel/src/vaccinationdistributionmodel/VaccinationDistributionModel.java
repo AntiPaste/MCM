@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import vaccinationdistributionmodel.display.AreaChart;
 import vaccinationdistributionmodel.display.Chart;
+import vaccinationdistributionmodel.vaccination.VaccinationSchedule;
 import vaccinationdistributionmodel.world.City;
 import vaccinationdistributionmodel.world.CityParameters;
 import vaccinationdistributionmodel.world.Edge;
@@ -90,7 +91,6 @@ public class VaccinationDistributionModel {
 
         for (int i = 0; i < 100; i++) {
             city.update(i);
-
             try {
                 //Thread.sleep(3000);
             } catch (Exception e) {
@@ -99,7 +99,36 @@ public class VaccinationDistributionModel {
 
         System.out.println(city);
 
-        AreaChart chart = new AreaChart(city.getHistory());
+        Chart chart = new Chart(city.getHistory());
+        chart.draw();
+        chart.pack();
+        chart.setVisible(true);
+    }
+    
+    public static void chartOneCityWithVaccination(){
+        
+        CityParameters parameters = new CityParameters();
+        parameters.contaminationRate = GlobalParameters.CONTAMINATION_RATE;
+        parameters.mortalityRate = GlobalParameters.MORTALITY_RATE;
+        
+        City city = new City(100000, 90000, 10000, 0, 0, 0, 0);
+        city.setParameters(parameters);
+        city.name = "Surakarta";
+        
+        VaccinationSchedule plan = new VaccinationSchedule(city, 10, 100000, 0.5); 
+        
+        for (int i = 0; i < 100; i++) {
+            city.update(i);
+            plan.update(i);
+            try {
+                //Thread.sleep(3000);
+            } catch (Exception e) {
+            }
+        }
+
+        System.out.println(city);
+
+        Chart chart = new Chart(city.getHistory());
         chart.draw();
         chart.pack();
         chart.setVisible(true);

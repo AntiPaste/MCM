@@ -5,7 +5,6 @@ public class CityState {
     public long population;
 
     public long susceptible;
-    public long exposed = 0;
     public long infected = 0;
     public long advanced = 0;
     public long recovered = 0;
@@ -25,7 +24,6 @@ public class CityState {
             int infected, int advanced, int recovered, int dead) {
         this.population = population;
         this.susceptible = susceptible;
-        this.exposed = exposed;
         this.infected = infected;
         this.advanced = advanced;
         this.recovered = recovered;
@@ -35,30 +33,61 @@ public class CityState {
         this.infectedWaiting[0] = infected;
         this.advancedWaiting[0] = advanced;
     }
+    
+    public long amountOfExposed(){
+        long s = 0;
+        for (long i: this.exposedWaiting){
+            s+= 0;
+        }
+        return s;
+    }
+    
+    public void vaccinateExposed(long amount){
+        long shots = amount;
+        for (int i = 0; i < this.exposedWaiting.length; i++){
+            long heal = amount * ((long) (this.exposedWaiting[i]/((double) amountOfExposed())));
+            if (heal > this.exposedWaiting[i]) heal = this.exposedWaiting[i];
+            if (heal > shots) heal = shots;
+            shots -= heal;
+            this.exposedWaiting[i] -= heal;
+        }
+        this.vaccinated += amount;
+    }
 
     public void vaccinate(long amount, boolean targetInfected) {
+        if (this.susceptible == 0 && this.amountOfExposed() ==0) return; 
+        
         if (targetInfected) {
             if (amount > this.infected) {
                 amount = this.infected;
             }
-
             this.infected -= amount;
+            for (int i=this.infectedWaiting.length-1; i>=0; i--){
+                if (this.infectedWaiting[i] < amount){
+                    amount -= this.infectedWaiting[i];
+                    this.infectedWaiting[i] = 0;
+                } else {
+                    this.infectedWaiting[i] -= amount;
+                    break;
+                }
+            }
             this.vaccinated += amount;
         } else {
-            long susceptibleHits = amount * this.susceptible / (this.susceptible + this.exposed);
+            long susceptibleHits = amount * this.susceptible / (this.susceptible + this.amountOfExposed());
+            if (susceptibleHits > amount) susceptibleHits = amount;
+            
             long exposedHits = amount - susceptibleHits;
-
             if (susceptibleHits > this.susceptible) {
                 susceptibleHits = this.susceptible;
             }
-
-            if (exposedHits > this.exposed) {
-                exposedHits = this.exposed;
+            if (exposedHits > this.amountOfExposed()) {
+                exposedHits = this.amountOfExposed();
             }
 
             this.susceptible -= susceptibleHits;
-            this.exposed -= exposedHits;
-            this.vaccinated += susceptibleHits + exposedHits;
+            this.vaccinated += susceptibleHits;
+            
+            vaccinateExposed(exposedHits);
         }
     }
 
@@ -67,7 +96,7 @@ public class CityState {
         // = 721
         
         /*double dSusceptible = (double) this.susceptible;
-        double base = (double) (this.susceptible + this.exposed);
+        double base = (double) (this.susceptible + this.amountOfExposed());
         double ratio = (dSusceptible / base);
         amount = (long) (amount * ratio);*/
         
@@ -77,7 +106,6 @@ public class CityState {
         
         this.exposedWaiting[0] += amount;
         this.susceptible -= amount;
-        this.exposed += amount;
     }
     
     public void remove(double mortalityRate) {
@@ -121,7 +149,6 @@ public class CityState {
             this.infectedWaiting[0] += result;
             
             this.infected += result;
-            this.exposed -= result;
         }
     }
     

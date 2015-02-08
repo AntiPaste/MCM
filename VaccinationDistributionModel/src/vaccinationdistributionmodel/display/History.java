@@ -21,11 +21,12 @@ public class History {
     public void addState(CityState state) {
         this.addData("population", state.population);
         this.addData("susceptible", state.susceptible);
-        this.addData("exposed", state.exposed);
+        this.addData("exposed", state.amountOfExposed());
         this.addData("infected", state.infected);
         this.addData("advanced", state.advanced);
         this.addData("recovered", state.recovered);
         this.addData("dead", state.dead);
+        this.addData("vaccinated", state.vaccinated);
     }
 
     public void addData(String key, long value) {
