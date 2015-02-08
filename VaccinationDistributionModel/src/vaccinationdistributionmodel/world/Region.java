@@ -30,11 +30,11 @@ public class Region implements Modelable {
         this.computeAverageLatitudeAndLongitude();
         this.init();
     }
-    
-    public Graph<City> getGraph(){
+
+    public Graph<City> getGraph() {
         return this.cities;
     }
-    
+
     private double toRadians(double degrees) {
         return (degrees * Math.PI / 180.0);
     }
@@ -42,75 +42,76 @@ public class Region implements Modelable {
     private double toDegrees(double radians) {
         return (radians * 180 / Math.PI);
     }
-    
+
     public int[] ebolaLevel() {
         List<City> cities = this.getCities();
         long totalAlive = 0;
         long totalPopulation = 0;
         double ebolaLevel = 0;
-        
+
         for (City city : cities) {
             long alive = city.getValues().amountOfExposed() + city.getValues().infected + city.getValues().advanced
                     + city.getValues().susceptible + city.getValues().recovered;
             totalAlive += alive;
             totalPopulation += city.getValues().population;
-            
+
             ebolaLevel += city.ebolaLevel() * alive;
         }
-        
-        return new int[] {
+
+        return new int[]{
             (int) (255.0 * (1.0 - (ebolaLevel / totalAlive)) * (((double) totalAlive) / totalPopulation) * (((double) totalAlive) / totalPopulation)),
             (int) (255.0 * (ebolaLevel / totalAlive) * (((double) totalAlive) / totalPopulation) * (((double) totalAlive) / totalPopulation)),
-            0,
-        };
+            0,};
     }
-    
+
     public long getPopulation() {
         long population = 0;
         for (City city : this.getCities()) {
             population += city.getValues().population;
         }
-        
+
         return population;
     }
-    
+
     public long getRecovered() {
         long recovered = 0;
         for (City city : this.getCities()) {
             recovered += city.getValues().recovered;
         }
-        
+
         return recovered;
     }
-    
+
     public long getDeaths() {
         long deaths = 0;
         for (City city : this.getCities()) {
             deaths += city.getValues().dead;
         }
-        
+
         return deaths;
     }
-    
-    private void computeAverageLatitudeAndLongitude(){
-        
+
+    private void computeAverageLatitudeAndLongitude() {
+
         double R = 6378.1;
         double x = 0, y = 0, z = 0;
         int n = this.cities.getNodes().size();
-        
-        for (City city : this.cities.getNodes()){
+
+        for (City city : this.cities.getNodes()) {
             double phii = toRadians(city.latitude);
             double lambda = toRadians(city.longitude);
-            x += R*Math.cos(phii)*Math.cos(lambda);
-            y += R*Math.sin(phii)*Math.cos(lambda);
-            z += R*Math.sin(lambda);
+            x += R * Math.cos(phii) * Math.cos(lambda);
+            y += R * Math.sin(phii) * Math.cos(lambda);
+            z += R * Math.sin(lambda);
         }
-        
-        x/=n; y/=n; z/=n;
-        
-        latitude = toDegrees(Math.atan2(y,x));
-        longitude = toDegrees(Math.atan2(z, Math.sqrt(x*x + y*y)));
-        
+
+        x /= n;
+        y /= n;
+        z /= n;
+
+        latitude = toDegrees(Math.atan2(y, x));
+        longitude = toDegrees(Math.atan2(z, Math.sqrt(x * x + y * y)));
+
         // the arithmetic average will not cause problems
 //        double latSum = 0;
 //        double lonSum = 0;
@@ -125,14 +126,14 @@ public class Region implements Modelable {
     public void setBigCities(List<City> bigCities) {
         this.bigCities = bigCities;
     }
-    
+
     private void init() {
         for (City c : cities.getNodes()) {
             c.setParameters(generateCityParameters());
         }
     }
-    
-    private CityParameters generateCityParameters(){
+
+    private CityParameters generateCityParameters() {
         CityParameters params = new CityParameters();
         params.contaminationRate = GlobalParameters.CONTAMINATION_RATE;
         params.mortalityRate = GlobalParameters.MORTALITY_RATE * this.regionParams.hygiene;
@@ -142,11 +143,17 @@ public class Region implements Modelable {
     public void interact(Region nearRegion, double weight) {
         for (City myBig : this.bigCities) {
             for (City otherBig : nearRegion.bigCities) {
+//                System.out.println(myBig.name);
+//                System.out.println("to interact with");
+//                System.out.println(otherBig.name);
+//                System.out.println("with a weight: " + weight);
+//                System.out.println("----------end interaction--------");
+
                 myBig.interact(otherBig, weight);
             }
         }
     }
-    
+
     public List<City> getCities() {
         return this.cities.getNodes();
     }
@@ -180,7 +187,7 @@ public class Region implements Modelable {
             edge.one.interact(edge.other, edge.weight);
         }
 
-		// region-region interaction
+        // region-region interaction
 		/*for (Region nearRegion : this.neighbouringRegions) {
          this.interact(nearRegion);
          }*/

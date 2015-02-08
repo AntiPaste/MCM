@@ -142,17 +142,19 @@ public class Graph<T> {
             regionsByCityNumber.add(region);
         }
 
-        List<T> bigRegions = new ArrayList<>();
+        List<T> bigRegionsNow = new ArrayList<>();
 
-        for (int i = 0; i < 15; i++) {
+        int n = (int) Math.sqrt(regions.size());
+         
+        for (int i = 0; i < n; i++) {
             T take = regionsByCityNumber.last();
-            bigRegions.add(take);
+            bigRegionsNow.add(take);
             regionsByCityNumber.remove(take);
         }
 
         // the main "hub" regions are all connected to one-another
-        for (T one : bigRegions) {
-            for (T other : bigRegions) {
+        for (T one : bigRegionsNow) {
+            for (T other : bigRegionsNow) {
                 if (one == other) {
                     continue;
                 }
@@ -167,7 +169,7 @@ public class Graph<T> {
         for (T other : regionsByCityNumber) { // the not hubs will remain
             T closest = null;
             Region me = (Region) other;
-            for (T hub : bigRegions) {
+            for (T hub : bigRegionsNow) {
                 if (closest == null) {
                     closest = hub;
                     continue;
@@ -181,7 +183,7 @@ public class Graph<T> {
                 }
             }
             Region connect = (Region) closest;
-            this.edges.add(new Edge<>(other, closest, ((double) 1) / distance(
+            this.edges.add(new Edge<>(other, closest, distance(
                     me.latitude, me.longitude, connect.latitude, connect.longitude)));
         }
 
@@ -199,13 +201,13 @@ public class Graph<T> {
                     (other) -> {
                         double distance = distance(one.latitude, one.longitude, other.latitude, other.longitude);
                         if (heap.size() < newEdges){
-                            Edge<Region> edge = new Edge<>(one, other, 1/distance);
+                            Edge<Region> edge = new Edge<>(one, other, distance);
                             edge.distance = distance;
                             heap.add(edge);
                         }else{
                             if (distance < heap.peek().distance){
                                 heap.poll();
-                                Edge<Region> edge = new Edge<>(one,other, 1/distance);
+                                Edge<Region> edge = new Edge<>(one,other, distance);
                                 edge.distance = distance;
                                 heap.add(edge);
                             }
@@ -217,7 +219,7 @@ public class Graph<T> {
             this.edges.add((Edge<T>) heap.poll());
         }
         
-        this.bigRegions = (List<Region>) bigRegions;
+        this.bigRegions = (List<Region>) bigRegionsNow;
 
         this.initMap();
         this.generateNodesList();
