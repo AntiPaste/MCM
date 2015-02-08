@@ -2,6 +2,7 @@ package vaccinationdistributionmodel.world;
 
 import vaccinationdistributionmodel.display.History;
 import vaccinationdistributionmodel.Modelable;
+import vaccinationdistributionmodel.vaccination.VaccinationSchedule;
 
 public class City implements Modelable {
 
@@ -12,6 +13,7 @@ public class City implements Modelable {
     private History history;
     private CityState values;
     private CityParameters parameters;
+    private VaccinationSchedule plan = null;
 
     public City(int population) {
         this(population, population, 0, 0, 0, 0, 0);
@@ -24,6 +26,18 @@ public class City implements Modelable {
 
         this.history = new History();
         this.history.addState(this.values);
+    }
+    
+    public void setSchedule(VaccinationSchedule schedule){
+        this.plan = schedule;
+    }
+    
+    public void setScheduleFinished(){
+        this.plan = null;
+    }
+    
+    public boolean scheduleInAction(){
+        return this.plan != null;
     }
 
     public History getHistory() {
