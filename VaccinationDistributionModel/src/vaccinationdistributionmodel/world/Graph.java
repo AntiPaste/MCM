@@ -211,7 +211,6 @@ public class Graph<T> {
             this.edges.add((Edge<T>) heap.poll());
         }
 
-        // connect small regions that are close
     }
 
     public List<T> getNodes() {
