@@ -8,10 +8,7 @@ package vaccinationdistributionmodel.vaccination;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.PriorityQueue;
-import vaccinationdistributionmodel.world.City;
-import vaccinationdistributionmodel.world.Globe;
+import vaccinationdistributionmodel.Modelable;
 
 /**
  *
@@ -19,12 +16,10 @@ import vaccinationdistributionmodel.world.Globe;
  *
  * @author ilari
  */
-public class SimpleVaccinator implements VaccinationStrategy {
+public class SimpleVaccinator implements Modelable{
     
     private List<VaccinationSchedule> schedules;
     private List<VaccinationFactory> factories;
-    private Map<City, VaccinationSchedule> plansByCity;
-    private int myDay = 0;
     
     public SimpleVaccinator(List<VaccinationFactory> factories) {
         this.schedules = new ArrayList<>();
@@ -37,8 +32,4 @@ public class SimpleVaccinator implements VaccinationStrategy {
         factories.stream().forEach((m) -> {m.update(currentDay);});
     }
     
-    @Override
-    public void createVaccinationSchedules(Globe globe){
-        
-    }
 }

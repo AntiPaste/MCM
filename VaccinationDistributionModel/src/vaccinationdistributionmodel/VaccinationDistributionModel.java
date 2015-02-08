@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import vaccinationdistributionmodel.display.Chart;
 import vaccinationdistributionmodel.display.MapChart;
+import vaccinationdistributionmodel.vaccination.VaccinationFactory;
 import vaccinationdistributionmodel.vaccination.VaccinationSchedule;
 import vaccinationdistributionmodel.world.City;
 import vaccinationdistributionmodel.world.CityParameters;
@@ -30,90 +31,138 @@ public class VaccinationDistributionModel {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        //chartRegionHubs(7);
-        /*System.out.println("0.01 / 0.99");
-        System.out.println();
-        
-        System.out.println("Mortality: ");
-        for (int i = 0; i < GlobalParameters.ADVANCED_DAYS- 10; i++) {
-            System.out.println(String.format("%.3f / %.3f", GlobalParameters.getMortalityProbabilities(0.01)[i], GlobalParameters.getMortalityProbabilities(0.99)[i]));
+        regionVaccinationPalikka();
+    }
+
+    public static void regionVaccinationPalikka() {
+        List<Region> regions = new ArrayList<>();
+
+        Region hienomesta = createRegion("Hienomesta");
+        Region ebolamesta = createRegion("Ebolamesta");
+
+        regions.add(hienomesta);
+        regions.add(ebolamesta);
+
+        regions.get(1).getCities().get(0).getValues().contaminate(1000);
+
+        Globe g = new Globe(regions);
+
+        //System.out.println(g.getRegions().edges());
+        City hienolinna = hienomesta.getGraph().getBigCities().get(0);
+        City ebolalinna = ebolamesta.getGraph().getBigCities().get(0);
+
+        VaccinationFactory hienoTehdas = new VaccinationFactory(hienomesta, hienolinna, 0,0,0);
+        VaccinationFactory ebolaTehdas = new VaccinationFactory(ebolamesta, ebolalinna, 0,0,0);
+
+        for (int i = 0; i < 100; i++) {
+            g.update(i);
         }
-        
-        System.out.println();
-        System.out.println("Recovery: ");
-        
-        for (int i = 0; i < GlobalParameters.ADVANCED_DAYS - 10; i++) {
-            System.out.println(String.format("%.3f / %.3f", GlobalParameters.getRecoveryProbabilities(0.01)[i], GlobalParameters.getRecoveryProbabilities(0.99)[i]));
-        }
-        
-        System.out.println();
-        chartOneCity();*/
+
+        chartCity(hienolinna);
+        chartCity(ebolamesta.getGraph().getBigCities().get(0));
+
+        chartCity(hienomesta.getCities().get(4));
+        chartCity(ebolamesta.getCities().get(4));
+
+//        regions.stream().forEach((Region r) -> {
+//            for (City c : r.getCities()) {
+//                chartCity(c);
+//            }
+//        });
+    }
+
+    public static void chartCity(City c) {
+        Chart chart = new Chart(c.getHistory());
+        chart.setTitle(c.name);
+        chart.draw();
+        chart.pack();
+        chart.setVisible(true);
+    }
+
+    public static void globeDemo() {
         int height = 1200;
-        
+
         Globe globe = new Globe();
         globe.getRegions().getBigRegions().get(0).getCities().get(0).getValues().contaminate(500_000);
-        
+
         MapChart m = new MapChart(globe, height * 2, height);
         m.pack();
         m.setSize(height * 2, height);
         m.setVisible(true);
-        
+
         for (int i = 0;; i++) {
             globe.update(i);
             m.repaint();
-            
             try {
                 Thread.sleep(200);
-            } catch (Exception e) {}
+            } catch (Exception e) {
+            }
         }
-        
-        /*chartOneCity();
-        chartOneCityWithVaccination(0);
-        chartOneCityWithVaccination(10);
-        chartOneCityWithVaccination(20);*/
     }
-    
-    public static void sth(){
+
+    public static void sth() {
         //System.out.println("<b>Ebola</b>");
 
         /*City x = new City(100000, 90000, 0, 10000, 0, 0, 0);
         
-        CityParameters params = new CityParameters();
-        params.contaminationRate = 0.1;
-        params.mortalityRate = 0.1;
+         CityParameters params = new CityParameters();
+         params.contaminationRate = 0.1;
+         params.mortalityRate = 0.1;
         
-        x.setParameters(params);
+         x.setParameters(params);
         
-        System.out.println(x);
+         System.out.println(x);
         
-        for (int i = 0; i < 100; i++) {
-            x.update(i);
-        }
+         for (int i = 0; i < 100; i++) {
+         x.update(i);
+         }
         
-        Chart y = new Chart(x.getHistory());
-        y.setTitle(x.name);
-        y.draw();
-        y.pack();
-        y.setVisible(true);
+         Chart y = new Chart(x.getHistory());
+         y.setTitle(x.name);
+         y.draw();
+         y.pack();
+         y.setVisible(true);
         
-        try {
-            Thread.sleep(1000000);
-        } catch (Exception e) {}*/
+         try {
+         Thread.sleep(1000000);
+         } catch (Exception e) {}*/
+        //chartRegionHubs(7);
+        /*System.out.println("0.01 / 0.99");
+         System.out.println();
+        
+         System.out.println("Mortality: ");
+         for (int i = 0; i < GlobalParameters.ADVANCED_DAYS- 10; i++) {
+         System.out.println(String.format("%.3f / %.3f", GlobalParameters.getMortalityProbabilities(0.01)[i], GlobalParameters.getMortalityProbabilities(0.99)[i]));
+         }
+        
+         System.out.println();
+         System.out.println("Recovery: ");
+        
+         for (int i = 0; i < GlobalParameters.ADVANCED_DAYS - 10; i++) {
+         System.out.println(String.format("%.3f / %.3f", GlobalParameters.getRecoveryProbabilities(0.01)[i], GlobalParameters.getRecoveryProbabilities(0.99)[i]));
+         }
+        
+         System.out.println();
+         chartOneCity();*/
+        /*chartOneCity();
+         chartOneCityWithVaccination(0);
+         chartOneCityWithVaccination(10);
+         chartOneCityWithVaccination(20);*/
     }
-    
-    public static void chartOneCity(){
-        
+
+    public static void chartOneCity() {
+
         CityParameters parameters = new CityParameters();
         parameters.contaminationRate = GlobalParameters.CONTAMINATION_RATE;
         parameters.mortalityRate = GlobalParameters.MORTALITY_RATE;
-        
+
         int infected = 100;
         int population = 100_000;
-        
-        City city = new City(population, population-infected, infected, 0, 0,0,0);
+
+        City city = new City(population, population - infected, infected, 0, 0, 0, 0);
         city.setParameters(parameters);
         city.name = "Surakarta";
-        
+
         for (int i = 0; i < 120; i++) {
             city.update(i);
             try {
@@ -130,22 +179,22 @@ public class VaccinationDistributionModel {
         chart.pack();
         chart.setVisible(true);
     }
-    
-    public static void chartOneCityWithVaccination(int delay, double ratio){
-        
+
+    public static void chartOneCityWithVaccination(int delay, double ratio) {
+
         CityParameters parameters = new CityParameters();
         parameters.contaminationRate = GlobalParameters.CONTAMINATION_RATE;
         parameters.mortalityRate = GlobalParameters.MORTALITY_RATE;
-        
+
         int infected = 100;
         int population = 100_000;
-        
-        City city = new City(population, population-infected, infected, 0, 0,0,0);
+
+        City city = new City(population, population - infected, infected, 0, 0, 0, 0);
         city.setParameters(parameters);
         city.name = "Surakarta";
-        
-        VaccinationSchedule plan = new VaccinationSchedule(city, delay, 100000, ratio); 
-        
+
+        VaccinationSchedule plan = new VaccinationSchedule(city, delay, 100000, ratio);
+
         for (int i = 0; i < 120; i++) {
             city.update(i);
             plan.update(i);
@@ -158,13 +207,13 @@ public class VaccinationDistributionModel {
         System.out.println(city);
 
         Chart chart = new Chart(city.getHistory());
-        chart.setTitle("vaccination in "+delay+" days "+ratio);
+        chart.setTitle("vaccination in " + delay + " days " + ratio);
         chart.draw();
         chart.pack();
         chart.setVisible(true);
     }
-    
-    public static void chartSomeCities(int citiesToChart){
+
+    public static void chartSomeCities(int citiesToChart) {
         Globe globe = new Globe();
 
         int i = 0;
@@ -192,7 +241,7 @@ public class VaccinationDistributionModel {
 
         selected.stream().forEach((chartable) -> {
             System.out.println(chartable);
-            
+
             Chart chart = new Chart(chartable.getHistory());
             chart.setTitle(chartable.name);
             chart.draw();
@@ -200,78 +249,81 @@ public class VaccinationDistributionModel {
             chart.setVisible(true);
         });
     }
-    
-    public static void chartRegionHubs(int hubsToChart){
-        
+
+    public static void chartRegionHubs(int hubsToChart) {
+
         Globe globe = new Globe();
-        
+
         List<Region> regions = new ArrayList<>();
-        
-        for (int i=0; i<hubsToChart; i++){
-            if (regions.isEmpty()){
+
+        for (int i = 0; i < hubsToChart; i++) {
+            if (regions.isEmpty()) {
                 regions.add(globe.getRegions().getNodes().get(3));
             }
-            Region last = regions.get(regions.size()-1);
-            for (Edge<Region> e: globe.getRegions().getEdges(last)){
+            Region last = regions.get(regions.size() - 1);
+            for (Edge<Region> e : globe.getRegions().getEdges(last)) {
                 Region next = e.one;
-                if (e.one==last) next = e.other;
-                if (regions.contains(next)){
+                if (e.one == last) {
+                    next = e.other;
+                }
+                if (regions.contains(next)) {
                     continue;
                 }
                 regions.add(next);
             }
         }
-        
-        if (regions.size() < hubsToChart) System.out.println("Caught in a trap :(");
-        
+
+        if (regions.size() < hubsToChart) {
+            System.out.println("Caught in a trap :(");
+        }
+
         List<City> hubs = new ArrayList<>(regions.stream().map((Region r) -> {
             return r.getGraph().getBigCities().get(0);
         }).collect(Collectors.toList()));
-        
-        for (City city : hubs){
-            
+
+        for (City city : hubs) {
+
         }
     }
 
-    public static void palikat(){
+    public static void palikat() {
         List<Region> regions = new ArrayList<>();
-        
+
         regions.add(createRegion("Hienomesta"));
         //regions.add(createRegion("Ebolamesta"));
-        
+
         regions.get(0).getCities().get(0).getValues().contaminate(10_000);
-        
+
         for (int i = 0; i < 100; i++) {
-            for (Region r: regions){
+            for (Region r : regions) {
                 r.update(i);
             }
         }
-        
-        
-        
+
         regions.stream().forEach((Region r) -> {
-            for (City c: r.getCities()){
-            Chart chart = new Chart(c.getHistory());
-            chart.setTitle(c.name);
-            chart.draw();
-            chart.pack();
-            chart.setVisible(true);
+            for (City c : r.getCities()) {
+                Chart chart = new Chart(c.getHistory());
+                chart.setTitle(c.name);
+                chart.draw();
+                chart.pack();
+                chart.setVisible(true);
             }
         });
     }
-    
-    public static Region createRegion(String name){
+
+    public static Region createRegion(String name) {
         Graph<City> cities = new Graph<>();
         RegionParameters params = new RegionParameters();
         List<City> list = new ArrayList<>();
-        String[] names = {"Ankkalinna", "Helsinki", "Ouagadougou"};
-        for (int i=0; i<3; i++){
+
+        String[] names = {"Ankkalinna", "Cloud city", "Helsinki", "Ouagadougou", "Smallville"};
+        for (int i = 0; i < 5; i++) {
             City c = new City(100000);
-            c.name = name + "-" +names[i];
-            list.add(c); 
+            c.name = name + "-" + names[i];
+            list.add(c);
         }
         cities.makeCityEdges(list);
-        
+
         return new Region(params, cities);
-    } 
+    }
 }

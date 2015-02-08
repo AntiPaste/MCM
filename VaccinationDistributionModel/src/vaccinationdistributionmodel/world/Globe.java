@@ -64,6 +64,16 @@ public class Globe implements Modelable {
         graph.makeRegionEdges(regions);
         this.regionGraph = graph;
     }
+    
+    public Globe(List<Region> regions){
+        for (Region r : regions){
+            r.setBigCities(r.getCities().subList(0, 2));
+        }
+
+        Graph<Region> graph = new Graph();
+        graph.makeRegionEdges(regions);
+        this.regionGraph = graph;
+    }
 
 
 
