@@ -66,10 +66,10 @@ public class CityState {
         // System.out.println(amount * (int) ((double) this.susceptible) / (this.susceptible + this.exposed));
         // = 721
         
-        double dSusceptible = (double) this.susceptible;
+        /*double dSusceptible = (double) this.susceptible;
         double base = (double) (this.susceptible + this.exposed);
         double ratio = (dSusceptible / base);
-        amount = (long) (amount * ratio);
+        amount = (long) (amount * ratio);*/
         
         if (amount > this.susceptible) {
             amount = this.susceptible;

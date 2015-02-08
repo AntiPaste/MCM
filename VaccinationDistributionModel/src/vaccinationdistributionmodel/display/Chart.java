@@ -40,6 +40,7 @@ public class Chart extends JFrame {
                 series.add(i, values.get(i - 1));
             }
 
+            this.renderer.setSeriesShapesVisible(id, false);
             this.renderer.setSeriesStroke(id++, new BasicStroke(1.5f));
             this.dataset.addSeries(series);
         }

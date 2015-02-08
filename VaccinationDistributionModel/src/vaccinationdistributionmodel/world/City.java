@@ -45,12 +45,24 @@ public class City implements Modelable {
     }
 
     public void interact(City other, double weight) {
+        //long contaminations = (long) (other.values.getContaminating() * weight);
+        //this.values.contaminate(contaminations);
+        
         // infect this city
-        int contaminations = (int) (other.values.getContaminating()*weight);
+        long contaminations = (long) (((this.values.susceptible * other.values.getContaminating() * this.parameters.contaminationRate)
+                / this.values.population) * (1.0 / (GlobalParameters.INTERCITY_CONSTANT + (0.0001 * weight * GlobalParameters.INTERCITY_WEIGHT_CONSTANT))));
         this.values.contaminate(contaminations);
         
+        /*int peopleToContaminate =
+        (int) ((this.values.susceptible * this.values.getContaminating() * this.parameters.contaminationRate)
+                / this.values.population);*/
+        
+        //contaminations = (long) (this.values.getContaminating() * weight);
+        //other.values.contaminate(contaminations);
+        
         // infect the other city
-        contaminations = (int) (this.values.getContaminating()*weight);
+        contaminations = (long) (((other.values.susceptible * this.values.getContaminating() * other.parameters.contaminationRate)
+                / other.values.population) * (1.0 / (GlobalParameters.INTERCITY_CONSTANT + (0.0001 * weight * GlobalParameters.INTERCITY_WEIGHT_CONSTANT))));
         other.values.contaminate(contaminations);
     }
 

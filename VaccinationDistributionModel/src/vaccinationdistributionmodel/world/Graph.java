@@ -81,7 +81,7 @@ public class Graph<T> {
                 }
 
                 Double distance = this.distance(city.latitude, city.longitude, other.latitude, other.longitude);
-                Edge<City> pair = new Edge(city, other, 1 / distance);
+                Edge<City> pair = new Edge(city, other, distance);
                 distances.put(distance.toString(), pair);
             }
 
@@ -105,7 +105,7 @@ public class Graph<T> {
                     continue;
                 }
 
-                Edge<T> edge = new Edge(bigCity, other, 1 / this.distance(bigCity.latitude, bigCity.longitude, other.latitude, other.longitude));
+                Edge<T> edge = new Edge(bigCity, other, this.distance(bigCity.latitude, bigCity.longitude, other.latitude, other.longitude));
                 this.edges.add(edge);
             }
         }
@@ -152,7 +152,7 @@ public class Graph<T> {
                 }
                 Region region = (Region) one;
                 Region otherRegion = (Region) one;
-                this.edges.add(new Edge<>(one, other, ((double) 1) / distance(
+                this.edges.add(new Edge<>(one, other, distance(
                         region.latitude, region.longitude, otherRegion.latitude, otherRegion.longitude)));
             }
         }
@@ -266,7 +266,7 @@ public class Graph<T> {
     }
 
     private double toDegrees(double radians) {
-        return (radians * 180 / Math.PI);
+        return (radians * 180.0 / Math.PI);
     }
 
     @Override

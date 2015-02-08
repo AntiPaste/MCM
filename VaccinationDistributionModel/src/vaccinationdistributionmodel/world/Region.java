@@ -91,11 +91,11 @@ public class Region implements Modelable {
     }
 
     public void interact(Region nearRegion, double weight) {
-        for (City myBig : this.bigCities) {
+        /*for (City myBig : this.bigCities) {
             for (City otherBig : nearRegion.bigCities) {
                 myBig.interact(otherBig, weight);
             }
-        }
+        }*/
     }
     
     public List<City> getCities() {
