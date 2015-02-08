@@ -6,7 +6,7 @@ public class GlobalParameters {
         0.252, 0.291, 0.283, 0.297, 0.349,
         0.338, 0.376, 0.377, 0.444, 0.304,
         0.333, 0.375, 0.500, 0.600, 0.750,
-        1,
+        1.000,
     };
     
     public static final double[] INFECTED_PROBABILITIES = new double[] {
@@ -23,5 +23,10 @@ public class GlobalParameters {
     
     public static final double MORTALITY_RATE = 0.4;
     public static final double CONTAMINATION_RATE = 0.27;
-          
+    
+    public static double[] getAdvancedProbabilities() {
+        int days = 0;
+        double[] probabilities = new double[days];
+        return probabilities;
+    }
 }

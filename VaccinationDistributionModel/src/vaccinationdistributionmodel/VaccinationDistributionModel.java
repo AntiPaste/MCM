@@ -26,7 +26,8 @@ public class VaccinationDistributionModel {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        chartRegionHubs(7);
+        //chartRegionHubs(7);
+        chartSomeCities(4);
     }
     
     public static void sth(){
@@ -98,11 +99,10 @@ public class VaccinationDistributionModel {
 
         City city = region.getCities().get(0);
         city.getValues().contaminate(500_000);
-        int toChart = 4;
-        while (toChart > 0) {
+        while (citiesToChart > 0) {
             selected.add(city);
             city = region.nearCities(city).get(3);
-            toChart--;
+            citiesToChart--;
         }
 
         for (int j = 0; j < 100; j++) {

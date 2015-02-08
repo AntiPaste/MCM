@@ -73,11 +73,7 @@ public class City implements Modelable {
 
         // susceptible -> exposed
         int peopleToContaminate = (int) ((this.values.susceptible * this.values.getContaminating() * this.parameters.contaminationRate)
-                / (this.values.susceptible + this.values.getContaminating()));
-        
-        if (this.name.equals("Rosario"))
-            System.out.println(peopleToContaminate);
-        
+                / this.values.population);
         this.values.contaminate(peopleToContaminate);
         
         //this.values.printWaiting();
