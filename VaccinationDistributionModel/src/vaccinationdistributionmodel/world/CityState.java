@@ -35,30 +35,50 @@ public class CityState {
         this.infectedWaiting[0] = infected;
         this.advancedWaiting[0] = advanced;
     }
+    
+    public void vaccinateExposed(long amount){
+        long shots = amount;
+        for (int i = 0; i < this.exposedWaiting.length; i++){
+            long heal = amount * ((long) (this.exposedWaiting[i]/((double)exposed)));
+            if (heal > this.exposedWaiting[i]) heal = this.exposedWaiting[i];
+            if (heal > shots) heal = shots;
+            shots -= heal;
+            this.exposedWaiting[i] -= heal;
+        }
+        if (shots != 0) System.out.println("WASTING VACCINES!"); 
+        this.exposed -= amount;
+        this.vaccinated += amount;
+    }
 
     public void vaccinate(long amount, boolean targetInfected) {
         if (targetInfected) {
             if (amount > this.infected) {
                 amount = this.infected;
             }
-
             this.infected -= amount;
+            for (int i=this.infectedWaiting.length-1; i>=0; i--){
+                if (this.infectedWaiting[i] < amount){
+                    amount -= this.infectedWaiting[i];
+                    this.infectedWaiting[i] = 0;
+                } else {
+                    this.infectedWaiting[i] -= amount;
+                    break;
+                }
+            }
             this.vaccinated += amount;
         } else {
             long susceptibleHits = amount * this.susceptible / (this.susceptible + this.exposed);
             long exposedHits = amount - susceptibleHits;
-
             if (susceptibleHits > this.susceptible) {
                 susceptibleHits = this.susceptible;
             }
-
             if (exposedHits > this.exposed) {
                 exposedHits = this.exposed;
             }
-
             this.susceptible -= susceptibleHits;
-            this.exposed -= exposedHits;
-            this.vaccinated += susceptibleHits + exposedHits;
+            this.vaccinated += susceptibleHits;
+            
+            vaccinateExposed(exposedHits);
         }
     }
 

@@ -6,65 +6,32 @@
 
 package vaccinationdistributionmodel.vaccination;
 
+import java.util.ArrayList;
 import java.util.List;
-import vaccinationdistributionmodel.world.City;
-import vaccinationdistributionmodel.world.CityState;
 import vaccinationdistributionmodel.world.Globe;
-import vaccinationdistributionmodel.world.Region;
 
 /**
  *
- * A very basic plan to combat ebola
+ * A very basic plan to combat Ebola
  *
  * @author ilari
  */
 public class SimpleVaccinator implements VaccinationStrategy {
     
-    private Constraints constraints;
     private List<VaccinationSchedule> schedules;
     private int myDay = 0;
     
     public SimpleVaccinator() {
-        this.constraints = new Constraints(100, 1000);
-    }
-    
-    private void issueNewOrders(VaccinationSchedule plan){
-        CityState progress = plan.getState();
-        if (progress.susceptible <= 0){
-            return; // stop vaccination
-        }
-        //VaccineOrder newOrder = new VaccineOrder();
+        this.schedules = new ArrayList<>();
     }
     
     @Override
-    public void update(int day){
-        this.schedules.stream().forEach((plan) -> {
-            issueNewOrders(plan);
-            plan.update(myDay);
-        });
-        myDay++;
+    public void update(int currentDay){
+        
     }
     
     @Override
-    public void createVaccinationSchedules(Globe globe) {
-        globe.getRegions().getNodes().stream().forEach((region) -> {
-            createVaccinationSchedules(region);
-        });
-    }
-    
-    private void createVaccinationSchedules(Region region) {
-        region.getCities().stream().forEach((city) -> {
-            createVaccinationSchedules(city);
-        });
-    }
-    
-    private void createVaccinationSchedules(City city) {
-        VaccinationSchedule plan = new VaccinationSchedule(city);
+    public void createVaccinationSchedules(Globe globe){
         
-        //issue orders
-        VaccineOrder order = new VaccineOrder(100, 1000, 0);
-        
-        plan.addVaccineOrder(order);
-    }    
-    
+    }
 }

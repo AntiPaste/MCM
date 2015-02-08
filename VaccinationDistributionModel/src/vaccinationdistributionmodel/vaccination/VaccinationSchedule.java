@@ -8,34 +8,32 @@ import vaccinationdistributionmodel.world.CityState;
 
 public class VaccinationSchedule implements Modelable {
 
-    private SortedSet<VaccineOrder> orders;
     private City city;
+    private int vaccinations;
+    private double targetingRatio;
 
-    public VaccinationSchedule(City city) {
-        this.orders = new TreeSet();
+    public VaccinationSchedule(City city, int startingDay, int vaccinations, double targetingRatio) {
+        this.vaccinations = vaccinations;
+        this.targetingRatio = targetingRatio;
         this.city = city;
+        int activationDay = startingDay;
+
     }
-    
-    public CityState getState(){
+
+    public CityState getState() {
         return this.city.getValues();
-    }
-
-    public SortedSet<VaccineOrder> getOrders() {
-        return this.orders;
-    }
-
-    public void addVaccineOrder(VaccineOrder order) {
-        this.orders.add(order);
     }
 
     @Override
     public void update(int currentDay) {
-        for (VaccineOrder order : this.orders) {
-            if (order.days > currentDay) {
-                break;
-            }
-            this.city.vaccinate(order.vaccinesToInfected, true);
-            this.city.vaccinate(order.vaccinesToUninfected, false);
+        int give = Constraints.maximumDailyVaccination;
+        if (give > vaccinations) {
+            give = vaccinations;
         }
+        int inf = (int) (give * this.targetingRatio);
+        int uninf = give - inf;
+        
+        this.city.vaccinate(inf, true);
+        this.city.vaccinate(uninf, false);
     }
 }
