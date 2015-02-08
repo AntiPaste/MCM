@@ -70,11 +70,42 @@ public class Globe implements Modelable {
     public Graph<Region> getRegions() {
         return this.regionGraph;
     }
+    
+    public long getPopulation() {
+        long population = 0;
+        for (Region region : this.regionGraph.getNodes()) {
+            population += region.getPopulation();
+        }
+        
+        return population;
+    }
+    
+    public long getRecovered() {
+        long recovered = 0;
+        for (Region region : this.regionGraph.getNodes()) {
+            recovered += region.getRecovered();
+        }
+        
+        return recovered;
+    }
+    
+    public long getDeaths() {
+        long deaths = 0;
+        for (Region region : this.regionGraph.getNodes()) {
+            deaths += region.getDeaths();
+        }
+        
+        return deaths;
+    }
 
     @Override
     public void update(int currentDay) {
         for (Edge<Region> edge : this.regionGraph.edges()) {
             edge.one.interact(edge.other, edge.weight);
+        }
+        
+        for (Region region : this.regionGraph.getNodes()) {
+            region.update(currentDay);
         }
     }
 }

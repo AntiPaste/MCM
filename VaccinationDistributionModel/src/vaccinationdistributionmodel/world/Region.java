@@ -43,20 +43,53 @@ public class Region implements Modelable {
         return (radians * 180 / Math.PI);
     }
     
-    public double ebolaLevel() {
+    public int[] ebolaLevel() {
         List<City> cities = this.getCities();
         long totalAlive = 0;
+        long totalPopulation = 0;
         double ebolaLevel = 0;
         
         for (City city : cities) {
             long alive = city.getValues().amountOfExposed() + city.getValues().infected + city.getValues().advanced
                     + city.getValues().susceptible + city.getValues().recovered;
             totalAlive += alive;
+            totalPopulation += city.getValues().population;
             
             ebolaLevel += city.ebolaLevel() * alive;
         }
         
-        return (ebolaLevel / totalAlive);
+        return new int[] {
+            (int) (255.0 * (1.0 - (ebolaLevel / totalAlive)) * (((double) totalAlive) / totalPopulation) * (((double) totalAlive) / totalPopulation)),
+            (int) (255.0 * (ebolaLevel / totalAlive) * (((double) totalAlive) / totalPopulation) * (((double) totalAlive) / totalPopulation)),
+            0,
+        };
+    }
+    
+    public long getPopulation() {
+        long population = 0;
+        for (City city : this.getCities()) {
+            population += city.getValues().population;
+        }
+        
+        return population;
+    }
+    
+    public long getRecovered() {
+        long recovered = 0;
+        for (City city : this.getCities()) {
+            recovered += city.getValues().recovered;
+        }
+        
+        return recovered;
+    }
+    
+    public long getDeaths() {
+        long deaths = 0;
+        for (City city : this.getCities()) {
+            deaths += city.getValues().dead;
+        }
+        
+        return deaths;
     }
     
     private void computeAverageLatitudeAndLongitude(){

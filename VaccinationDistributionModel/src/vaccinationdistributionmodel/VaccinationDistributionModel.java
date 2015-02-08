@@ -63,10 +63,8 @@ public class VaccinationDistributionModel {
             m.repaint();
             
             try {
-                Thread.sleep(100);
+                Thread.sleep(200);
             } catch (Exception e) {}
-            
-            System.out.println("Ran.");
         }
         
         /*chartOneCity();

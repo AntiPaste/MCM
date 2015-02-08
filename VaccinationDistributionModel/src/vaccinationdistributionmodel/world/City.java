@@ -78,7 +78,7 @@ public class City implements Modelable {
     @Override
     public void update(int currentDay) {
         this.values.moveWaiting();
-        System.out.println("City update");
+        
         // advanced -> dead / recovered
         this.values.remove(this.parameters.mortalityRate);
         
