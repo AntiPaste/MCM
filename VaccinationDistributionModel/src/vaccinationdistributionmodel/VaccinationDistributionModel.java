@@ -49,9 +49,9 @@ public class VaccinationDistributionModel {
         System.out.println();
         chartOneCity();*/
         chartOneCity();
-        chartOneCityWithVaccination(0);
-        chartOneCityWithVaccination(10);
-        chartOneCityWithVaccination(20);
+        chartOneCityWithVaccination(40,1);
+        chartOneCityWithVaccination(40,0.5);
+        chartOneCityWithVaccination(40,0);
     }
     
     public static void sth(){
@@ -88,11 +88,14 @@ public class VaccinationDistributionModel {
         parameters.contaminationRate = GlobalParameters.CONTAMINATION_RATE;
         parameters.mortalityRate = GlobalParameters.MORTALITY_RATE;
         
-        City city = new City(100000, 90000, 10000, 0, 0, 0, 0);
+        int infected = 100;
+        int population = 100_000;
+        
+        City city = new City(population, population-infected, infected, 0, 0,0,0);
         city.setParameters(parameters);
         city.name = "Surakarta";
         
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 120; i++) {
             city.update(i);
             try {
                 //Thread.sleep(3000);
@@ -109,19 +112,22 @@ public class VaccinationDistributionModel {
         chart.setVisible(true);
     }
     
-    public static void chartOneCityWithVaccination(int delay){
+    public static void chartOneCityWithVaccination(int delay, double ratio){
         
         CityParameters parameters = new CityParameters();
         parameters.contaminationRate = GlobalParameters.CONTAMINATION_RATE;
         parameters.mortalityRate = GlobalParameters.MORTALITY_RATE;
         
-        City city = new City(100000, 90000, 10000, 0, 0, 0, 0);
+        int infected = 100;
+        int population = 100_000;
+        
+        City city = new City(population, population-infected, infected, 0, 0,0,0);
         city.setParameters(parameters);
         city.name = "Surakarta";
         
-        VaccinationSchedule plan = new VaccinationSchedule(city, delay, 100000, 0.5); 
+        VaccinationSchedule plan = new VaccinationSchedule(city, delay, 100000, ratio); 
         
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 120; i++) {
             city.update(i);
             plan.update(i);
             try {
@@ -133,7 +139,7 @@ public class VaccinationDistributionModel {
         System.out.println(city);
 
         Chart chart = new Chart(city.getHistory());
-        chart.setTitle("vaccination in "+delay+" days");
+        chart.setTitle("vaccination in "+delay+" days "+ratio);
         chart.draw();
         chart.pack();
         chart.setVisible(true);

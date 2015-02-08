@@ -35,7 +35,7 @@ public class VaccinationSchedule implements Modelable {
         }
         int inf = (int) (give * this.targetingRatio);
         int uninf = give - inf;
-        
+               
         this.city.vaccinate(inf, true);
         this.city.vaccinate(uninf, false);
     }
