@@ -29,11 +29,13 @@ public class Graph<T> {
     private Set<Edge<T>> edges;
     private List<T> nodes;
     private List<City> bigCities;
+    private List<Region> bigRegions;
     private Map<T, List<Edge<T>>> neighbours;
 
     public Graph() {
         this.neighbours = new HashMap();
-        this.edges = new HashSet<>();
+        this.edges = new HashSet();
+        this.bigRegions = new ArrayList();
     }
 
     public void setEdges(Set<Edge<T>> edges) {
@@ -53,12 +55,17 @@ public class Graph<T> {
         }
     }
 
+    public List<Region> getBigRegions() {
+        return this.bigRegions;
+    }
+    
     public List<City> getBigCities() {
         return this.bigCities;
     }
 
     public void makeCityEdges(List<City> cities) {
         this.edges = new HashSet();
+        this.nodes = (List<T>) cities;
 
         SortedMap<String, Edge<City>> distances = new TreeMap<String, Edge<City>>(new Comparator<String>() {
             @Override
@@ -119,7 +126,6 @@ public class Graph<T> {
         }
 
         this.initMap();
-        this.generateNodesList();
     }
 
     public void makeRegionEdges(List<T> regions) {
@@ -210,6 +216,8 @@ public class Graph<T> {
         while (!heap.isEmpty()){
             this.edges.add((Edge<T>) heap.poll());
         }
+        
+        this.bigRegions = (List<Region>) bigRegions;
 
         this.initMap();
         this.generateNodesList();

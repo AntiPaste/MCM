@@ -37,7 +37,7 @@ public class CityState {
     public long amountOfExposed(){
         long s = 0;
         for (long i: this.exposedWaiting){
-            s+= 0;
+            s+= i;
         }
         return s;
     }

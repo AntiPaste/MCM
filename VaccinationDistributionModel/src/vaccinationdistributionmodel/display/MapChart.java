@@ -1,0 +1,141 @@
+package vaccinationdistributionmodel.display;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
+import java.util.List;
+import java.util.Set;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.data.xy.XYSeriesCollection;
+import vaccinationdistributionmodel.world.Edge;
+import vaccinationdistributionmodel.world.Globe;
+import vaccinationdistributionmodel.world.Region;
+
+public class MapChart extends JFrame {
+
+    private class Surface extends JPanel {
+
+        private class Listener implements MouseMotionListener {
+
+            @Override
+            public void mouseDragged(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                Point location = e.getPoint();
+                Region previous = Surface.this.displayRegion;
+                Surface.this.displayRegion = null;
+
+                List<Region> regions = Surface.this.globe.getRegions().getNodes();
+                for (Region region : regions) {
+                    double[] coordinates = Surface.this.coordinatesToXY(region.latitude, region.longitude);
+                    int x = (int) coordinates[0];
+                    int y = (int) coordinates[1];
+                    
+                    if (location.x > x && location.x < (x + 10) && location.y > y && location.y < (y + 10)) {
+                        Surface.this.displayRegion = region;
+                        break;
+                    }
+                }
+                
+                if (Surface.this.displayRegion != previous)
+                    Surface.this.repaint();
+            }
+        }
+
+        private Graphics2D g2d;
+        private Globe globe;
+        private int width;
+        private int height;
+        public Region displayRegion = null;
+        private boolean hasDrawn = false;
+
+        public Surface(Globe globe, int width, int height) {
+            this.globe = globe;
+            this.width = width;
+            this.height = height;
+
+            this.addMouseMotionListener(new Listener());
+        }
+
+        private void draw(Graphics g) {
+            this.g2d = (Graphics2D) g;
+            this.g2d.setColor(Color.red);
+            
+            Dimension size = getSize();
+            Insets insets = getInsets();
+
+            Set<Edge<Region>> edges = this.globe.getRegions().edges();
+            for (Edge<Region> edge : edges) {
+                Region source = edge.one;
+                Region target = edge.other;
+
+                double[] sourceCoordinates = this.coordinatesToXY(source.latitude, source.longitude);
+                double[] targetCoordinates = this.coordinatesToXY(target.latitude, target.longitude);
+
+                this.g2d.drawLine((int) sourceCoordinates[0], (int) sourceCoordinates[1], (int) targetCoordinates[0], (int) targetCoordinates[1]);
+            }
+
+            List<Region> regions = this.globe.getRegions().getNodes();
+            for (Region region : regions) {
+                double[] coordinates = this.coordinatesToXY(region.latitude, region.longitude);
+                boolean isBig = this.globe.getRegions().getBigRegions().contains(region);
+
+                double ebolaLevel = region.ebolaLevel();
+                if (region.name.equals("China"))
+                    System.out.println(ebolaLevel);
+                
+                int colorR = (int) (255.0 * (1.0 - ebolaLevel));
+                int colorG = (int) (255.0 * ebolaLevel);
+                int colorB = 0;
+                
+                this.g2d.setColor(new Color(colorR, colorG, colorB));
+
+                this.g2d.drawString(region.name, (int) coordinates[0], (int) coordinates[1]);
+                this.g2d.fillOval((int) coordinates[0], (int) coordinates[1], (isBig ? 15 : 10), (isBig ? 15 : 10));
+                this.g2d.setColor(Color.red);
+            }
+            
+            if (this.displayRegion == null)
+                return;
+            
+            if (this.globe.getRegions().getBigRegions().contains(this.displayRegion))
+                this.g2d.setColor(Color.blue);
+                
+            this.g2d.drawString(this.displayRegion.name, 0, 10);
+            this.g2d.setColor(Color.red);
+        }
+
+        private double[] coordinatesToXY(double latitude, double longitude) {
+            return new double[]{
+                (double) (this.width * (180.0 + latitude) / 360.0),
+                (double) (this.height * (90.0 - longitude) / 180.0),};
+        }
+
+        @Override
+        public void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            this.draw(g);
+        }
+    }
+
+    private Globe globe;
+    private XYSeriesCollection dataset = new XYSeriesCollection();
+    private XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
+
+    public MapChart(Globe globe, int width, int height) {
+        super("Map Chart");
+        this.globe = globe;
+
+        this.add(new Surface(globe, width, height));
+        this.setLocationRelativeTo(null);
+    }
+}

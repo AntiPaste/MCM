@@ -8,8 +8,8 @@ package vaccinationdistributionmodel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import vaccinationdistributionmodel.display.AreaChart;
 import vaccinationdistributionmodel.display.Chart;
+import vaccinationdistributionmodel.display.MapChart;
 import vaccinationdistributionmodel.vaccination.VaccinationSchedule;
 import vaccinationdistributionmodel.world.City;
 import vaccinationdistributionmodel.world.CityParameters;
@@ -48,10 +48,32 @@ public class VaccinationDistributionModel {
         
         System.out.println();
         chartOneCity();*/
-        chartOneCity();
+        
+        int height = 1200;
+        
+        Globe globe = new Globe();
+        globe.getRegions().getBigRegions().get(0).getCities().get(0).getValues().contaminate(500_000);
+        
+        MapChart m = new MapChart(globe, height * 2, height);
+        m.pack();
+        m.setSize(height * 2, height);
+        m.setVisible(true);
+        
+        for (int i = 0;; i++) {
+            globe.update(i);
+            m.repaint();
+            
+            try {
+                Thread.sleep(100);
+            } catch (Exception e) {}
+            
+            System.out.println("Ran.");
+        }
+        
+        /*chartOneCity();
         chartOneCityWithVaccination(0);
         chartOneCityWithVaccination(10);
-        chartOneCityWithVaccination(20);
+        chartOneCityWithVaccination(20);*/
     }
     
     public static void sth(){

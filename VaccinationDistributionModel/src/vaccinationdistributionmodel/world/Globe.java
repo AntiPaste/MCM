@@ -27,7 +27,7 @@ public class Globe implements Modelable {
                 String name = data[0];
                 String country = data[1];
                 int population = Integer.parseInt(data[2]);
-
+                
                 String[] coordinates = data[3].split(",");
                 double latitude = Double.parseDouble(coordinates[0]);
                 double longitude = Double.parseDouble(coordinates[1]);
@@ -55,6 +55,8 @@ public class Globe implements Modelable {
             //System.out.println(graph);
             Region region = new Region(new RegionParameters(), graph);
             region.setBigCities(graph.getBigCities());
+            region.name = entry.getKey();
+            
             regions.add(region);
         }
 

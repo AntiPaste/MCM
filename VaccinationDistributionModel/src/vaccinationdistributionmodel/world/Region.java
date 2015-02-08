@@ -21,6 +21,7 @@ public class Region implements Modelable {
     private RegionParameters regionParams;
     public double latitude;
     public double longitude;
+    public String name;
 
     public Region(RegionParameters params, Graph<City> cities) {
         this.cities = cities;
@@ -42,6 +43,21 @@ public class Region implements Modelable {
         return (radians * 180 / Math.PI);
     }
     
+    public double ebolaLevel() {
+        List<City> cities = this.getCities();
+        long totalAlive = 0;
+        double ebolaLevel = 0;
+        
+        for (City city : cities) {
+            long alive = city.getValues().amountOfExposed() + city.getValues().infected + city.getValues().advanced
+                    + city.getValues().susceptible + city.getValues().recovered;
+            totalAlive += alive;
+            
+            ebolaLevel += city.ebolaLevel() * alive;
+        }
+        
+        return (ebolaLevel / totalAlive);
+    }
     
     private void computeAverageLatitudeAndLongitude(){
         
@@ -91,11 +107,11 @@ public class Region implements Modelable {
     }
 
     public void interact(Region nearRegion, double weight) {
-        /*for (City myBig : this.bigCities) {
+        for (City myBig : this.bigCities) {
             for (City otherBig : nearRegion.bigCities) {
                 myBig.interact(otherBig, weight);
             }
-        }*/
+        }
     }
     
     public List<City> getCities() {

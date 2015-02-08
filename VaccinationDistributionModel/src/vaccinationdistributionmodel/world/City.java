@@ -33,6 +33,11 @@ public class City implements Modelable {
     public CityState getValues() {
         return this.values;
     }
+    
+    public double ebolaLevel() {
+        return (double) ((double) (this.values.infected + this.values.advanced + this.values.amountOfExposed()))
+                / ((double) (this.values.infected + this.values.advanced + this.values.amountOfExposed() + this.values.recovered + this.values.susceptible));
+    }
 
     public void setParameters(CityParameters parameters) {
         this.parameters = parameters;
@@ -73,7 +78,7 @@ public class City implements Modelable {
     @Override
     public void update(int currentDay) {
         this.values.moveWaiting();
-        
+        System.out.println("City update");
         // advanced -> dead / recovered
         this.values.remove(this.parameters.mortalityRate);
         
