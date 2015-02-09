@@ -75,7 +75,7 @@ public class VaccinationSupplier implements Modelable {
 
     }
     
-    public void giveVaccines(int amount){
+    public void giveVaccines(long amount){
         this.vaccinesAvailable += amount;
     }
     
@@ -88,7 +88,8 @@ public class VaccinationSupplier implements Modelable {
     }
 
     private int deliveryTime(City city) {
-        return this.minDeliveryTime;
+        return 1;
+        //return this.minDeliveryTime;
     }
     
     private long supplyAmount(City c, long regionSaveable){
@@ -116,6 +117,10 @@ public class VaccinationSupplier implements Modelable {
             this.schedules.add(plan);
             it.remove();
         }
+    }
+    
+    public int getVaccinesAvailable(){
+        return this.vaccinesAvailable;
     }
 
     public City getHomeCity() {

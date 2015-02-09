@@ -30,11 +30,29 @@ public class VaccinationFactory implements Modelable {
             return;
         }
         this.vaccinesToDistribute += this.vaccinesDaily;
-        
+
+        this.customers.stream().forEach((c) -> {
+            c.update(currentDay);
+        });
+
         pollSuppliers();
     }
-    
-    private void pollSuppliers(){
-        
-    }   
+
+    private void pollSuppliers() {
+        long leftToGive = this.vaccinesToDistribute;
+        long totalNeed = 0;
+        totalNeed = this.customers.stream().map((s)
+                -> s.currentNeed()).reduce(totalNeed, (accumulator, item) -> accumulator + item);
+        for (VaccinationSupplier supplier : this.customers){
+            long supplierNeed = supplier.currentNeed();
+            
+            long give = (long) (this.vaccinesToDistribute * supplierNeed 
+                    / ((double) totalNeed));
+            give = Math.max(give, supplierNeed);
+            give = Math.min(give, leftToGive);
+            supplier.giveVaccines(give);
+            leftToGive -= give;
+            if (leftToGive==0) break;
+        }
+    }
 }
