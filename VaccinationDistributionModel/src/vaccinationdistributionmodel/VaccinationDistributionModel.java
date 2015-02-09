@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import vaccinationdistributionmodel.display.Chart;
 import vaccinationdistributionmodel.display.MapChart;
+import vaccinationdistributionmodel.vaccination.SimpleVaccinator;
 import vaccinationdistributionmodel.vaccination.VaccinationFactory;
 import vaccinationdistributionmodel.vaccination.VaccinationSchedule;
 import vaccinationdistributionmodel.world.City;
@@ -51,11 +52,17 @@ public class VaccinationDistributionModel {
         City hienolinna = hienomesta.getGraph().getBigCities().get(0);
         City ebolalinna = ebolamesta.getGraph().getBigCities().get(0);
 
-        VaccinationFactory hienoTehdas = new VaccinationFactory(hienomesta, hienolinna, 0,0,0);
-        VaccinationFactory ebolaTehdas = new VaccinationFactory(ebolamesta, ebolalinna, 0,0,0);
+        VaccinationFactory hienoTehdas = new VaccinationFactory(hienomesta, hienolinna, 30, 5, 3000);
+        VaccinationFactory ebolaTehdas = new VaccinationFactory(ebolamesta, ebolalinna, 30, 5, 3000);
+        List<VaccinationFactory> lista = new ArrayList<>();
+        lista.add(hienoTehdas);
+        lista.add(ebolaTehdas);
+        
+        SimpleVaccinator vaccinator = new SimpleVaccinator(lista);
 
         for (int i = 0; i < 100; i++) {
             g.update(i);
+            vaccinator.update(i);
         }
 
         chartCity(hienolinna);
