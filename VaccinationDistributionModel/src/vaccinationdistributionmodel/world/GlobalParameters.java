@@ -23,8 +23,8 @@ public class GlobalParameters {
     public static final double CONTAMINATION_RATE = 0.27;
     public static final double INTERCITY_CONSTANT = 100.0;
     public static final double INTERCITY_WEIGHT_CONSTANT = 10000.0;
-    public static final int STARTING_DAY = 200;
-    public static int PRODUCTION_DAY = 150;
+    public static final int STARTING_DAY = 180;
+    public static int PRODUCTION_DAY = 180;
     public static final double VACCINATION_CONSTANT = 0.0001;
 
     public static double[] getRecoveryProbabilities(double deathRate) {

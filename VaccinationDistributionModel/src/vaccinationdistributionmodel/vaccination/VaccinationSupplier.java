@@ -62,9 +62,9 @@ public class VaccinationSupplier implements Modelable {
         if (currentDay <= this.openingDay) {
             return;
         }
-
-        processQueue(currentDay);
-        
+        //greedyQueue(currentDay);
+        //processQueue(currentDay);
+        evenQueue(currentDay);
         for (VaccinationSchedule s : this.schedules){
             s.update(currentDay);
         }
@@ -93,8 +93,32 @@ public class VaccinationSupplier implements Modelable {
     private long supplyAmount(City c, long regionSaveable){
         return (long) (this.vaccinesAvailable*((double) c.getSaveable()) / regionSaveable);
     }
-
-    private void processQueue(int day) {
+    
+    private void greedyQueue(int day){
+        
+        Iterator<City> it = this.cities.iterator();
+        while (it.hasNext()) {
+            if (vaccinesAvailable == 0) {
+                break;
+            }
+            City c = it.next();
+            if (c.scheduleInAction()) {
+                continue;
+            }
+            
+            long vaccines = c.getSaveable();
+            vaccines = Math.min(vaccines, this.vaccinesAvailable);
+            
+            int startingDay = day + deliveryTime(c);
+            VaccinationSchedule plan = new VaccinationSchedule(c, startingDay, vaccines, targetRatio);
+            this.vaccinesAvailable -= vaccines;
+            c.setSchedule(plan);
+            this.schedules.add(plan);
+            it.remove();
+        }
+    }
+    
+    public void processQueue(int day){
         long regionSaveable = this.homeRegion.getSaveable();
         
         Iterator<City> it = this.cities.iterator();
@@ -106,9 +130,36 @@ public class VaccinationSupplier implements Modelable {
             if (c.scheduleInAction()) {
                 continue;
             }
+            
             long vaccines = this.supplyAmount(c, regionSaveable);
             vaccines = Math.min(vaccines, this.vaccinesAvailable);
             
+            int startingDay = day + deliveryTime(c);
+            VaccinationSchedule plan = new VaccinationSchedule(c, startingDay, vaccines, targetRatio);
+            this.vaccinesAvailable -= vaccines;
+            c.setSchedule(plan);
+            this.schedules.add(plan);
+            it.remove();
+        }
+    }
+
+    private void evenQueue(int day) {
+        long citiesRemaining = this.cities.size();
+        
+        Iterator<City> it = this.cities.iterator();
+        while (it.hasNext()) {
+            if (vaccinesAvailable == 0) {
+                break;
+            }
+            City c = it.next();
+            if (c.scheduleInAction()) {
+                continue;
+            }
+            
+            long vaccines = this.vaccinesAvailable/citiesRemaining +1;
+            vaccines = Math.min(vaccines, c.getSaveable());
+            vaccines = Math.min(vaccines, this.vaccinesAvailable);
+            citiesRemaining --;
             int startingDay = day + deliveryTime(c);
             VaccinationSchedule plan = new VaccinationSchedule(c, startingDay, vaccines, targetRatio);
             this.vaccinesAvailable -= vaccines;
