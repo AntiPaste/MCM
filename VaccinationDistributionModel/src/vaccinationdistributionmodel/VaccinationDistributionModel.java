@@ -96,6 +96,8 @@ public class VaccinationDistributionModel {
 
         for (int day = 1; day < 600; day += 50) {
             Globe globe = new Globe();
+            GlobalParameters.STARTING_DAY = day+2;
+            GlobalParameters.PRODUCTION_DAY = day;
 
             for (Region region : globe.getRegions().getNodes()) {
                 if (region.name.equals("Sierra Leone")) {

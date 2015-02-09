@@ -31,11 +31,14 @@
 
 The Ebola virus has posed a serious threat to the welfare of many African countries, and in it's latest outbreak the entire world. The greatest challenge in eradicating this pestilence lies in finding the cure to the disease, but another important factor in defeating the disease is the correct distribution of the medication to those in need. This paper analyses different strategies of medication distribution to stop the Ebola pandemic.
 
+
 We use a modified version of the widely used and tested SEIR model. We add an Advanced state to the model, to depict those whose disease has progressed so far that the medication will not be able to heal them. Thus, we arrive at the SEIAR model which we tune with empirical data from the latest ebola outbreak to improve our results.
+
 
 We considered three different approaches. Firstly a greedy approach, where we fully clear discrete areas (cities in our model) of Ebola, as many at a time as feasible production speeds will allow. Secondly we look at a strategy of evenly distributing medication everywhere at once, though not exactly evenly for example in the case that some areas will be cleared sooner than others. Lastly we consider a balanced strategy, that distributes medication to everywhere at once, but biases areas where more medication is needed. That is, it balances supply and demand of different areas, so that their ratios will be the same.
 
-We found that the greedy algorithm seems to be the best in distributing medication.
+
+We found that the balanced algorithm seems to be the best in distributing medication. The different approaches are have quite similar results, the duration of the outbreak differs by a few weeks at most, and the deathtoll differs at most one percent from other distribution models.
 
 
 \end{document}
