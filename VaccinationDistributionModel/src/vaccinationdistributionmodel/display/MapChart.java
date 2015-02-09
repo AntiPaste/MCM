@@ -143,16 +143,17 @@ public class MapChart extends JFrame {
                 this.g2d.setColor(Color.red);
             }
 
-            this.g2d.drawString(String.format("Day: %d", this.globe.days), 5, 15);
-            this.g2d.drawString(String.format("x: %d", this.globe.daysToOutbreakEnd), 5, 250);
-            this.g2d.drawString(String.format("Cost: %.2f", this.globe.cost()), 5, 300);
-            this.g2d.drawString(String.format("Population: %d", this.globe.getPopulation()), 5, 30);
-            this.g2d.drawString(String.format("Recovered: %d", this.globe.getRecovered()), 5, 45);
-            this.g2d.drawString(String.format("Deaths: %d", this.globe.getDeaths()), 5, 60);
-            this.g2d.drawString(String.format("Vaccinated: %d", this.globe.getVaccinated()), 5, 75);
-            this.g2d.drawString(String.format("Exposed: %d", this.globe.getExposed()), 5, 90);
-            this.g2d.drawString(String.format("Infected: %d", this.globe.getInfected()), 5, 105);
-            this.g2d.drawString(String.format("Advanced: %d", this.globe.getAdvanced()), 5, 120);
+            this.g2d.drawString(String.format("Day: %,d", this.globe.days), 5, 15);
+            //this.g2d.drawString(String.format("x: %d", this.globe.daysToOutbreakEnd), 5, 250);
+            //this.g2d.drawString(String.format("Cost: %.2f", this.globe.cost()), 5, 300);
+            this.g2d.drawString(String.format("Population: %,d", this.globe.getPopulation()), 5, 30);
+            this.g2d.drawString(String.format("Recovered: %,d", this.globe.getRecovered()), 5, 45);
+            this.g2d.drawString(String.format("Deaths: %,d", this.globe.getDeaths()), 5, 60);
+            this.g2d.drawString(String.format("Vaccinated: %,d", this.globe.getVaccinated()), 5, 75);
+            this.g2d.drawString(String.format("Exposed: %,d", this.globe.getExposed()), 5, 90);
+            this.g2d.drawString(String.format("Infected: %,d", this.globe.getInfected()), 5, 105);
+            this.g2d.drawString(String.format("Advanced: %,d", this.globe.getAdvanced()), 5, 120);
+            this.g2d.drawString(String.format("Susceptible: %,d", this.globe.getSusceptible()), 5, 135);
 
             if (this.displayRegion == null) {
                 return;

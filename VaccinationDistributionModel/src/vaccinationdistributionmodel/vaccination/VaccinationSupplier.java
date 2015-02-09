@@ -65,8 +65,8 @@ public class VaccinationSupplier implements Modelable {
         }
         
         //greedyQueue(currentDay);
-        processQueue(currentDay);
-        //evenQueue(currentDay);
+        //balancedQueue(currentDay);
+        evenQueue(currentDay);
         
         for (VaccinationSchedule s : this.schedules){
             s.update(currentDay);
@@ -122,7 +122,7 @@ public class VaccinationSupplier implements Modelable {
         }
     }
     
-    public void processQueue(int day){
+    public void balancedQueue(int day){
         long regionSaveable = this.homeRegion.getSaveable();
         
         Iterator<City> it = this.cities.iterator();

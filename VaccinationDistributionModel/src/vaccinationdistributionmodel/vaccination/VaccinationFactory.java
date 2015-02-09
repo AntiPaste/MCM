@@ -38,8 +38,8 @@ public class VaccinationFactory implements Modelable {
             c.update(currentDay);
         });
 
-        pollSuppliers();
-        //greedySuppliers();
+        //pollSuppliers();
+        greedySuppliers();
     }
     
     private void greedySuppliers() {

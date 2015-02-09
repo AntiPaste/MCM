@@ -8,8 +8,8 @@ package vaccinationdistributionmodel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.jfree.data.xy.XYSeries;
 import vaccinationdistributionmodel.display.Chart;
-import vaccinationdistributionmodel.display.MapChart;
 import vaccinationdistributionmodel.display.PieChart;
 import vaccinationdistributionmodel.vaccination.VaccinationFactory;
 import vaccinationdistributionmodel.vaccination.VaccinationSupplier;
@@ -58,7 +58,7 @@ public class VaccinationDistributionModel {
         List<VaccinationSupplier> lista = new ArrayList<>();
         lista.add(hienoTehdas);
         lista.add(ebolaTehdas);
-        
+
         VaccinationFactory producer = new VaccinationFactory(lista, 30);
 
         for (int i = 0; i < 200; i++) {
@@ -70,7 +70,7 @@ public class VaccinationDistributionModel {
 
         chartCity(hienomesta.getCities().get(4));
         chartCity(ebolamesta.getCities().get(4));
-        
+
         System.out.println(g.getDeaths());
 
 //        regions.stream().forEach((Region r) -> {
@@ -90,30 +90,52 @@ public class VaccinationDistributionModel {
 
     public static void globeDemo() {
         int height = 1200;
-
-        Globe globe = new Globe();
         
-        for (Region region : globe.getRegions().getNodes()) {
-            if (region.name.equals("Sierra Leone")) {
-                region.getCities().get(0).getValues().contaminate(10);
+        Chart chart = new Chart();
+        XYSeries series = new XYSeries("deaths");
+
+        for (int day = 1; day < 600; day += 50) {
+            Globe globe = new Globe();
+
+            for (Region region : globe.getRegions().getNodes()) {
+                if (region.name.equals("Sierra Leone")) {
+                    region.getCities().get(0).getValues().contaminate(10);
+                }
+            }
+
+            /*MapChart m = new MapChart(globe, height * 2, height);
+            m.pack();
+            m.setSize(height * 2, height);
+            m.setVisible(true);*/
+
+            for (int i = 0;; i++) {
+                globe.update(i);
+                //vaccinator.update(i);
+
+                if (globe.daysToOutbreakEnd == 0) {
+                    /*Chart chart = new Chart(globe.getHistory());
+                    chart.draw();
+                    chart.pack();
+                    chart.setVisible(true);*/
+                    
+                    series.add(day, globe.getDeaths());
+                    System.out.println("Finished day " + day);
+                    break;
+                }
+
+                /*m.repaint();
+                try {
+                    //Thread.sleep(100);
+                } catch (Exception e) {
+                }*/
             }
         }
-
-        MapChart m = new MapChart(globe, height * 2, height);
-        m.pack();
-        m.setSize(height * 2, height);
-        m.setVisible(true);
-
-        for (int i = 0;; i++) {
-            globe.update(i);
-            //vaccinator.update(i);
-            
-            m.repaint();
-            try {
-                //Thread.sleep(100);
-            } catch (Exception e) {
-            }
-        }
+        
+        chart.addSeries(series);
+        
+        chart.draw();
+        chart.pack();
+        chart.setVisible(true);
     }
 
     public static void sth() {
@@ -175,7 +197,7 @@ public class VaccinationDistributionModel {
         int infected = 100;
         int population = 100_000;
 
-        City city = new City(population, population - infected, infected, 0, 0, 0, 0);
+        City city = new City(population, population - infected, infected, 0, 0, 0, 0, 0);
         city.setParameters(parameters);
         city.name = "Surakarta";
 
@@ -205,7 +227,7 @@ public class VaccinationDistributionModel {
         int infected = 100;
         int population = 100_000;
 
-        City city = new City(population, population - infected, infected, 0, 0, 0, 0);
+        City city = new City(population, population - infected, infected, 0, 0, 0, 0, 0);
         city.setParameters(parameters);
         city.name = "Surakarta";
 

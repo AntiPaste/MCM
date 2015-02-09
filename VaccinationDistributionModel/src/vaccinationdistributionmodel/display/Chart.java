@@ -27,6 +27,16 @@ public class Chart extends JFrame {
         super("Chart");
         this.history = history;
     }
+    
+    public Chart() {
+        super("Chart");
+    }
+    
+    public void addSeries(XYSeries series) {
+        this.renderer.setSeriesShapesVisible(this.dataset.getSeriesCount(), false);
+        this.renderer.setSeriesStroke(this.dataset.getSeriesCount(), new BasicStroke(1.5f));
+        this.dataset.addSeries(series);
+    }
 
     public void draw() {
         Map<String, List<Long>> lines = this.history.getData();
@@ -50,8 +60,15 @@ public class Chart extends JFrame {
         chartPanel.setPreferredSize(new java.awt.Dimension(800, 600));
         setContentPane(chartPanel);
     }
+    
+    public void justFuckingDraw() {
+        JFreeChart chart = createChart(this.dataset);
+        ChartPanel chartPanel = new ChartPanel(chart);
+        chartPanel.setPreferredSize(new java.awt.Dimension(800, 600));
+        setContentPane(chartPanel);
+    }
 
-    private JFreeChart createChart(final XYDataset dataset) {
+    public JFreeChart createChart(final XYDataset dataset) {
         JFreeChart chart = ChartFactory.createXYLineChart(
                 null, // chart title
                 "Days", // x axis label

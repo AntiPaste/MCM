@@ -151,6 +151,15 @@ public class Region implements Modelable {
 
         return advanced;
     }
+    
+    public long getSusceptible() {
+        long susceptible = 0;
+        for (City city : this.getCities()) {
+            susceptible += city.getValues().susceptible;
+        }
+
+        return susceptible;
+    }
 
     private void computeAverageLatitudeAndLongitude() {
 

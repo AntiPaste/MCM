@@ -16,13 +16,13 @@ public class City implements Modelable {
     private VaccinationSchedule plan = null;
 
     public City(int population) {
-        this(population, population, 0, 0, 0, 0, 0);
+        this(population, population, 0, 0, 0, 0, 0, 0);
     }
 
     public City(int population, int susceptible, int exposed,
-            int infected, int advanced, int recovered, int dead) {
+            int infected, int advanced, int recovered, int vaccinated, int dead) {
         this.values = new CityState(population, susceptible, exposed,
-                infected, advanced, recovered, dead);
+                infected, advanced, recovered, vaccinated, dead);
 
         this.history = new History();
         this.history.addState(this.values);
@@ -110,7 +110,7 @@ public class City implements Modelable {
         /*if (this.name.equals("Surakarta"))
             this.values.printWaiting();*/
         
-        this.history.addState(this.values);
+        //this.history.addState(this.values);
     }
 
     @Override

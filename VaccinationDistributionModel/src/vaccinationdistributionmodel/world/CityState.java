@@ -17,16 +17,17 @@ public class CityState {
     public int dead = 0;
 
     public CityState(int population) {
-        this(population, population, 0, 0, 0, 0, 0);
+        this(population, population, 0, 0, 0, 0, 0, 0);
     }
 
     public CityState(int population, int susceptible, int exposed,
-            int infected, int advanced, int recovered, int dead) {
+            int infected, int advanced, int recovered, int vaccinated, int dead) {
         this.population = population;
         this.susceptible = susceptible;
         this.infected = infected;
         this.advanced = advanced;
         this.recovered = recovered;
+        this.vaccinated = vaccinated;
         this.dead = dead;
         
         this.exposedWaiting[0] = exposed;

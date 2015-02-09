@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import vaccinationdistributionmodel.Modelable;
+import vaccinationdistributionmodel.display.History;
 import vaccinationdistributionmodel.vaccination.VaccinationFactory;
 import vaccinationdistributionmodel.vaccination.VaccinationSupplier;
 
@@ -14,6 +15,7 @@ public class Globe implements Modelable {
 
     private Graph<Region> regionGraph;
     private List<VaccinationFactory> factories;
+    private History history = new History();
     public long days = 0;
     public long daysToOutbreakEnd = 42;
 
@@ -68,6 +70,10 @@ public class Globe implements Modelable {
         this.regionGraph = graph;
 
         initializeVaccinationScheme();
+    }
+    
+    public History getHistory() {
+        return this.history;
     }
 
     private void initializeVaccinationScheme() {
@@ -174,6 +180,15 @@ public class Globe implements Modelable {
         return advanced;
     }
 
+    public long getSusceptible() {
+        long susceptible = 0;
+        for (Region region : this.regionGraph.getNodes()) {
+            susceptible += region.getSusceptible();
+        }
+
+        return susceptible;
+    }
+
     @Override
     public void update(int currentDay) {
         for (Edge<Region> edge : this.regionGraph.edges()) {
@@ -200,7 +215,24 @@ public class Globe implements Modelable {
         if (this.getAdvanced()==0 && this.getExposed() ==0 && this.getInfected() ==0){
             this.daysToOutbreakEnd--;
         }
-
+        
+        CityState state = new CityState((int) this.getPopulation());
+        state.susceptible = 0;
+        
+        for (Region region : this.regionGraph.getNodes()) {
+            for (City city : region.getCities()) {
+                CityState values = city.getValues();
+                state.susceptible += values.susceptible;
+                state.exposedWaiting[0] += values.amountOfExposed();
+                state.infected += values.infected;
+                state.advanced += values.advanced;
+                state.recovered += values.recovered;
+                state.vaccinated += values.vaccinated;
+                state.dead += values.dead;
+            }
+        }
+        
+        this.history.addState(state);
         this.days++;
     }
 }
