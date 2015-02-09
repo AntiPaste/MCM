@@ -51,7 +51,7 @@ public class Region implements Modelable {
         double ebolaLevel = 0;
 
         for (City city : cities) {
-            long alive = city.getValues().amountOfExposed() + city.getValues().infected + city.getValues().advanced
+            long alive = city.getValues().amountOfExposed() + city.getValues().infected + city.getValues().advanced + city.getValues().vaccinated
                     + city.getValues().susceptible + city.getValues().recovered;
             totalAlive += alive;
             totalPopulation += city.getValues().population;
@@ -67,29 +67,25 @@ public class Region implements Modelable {
     }
     
     public int[] vaccinationLevel() {
-        /*List<City> cities = this.getCities();
+        List<City> cities = this.getCities();
         long totalAlive = 0;
         long totalPopulation = 0;
         double vaccinationLevel = 0;
 
         for (City city : cities) {
-            long alive = city.getValues().amountOfExposed() + city.getValues().infected + city.getValues().advanced
+            long alive = city.getValues().amountOfExposed() + city.getValues().infected + city.getValues().advanced + city.getValues().vaccinated
                     + city.getValues().susceptible + city.getValues().recovered;
             totalAlive += alive;
             totalPopulation += city.getValues().population;
 
-            vaccinationLevel += ((double) ((double) (city.getValues().vaccinated))
-                / ((double) (alive))) * alive;
+            vaccinationLevel += city.getValues().vaccinated;
         }
 
         return new int[]{
-            (int) (255.0 * (1.0 - (vaccinationLevel / totalAlive)) * (((double) totalAlive) / totalPopulation) * (((double) totalAlive) / totalPopulation)),
-            (int) (255.0 * (vaccinationLevel / totalAlive) * (((double) totalAlive) / totalPopulation) * (((double) totalAlive) / totalPopulation)),
-            0
-        };*/
-        
-        // TO DO
-        return new int[]{};
+            (int) (255.0 * (1.0 - (vaccinationLevel / totalAlive))),
+            0,
+            (int) (255.0 * (vaccinationLevel / totalAlive))
+        };
     }
 
     public long getPopulation() {
@@ -117,6 +113,15 @@ public class Region implements Modelable {
         }
 
         return deaths;
+    }
+    
+    public long getVaccinated() {
+        long vaccinated = 0;
+        for (City city : this.getCities()) {
+            vaccinated += city.getValues().vaccinated;
+        }
+
+        return vaccinated;
     }
 
     private void computeAverageLatitudeAndLongitude() {

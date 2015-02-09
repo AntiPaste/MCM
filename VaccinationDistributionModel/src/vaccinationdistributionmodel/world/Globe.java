@@ -127,6 +127,15 @@ public class Globe implements Modelable {
         
         return deaths;
     }
+    
+    public long getVaccinated() {
+        long vaccinated = 0;
+        for (Region region : this.regionGraph.getNodes()) {
+            vaccinated += region.getVaccinated();
+        }
+        
+        return vaccinated;
+    }
 
     @Override
     public void update(int currentDay) {

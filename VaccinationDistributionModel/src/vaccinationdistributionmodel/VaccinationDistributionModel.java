@@ -109,7 +109,7 @@ public class VaccinationDistributionModel {
             
             m.repaint();
             try {
-                Thread.sleep(200);
+                Thread.sleep(50);
             } catch (Exception e) {
             }
         }
