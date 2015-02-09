@@ -27,6 +27,7 @@ public class VaccinationSupplier implements Modelable {
     private int openingDay;
     private long vaccinesAvailable;
     private double targetRatio = 0.5;
+    private int deliverySpeed = 100; // km / h
     private int minDeliveryTime = 1;
     private List<VaccinationSchedule> schedules;
     private PriorityQueue<City> cities;
@@ -86,7 +87,8 @@ public class VaccinationSupplier implements Modelable {
     }
 
     private int deliveryTime(City city) {
-        return 2;
+        return 2; // totally scientific
+        //return (int) (Graph.distance(this.homeCity, city) / (this.deliverySpeed * 24)) + 1;
         //return this.minDeliveryTime;
     }
     
