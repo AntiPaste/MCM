@@ -32,9 +32,10 @@ public class VaccinationSchedule implements Modelable {
         if (give > vaccinations) {
             give = vaccinations;
         }
-        long inf = (int) (give * this.targetingRatio);
+        
+        long inf = (long) (give * this.targetingRatio);
         long uninf = give - inf;
-               
+        
         this.city.vaccinate(inf, true);
         this.city.vaccinate(uninf, false);
         

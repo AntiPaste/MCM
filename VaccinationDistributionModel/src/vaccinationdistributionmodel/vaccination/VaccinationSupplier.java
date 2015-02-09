@@ -25,7 +25,7 @@ public class VaccinationSupplier implements Modelable {
     private Region homeRegion;
     private VaccinationFactory factory;
     private int openingDay;
-    private int vaccinesAvailable;
+    private long vaccinesAvailable;
     private double targetRatio = 0.5;
     private int minDeliveryTime = 1;
     private List<VaccinationSchedule> schedules;
@@ -106,6 +106,7 @@ public class VaccinationSupplier implements Modelable {
             }
             long vaccines = this.supplyAmount(c, regionSaveable);
             vaccines = Math.min(vaccines, this.vaccinesAvailable);
+            
             int startingDay = day + deliveryTime(c);
             VaccinationSchedule plan = new VaccinationSchedule(c, startingDay, vaccines, targetRatio);
             this.vaccinesAvailable -= vaccines;
@@ -115,7 +116,7 @@ public class VaccinationSupplier implements Modelable {
         }
     }
     
-    public int getVaccinesAvailable(){
+    public long getVaccinesAvailable(){
         return this.vaccinesAvailable;
     }
 

@@ -58,7 +58,7 @@ public class CityState {
     }
 
     public void vaccinate(long amount, boolean targetInfected) {
-        if (this.susceptible == 0 && this.amountOfExposed() ==0) return; 
+        if (this.susceptible == 0 && this.amountOfExposed() ==0) return;
         
         if (targetInfected) {
             amount = Math.min(amount, this.infected);

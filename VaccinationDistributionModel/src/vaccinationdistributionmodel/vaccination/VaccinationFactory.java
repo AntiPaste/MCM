@@ -44,7 +44,7 @@ public class VaccinationFactory implements Modelable {
         long leftToGive = this.vaccinesToDistribute;
         long totalNeed = 0;
         totalNeed = this.customers.stream().map((s)
-                -> s.currentNeed()).reduce(totalNeed, (accumulator, item) -> accumulator + item);
+                -> s.currentNeed()).reduce(totalNeed, (Long accumulator, Long item) -> accumulator + item);
         for (VaccinationSupplier supplier : this.customers){
             long supplierNeed = supplier.currentNeed();
             
