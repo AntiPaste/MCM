@@ -205,4 +205,8 @@ public class CityState {
         System.out.println();
         System.out.println();
     }
+    
+    public long getSaveable(){
+        return this.susceptible + this.amountOfExposed() + this.infected;
+    }
 }
