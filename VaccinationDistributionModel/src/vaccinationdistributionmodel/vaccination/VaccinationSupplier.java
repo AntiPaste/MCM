@@ -26,7 +26,7 @@ public class VaccinationSupplier implements Modelable {
     private VaccinationFactory factory;
     private int openingDay;
     private int vaccinesAvailable;
-    private double targetRatio = 0.8;
+    private double targetRatio = 0.5;
     private int minDeliveryTime = 1;
     private List<VaccinationSchedule> schedules;
     private PriorityQueue<City> cities;

@@ -59,33 +59,29 @@ public class CityState {
 
     public void vaccinate(long amount, boolean targetInfected) {
         if (this.susceptible == 0 && this.amountOfExposed() ==0) return; 
-        long origAmount = amount;
+        
         if (targetInfected) {
-            if (amount > this.infected) {
-                amount = this.infected;
-            }
+            amount = Math.min(amount, this.infected);
+            long origAmount = amount;
             this.infected -= amount;
             for (int i=this.infectedWaiting.length-1; i>=0; i--){
-                if (this.infectedWaiting[i] < amount){
+                if (this.infectedWaiting[i] < amount) {
                     amount -= this.infectedWaiting[i];
                     this.infectedWaiting[i] = 0;
                 } else {
                     this.infectedWaiting[i] -= amount;
+                    amount = 0;
                     break;
                 }
             }
-            this.vaccinated += origAmount;
+            this.vaccinated += origAmount - amount;
         } else {
             long susceptibleHits = amount * this.susceptible / (this.susceptible + this.amountOfExposed());
             if (susceptibleHits > amount) susceptibleHits = amount;
             
             long exposedHits = amount - susceptibleHits;
-            if (susceptibleHits > this.susceptible) {
-                susceptibleHits = this.susceptible;
-            }
-            if (exposedHits > this.amountOfExposed()) {
-                exposedHits = this.amountOfExposed();
-            }
+            susceptibleHits = Math.min(susceptibleHits, this.susceptible);
+            exposedHits = Math.min(exposedHits, this.amountOfExposed());
 
             this.susceptible -= susceptibleHits;
             this.vaccinated += susceptibleHits;
