@@ -86,7 +86,7 @@ public class VaccinationSupplier implements Modelable {
     }
 
     private int deliveryTime(City city) {
-        return 1;
+        return 2;
         //return this.minDeliveryTime;
     }
     
