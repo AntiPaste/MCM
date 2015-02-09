@@ -1,5 +1,5 @@
 \documentclass[12pt]{article}
-\usepackage[latin1]{inputenc}
+\usepackage[utf8]{inputenc}
 \usepackage{enumerate}
 \usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
 \geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
@@ -30,7 +30,31 @@
 
 We implemented our model with the Java programming language. The basic idea is to run a set of procedures which affect the state of the world (e.g. infections, vaccinations...) daily.
 
+First we run procedures which implement SEIAR modelling in-city, which is illustrated in the following sections in detail. Then a similar procedure is run on an inter-city level, with different parameters, and finally on an inter-regional level.
 
-First we run a SEIAR algorithm in-city, which is illustrated in the following section in detail. Then a similar procedure is run on an inter-city level, with different parameters, and finally on an inter-regional level.
+\subsection{SIR model}
+
+SIR model is a simple, three-compartment model used for modelling the spread of infectious diseases. The three compartments are Susceptible, Infected, and Recovered, between which the population moves based on the following differential equations, where constants $\beta = \text{transmission rate}$, $\gamma = \text{recovery rate}$, and $N = \text{population}$:
+
+$$\frac{dS}{dt} = \frac{-\beta I S}{N}$$
+$$\frac{dI}{dt} = \frac{\beta I S}{N} - \gamma I$$
+$$\frac{dR}{dt} = \gamma I$$
+
+The SIR model and its variants have been used extensively in modelling past diseases. \NB
+
+\subsection{SEIR model}
+
+SEIR model is an extension to the SIR model, whereby a new state of Exposed has been added. This is due to many important infections having a significant incubation period. \NB
+
+The addition of the Exposed state changes the differential equations, shown below, significantly. The constants are similar, but a few have been added, notably $\mu = \text{death rate}$ and $a^{-1} = \text{average incubation period}$.
+
+$$\frac{dS}{dt} = \mu N - \mu S - \beta \frac{I}{N} S$$
+$$\frac{dE}{dt} = \beta \frac{I}{N} S - (\mu + a) E$$
+$$\frac{dI}{dt} = a E - (\gamma +\mu ) I$$
+$$\frac{dR}{dt} = \gamma I  - \mu R$$
+
+\subsection{SEIAR model}
+
+SEIAR model was developed by our team as a necessary extension to the SEIR model to match the scope of the problem. We added another state, Advanced, to model Ebola more accurately and distinguish those who can be medicated from those who are in the late stages of the disease and cannot be medicated.
 
 \end{document}
