@@ -5,6 +5,7 @@ import java.util.TreeSet;
 import vaccinationdistributionmodel.world.City;
 import vaccinationdistributionmodel.Modelable;
 import vaccinationdistributionmodel.world.CityState;
+import vaccinationdistributionmodel.world.GlobalParameters;
 
 public class VaccinationSchedule implements Modelable {
 
@@ -28,7 +29,7 @@ public class VaccinationSchedule implements Modelable {
     public void update(int currentDay) {
         if (currentDay < this.startingDay) return;
         
-        long give = Constraints.maximumDailyVaccination;
+        long give = (long) (GlobalParameters.VACCINATION_CONSTANT * this.city.getValues().population);
         if (give > vaccinations) {
             give = vaccinations;
         }
