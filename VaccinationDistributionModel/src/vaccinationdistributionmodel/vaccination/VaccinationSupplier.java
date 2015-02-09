@@ -76,11 +76,13 @@ public class VaccinationSupplier implements Modelable {
     }
     
     public long currentNeed(){
-        int need = 0;
+        long need = 0;
         for (City c : this.cities){
             need += c.getSaveable();
         }
-        return (long) (need * homeRegion.necessityConstant);
+        need = (long) (need * homeRegion.necessityConstant);
+        long request = Math.max(0, need - this.vaccinesAvailable);
+        return request;
     }
 
     private int deliveryTime(City city) {
