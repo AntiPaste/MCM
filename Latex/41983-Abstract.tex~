@@ -27,22 +27,13 @@
 \setlength{\parindent}{0cm}
 
 
-\section{Abstract}
+\section{Introduction}
 
+Viruses like ebola can have serious effect on global scale. The latest massive Ebola outbreak has taken serious toll in West Africa. Although scientifically the serious problem seems to pin down the medical properties of the virus and hence find the cure, some care is needed while dealing with the distribution of the vaccine to ensure the fast, humane and economical solution.
 
-Cure, seiar, vaccination, optimisation, crosscontaminationmodel, delivery, model spread, figure out where vaccine to
+In this paper, we combine multiple celebrated mathematical models to fight the headline camper \E. First, we build a model to model the progress of Ebola outbreak based on population distribution. Then element of medicine production and distribution is introduced. We investigate how the global distribution behaviour affects large scale outcome of the spread: where the medicine is deployed and when.
 
-assumption: immediate cure, Ebola spreads similarly to other virus-based diseases, with it's parameters had yada yada, omat tilat advance
-
-algortihm: yada nodeja jne muuttujia vakioita
-
-evoltution: performnase yada yada,
-
-results: millasia uhrim‰‰ri‰, mit‰ k‰vi, kuvia, kuinka nopea, miten malli kuinka nopeesti ohi, snapshots
-
-coclusion: nkjlsnalf
-
-appendix: kuvia
+Two main strategies are investigated: either medicine distributed mainly according to the wishes of regions, or 'higher being' distributes the medicines to reach globally optimised solution.
 
 
 \end{document}
