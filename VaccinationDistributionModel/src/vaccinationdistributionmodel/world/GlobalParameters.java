@@ -25,7 +25,7 @@ public class GlobalParameters {
     public static final double INTERCITY_WEIGHT_CONSTANT = 10000.0;
     public static final int STARTING_DAY = 200;
     public static int PRODUCTION_DAY = 150;
-    public static final double VACCINATION_CONSTANT = 0.02;
+    public static final double VACCINATION_CONSTANT = 0.0001;
 
     public static double[] getRecoveryProbabilities(double deathRate) {
         double[] data = {1, 2, 4, 7, 11, 14, 17, 19, 20, 21, 20, 19, 18, 16, 14, 13, 11, 10, 9, 7, 5, 4, 3, 2, 2, 1, 1};

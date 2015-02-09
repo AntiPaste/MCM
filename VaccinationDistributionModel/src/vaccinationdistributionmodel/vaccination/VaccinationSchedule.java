@@ -29,7 +29,7 @@ public class VaccinationSchedule implements Modelable {
     public void update(int currentDay) {
         if (currentDay < this.startingDay) return;
         
-        long give = (long) (GlobalParameters.VACCINATION_CONSTANT * this.city.getValues().population);
+        long give = (long) Math.ceil(GlobalParameters.VACCINATION_CONSTANT * this.city.getValues().population);
         if (give > vaccinations) {
             give = vaccinations;
         }

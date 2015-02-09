@@ -134,10 +134,11 @@ public class Graph<T> {
         SortedSet<T> regionsByCityNumber = new TreeSet<>(new Comparator<T>() {
             @Override
             public int compare(T one, T other) {
-                return ((Region) one).getCities().size() - ((Region) other).getCities().size();
+                return (int) (((Region) one).getPopulation() - ((Region) other).getPopulation());
+                //return ((Region) one).getCities().size() - ((Region) other).getCities().size();
             }
         });
-
+        
         for (T region : regions) {
             regionsByCityNumber.add(region);
         }
@@ -148,6 +149,7 @@ public class Graph<T> {
          
         for (int i = 0; i < n; i++) {
             T take = regionsByCityNumber.last();
+            
             bigRegionsNow.add(take);
             regionsByCityNumber.remove(take);
         }
@@ -158,9 +160,10 @@ public class Graph<T> {
                 if (one == other) {
                     continue;
                 }
+                
                 Region region = (Region) one;
                 Region otherRegion = (Region) other;
-                this.edges.add(new Edge<>(one, other, distance(
+                this.edges.add(new Edge(one, other, distance(
                         region.latitude, region.longitude, otherRegion.latitude, otherRegion.longitude)));
             }
         }
@@ -169,6 +172,7 @@ public class Graph<T> {
         for (T other : regionsByCityNumber) { // the not hubs will remain
             T closest = null;
             Region me = (Region) other;
+            
             for (T hub : bigRegionsNow) {
                 if (closest == null) {
                     closest = hub;
@@ -183,7 +187,7 @@ public class Graph<T> {
                 }
             }
             Region connect = (Region) closest;
-            this.edges.add(new Edge<>(other, closest, distance(
+            this.edges.add(new Edge(me, closest, distance(
                     me.latitude, me.longitude, connect.latitude, connect.longitude)));
         }
 

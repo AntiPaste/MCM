@@ -125,9 +125,9 @@ public class MapChart extends JFrame {
             for (Region region : regions) {
                 double[] coordinates = this.coordinatesToXY(region.latitude, region.longitude);
                 boolean isBig = this.globe.getRegions().getBigRegions().contains(region);
-                /*int[] colours;
+                int[] colours;
                 
-                if (this.mode == 1)
+                if (this.mode == 0)
                     colours = region.vaccinationLevel();
                 else
                     colours = region.ebolaLevel();
@@ -136,7 +136,7 @@ public class MapChart extends JFrame {
                 int colorG = colours[1];
                 int colorB = colours[2];
 
-                this.g2d.setColor(new Color(colorR, colorG, colorB));*/
+                this.g2d.setColor(new Color(colorR, colorG, colorB));
 
                 this.g2d.drawString(region.name, (int) coordinates[0], (int) coordinates[1]);
                 this.g2d.fillOval((int) coordinates[0], (int) coordinates[1], (isBig ? 15 : 10), (isBig ? 15 : 10));

@@ -7,6 +7,7 @@ package vaccinationdistributionmodel.world;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import vaccinationdistributionmodel.Modelable;
 
 /**
@@ -22,7 +23,7 @@ public class Region implements Modelable {
     public double latitude;
     public double longitude;
     public String name;
-    public double necessityConstant = 1.0;
+    public double necessityConstant = 0.6;
 
     public Region(RegionParameters params, Graph<City> cities) {
         this.cities = cities;
@@ -82,9 +83,9 @@ public class Region implements Modelable {
         }
 
         return new int[]{
-            (int) (255.0 * (1.0 - (((double) vaccinationLevel) / totalAlive))),
+            (int) (255.0 * (1.0 - (vaccinationLevel / totalAlive))),
             0,
-            (int) (255.0 * (((double) vaccinationLevel) / totalAlive))
+            (int) (255.0 * (vaccinationLevel / totalAlive))
         };
     }
 
@@ -258,5 +259,27 @@ public class Region implements Modelable {
         s = this.getCities().stream().map((c) ->
                 c.getSaveable()).reduce(s, (accumulator, _item) -> accumulator + _item);
         return s;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 83 * hash + Objects.hashCode(this.name);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Region other = (Region) obj;
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        return true;
     }
 }
