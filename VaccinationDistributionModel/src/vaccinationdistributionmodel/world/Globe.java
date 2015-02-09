@@ -191,6 +191,12 @@ public class Globe implements Modelable {
             }
         }
         
+        if (this.daysToOutbreakEnd == 0) {
+            System.out.println("Ebola has been eradicated on day " + this.days + "!");
+            System.out.println("Vaccines used: " + this.getVaccinated());
+            System.out.println("Deathtoll: " + this.getDeaths());
+        }
+        
         if (this.getAdvanced()==0 && this.getExposed() ==0 && this.getInfected() ==0){
             this.daysToOutbreakEnd--;
         }

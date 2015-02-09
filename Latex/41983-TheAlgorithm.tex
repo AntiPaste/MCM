@@ -4,7 +4,7 @@
 \usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
 \geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
 %\geometry{landscape}                % Activate for for rotated page geometry
-%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
 \usepackage{graphicx}
 \usepackage{amssymb}
 \usepackage{amsmath}
@@ -14,7 +14,7 @@
 \usepackage{url}
 \usepackage{xcolor}
 \DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
-\newcommand{\NB}[0]{\textcolor{red}{\textbf{!l‰hde!}}}
+\newcommand{\NB}[0]{\textcolor{red}{\textbf{!l√§hde!}}}
 \newcommand{\TD}[0]{\textcolor{red}{\textbf{!TODO!}}}
 \newcommand{\E}[0]{\textbf{Ebola }}
 
@@ -26,9 +26,11 @@
 
 \setlength{\parindent}{0cm}
 
-
 \section{The Algorithm}
 
-We implemented our model with Java programming language. The basic idea is to run a set of procedures daily. First we run in-city SEIAR algorithm, which is illustrated in the following section in detail. Then similar is procedure is run in inter-city level, with different parameters, and finally on inter-region level.
+We implemented our model with the Java programming language. The basic idea is to run a set of procedures which affect the state of the world (e.g. infections, vaccinations...) daily.
+
+
+First we run a SEIAR algorithm in-city, which is illustrated in the following section in detail. Then a similar procedure is run on an inter-city level, with different parameters, and finally on an inter-regional level.
 
 \end{document}
