@@ -1,0 +1,8 @@
+\contentsline {section}{\numberline {1}Introduction}{3}
+\contentsline {section}{\numberline {2}Plan Of Attack}{4}
+\contentsline {section}{\numberline {3}Assumptions}{5}
+\contentsline {section}{\numberline {4}The Algorithm}{6}
+\contentsline {section}{\numberline {5}Results}{7}
+\contentsline {section}{\numberline {6}Strengths and Weaknesses}{8}
+\contentsline {section}{\numberline {7}Conclusion}{9}
+\contentsline {section}{\numberline {8}Appendix}{10}
