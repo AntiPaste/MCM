@@ -61,7 +61,34 @@ public class Region implements Modelable {
         return new int[]{
             (int) (255.0 * (1.0 - (ebolaLevel / totalAlive)) * (((double) totalAlive) / totalPopulation) * (((double) totalAlive) / totalPopulation)),
             (int) (255.0 * (ebolaLevel / totalAlive) * (((double) totalAlive) / totalPopulation) * (((double) totalAlive) / totalPopulation)),
-            0,};
+            0
+        };
+    }
+    
+    public int[] vaccinationLevel() {
+        /*List<City> cities = this.getCities();
+        long totalAlive = 0;
+        long totalPopulation = 0;
+        double vaccinationLevel = 0;
+
+        for (City city : cities) {
+            long alive = city.getValues().amountOfExposed() + city.getValues().infected + city.getValues().advanced
+                    + city.getValues().susceptible + city.getValues().recovered;
+            totalAlive += alive;
+            totalPopulation += city.getValues().population;
+
+            vaccinationLevel += ((double) ((double) (city.getValues().vaccinated))
+                / ((double) (alive))) * alive;
+        }
+
+        return new int[]{
+            (int) (255.0 * (1.0 - (vaccinationLevel / totalAlive)) * (((double) totalAlive) / totalPopulation) * (((double) totalAlive) / totalPopulation)),
+            (int) (255.0 * (vaccinationLevel / totalAlive) * (((double) totalAlive) / totalPopulation) * (((double) totalAlive) / totalPopulation)),
+            0
+        };*/
+        
+        // TO DO
+        return new int[]{};
     }
 
     public long getPopulation() {

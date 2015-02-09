@@ -8,6 +8,7 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.File;
 import java.io.IOException;
@@ -26,7 +27,7 @@ public class MapChart extends JFrame {
 
     private class Surface extends JPanel {
 
-        private class Listener implements MouseMotionListener {
+        private class Listener implements MouseListener, MouseMotionListener {
 
             @Override
             public void mouseDragged(MouseEvent e) {
@@ -54,6 +55,27 @@ public class MapChart extends JFrame {
                     Surface.this.repaint();
                 }
             }
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+            }
         }
 
         private Graphics2D g2d;
@@ -61,8 +83,8 @@ public class MapChart extends JFrame {
         private int width;
         private int height;
         public Region displayRegion = null;
-        private boolean hasDrawn = false;
         private Image mapImage;
+        private int mode = 0;
 
         public Surface(Globe globe, int width, int height) {
             this.globe = globe;
@@ -103,8 +125,12 @@ public class MapChart extends JFrame {
             for (Region region : regions) {
                 double[] coordinates = this.coordinatesToXY(region.latitude, region.longitude);
                 boolean isBig = this.globe.getRegions().getBigRegions().contains(region);
-
-                int[] colours = region.ebolaLevel();
+                int[] colours;
+                
+                if (this.mode == 1)
+                    colours = region.vaccinationLevel();
+                else
+                    colours = region.ebolaLevel();
 
                 int colorR = colours[0];
                 int colorG = colours[1];
@@ -149,7 +175,6 @@ public class MapChart extends JFrame {
     private Globe globe;
     private XYSeriesCollection dataset = new XYSeriesCollection();
     private XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
-    private Image mapImage;
 
     public MapChart(Globe globe, int width, int height) {
         super("Map Chart");

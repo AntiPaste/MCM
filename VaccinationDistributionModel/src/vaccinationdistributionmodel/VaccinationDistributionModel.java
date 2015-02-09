@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import vaccinationdistributionmodel.display.Chart;
 import vaccinationdistributionmodel.display.MapChart;
+import vaccinationdistributionmodel.display.PieChart;
 import vaccinationdistributionmodel.vaccination.SimpleVaccinator;
 import vaccinationdistributionmodel.vaccination.VaccinationFactory;
 import vaccinationdistributionmodel.vaccination.VaccinationSchedule;
@@ -32,7 +33,8 @@ public class VaccinationDistributionModel {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        regionVaccinationPalikka();
+        //globeDemo();
+        chartOneCity();
     }
 
     public static void regionVaccinationPalikka() {
@@ -92,6 +94,12 @@ public class VaccinationDistributionModel {
         Globe globe = new Globe();
         globe.getRegions().getBigRegions().get(0).getCities().get(0).getValues().contaminate(500_000);
 
+        VaccinationFactory hienoTehdas = new VaccinationFactory(globe.getRegions().getBigRegions().get(0), globe.getRegions().getBigRegions().get(0).getCities().get(0), 30, 5, 3000);
+        List<VaccinationFactory> lista = new ArrayList<>();
+        lista.add(hienoTehdas);
+        
+        SimpleVaccinator vaccinator = new SimpleVaccinator(lista);
+        
         MapChart m = new MapChart(globe, height * 2, height);
         m.pack();
         m.setSize(height * 2, height);
@@ -99,6 +107,8 @@ public class VaccinationDistributionModel {
 
         for (int i = 0;; i++) {
             globe.update(i);
+            vaccinator.update(i);
+            
             m.repaint();
             try {
                 Thread.sleep(200);
@@ -170,7 +180,7 @@ public class VaccinationDistributionModel {
         city.setParameters(parameters);
         city.name = "Surakarta";
 
-        for (int i = 0; i < 120; i++) {
+        for (int i = 0; i < 200; i++) {
             city.update(i);
             try {
                 //Thread.sleep(3000);
@@ -180,7 +190,7 @@ public class VaccinationDistributionModel {
 
         System.out.println(city);
 
-        Chart chart = new Chart(city.getHistory());
+        PieChart chart = new PieChart(city.getHistory());
         chart.setTitle("no vaccines lol :P");
         chart.draw();
         chart.pack();

@@ -27,6 +27,12 @@ public class AreaChart extends JFrame {
 	public void draw() {
 		Map<String, List<Long>> lines = this.history.getData();
 		double[][] data = new double[lines.size() - 1][];
+        String[] labels = new String[lines.size() - 1];
+        String[] dayLabels = new String[lines.get("population").size()];
+        
+        for (int i = 0; i < lines.get("population").size(); i++) {
+            dayLabels[i] = Integer.toString(i);
+        }
 
 		int id = 0;
 		for (Map.Entry<String, List<Long>> e : lines.entrySet()) {
@@ -42,11 +48,12 @@ public class AreaChart extends JFrame {
 				entries[i] = values.get(i);
 			}
 
+            labels[id] = e.getKey();
 			data[id++] = entries;
 		}
-
+        
 		this.dataset = DatasetUtilities.createCategoryDataset(
-				"Series ", "Type ", data
+				labels, dayLabels, data
 		);
 
 		JFreeChart chart = createChart(this.dataset);
