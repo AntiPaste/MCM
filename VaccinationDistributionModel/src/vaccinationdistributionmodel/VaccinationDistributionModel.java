@@ -10,11 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import vaccinationdistributionmodel.display.Chart;
 import vaccinationdistributionmodel.display.MapChart;
-<<<<<<< HEAD
 import vaccinationdistributionmodel.display.PieChart;
-import vaccinationdistributionmodel.vaccination.SimpleVaccinator;
-=======
->>>>>>> 2d208f3bd9b0d6e7f9574d9b93c71e09f2941dd0
 import vaccinationdistributionmodel.vaccination.VaccinationFactory;
 import vaccinationdistributionmodel.vaccination.VaccinationSupplier;
 import vaccinationdistributionmodel.vaccination.VaccinationSchedule;
@@ -98,11 +94,9 @@ public class VaccinationDistributionModel {
         Globe globe = new Globe();
         globe.getRegions().getBigRegions().get(0).getCities().get(0).getValues().contaminate(500_000);
 
-        VaccinationFactory hienoTehdas = new VaccinationFactory(globe.getRegions().getBigRegions().get(0), globe.getRegions().getBigRegions().get(0).getCities().get(0), 30, 5, 3000);
+        //VaccinationFactory hienoTehdas = new VaccinationFactory(globe.getRegions().getBigRegions().get(0), globe.getRegions().getBigRegions().get(0).getCities().get(0), 30, 5, 3000);
         List<VaccinationFactory> lista = new ArrayList<>();
-        lista.add(hienoTehdas);
-        
-        SimpleVaccinator vaccinator = new SimpleVaccinator(lista);
+       // lista.add(hienoTehdas);
         
         MapChart m = new MapChart(globe, height * 2, height);
         m.pack();
@@ -111,7 +105,7 @@ public class VaccinationDistributionModel {
 
         for (int i = 0;; i++) {
             globe.update(i);
-            vaccinator.update(i);
+            //vaccinator.update(i);
             
             m.repaint();
             try {
