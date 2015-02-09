@@ -1,5 +1,5 @@
 \documentclass[12pt]{article}
-\usepackage[UTF-8]{inputenc}
+\usepackage[latin1]{inputenc}
 \usepackage{enumerate}
 \usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
 \geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
@@ -27,17 +27,22 @@
 \setlength{\parindent}{0cm}
 
 
-\section{Algorithms for distribution of the cure}
-
-In our approach we examine 
-
-\subsection{Greedy approach}
-
-\subsection{Even approach}
-
-\subsection{Balanced approach}
+\section{Abstract}
 
 
+Cure, seiar, vaccination, optimisation, crosscontaminationmodel, delivery, model spread, figure out where vaccine to
+
+assumption: immediate cure, Ebola spreads similarly to other virus-based diseases, with it's parameters had yada yada, omat tilat advance
+
+algortihm: yada nodeja jne muuttujia vakioita
+
+evoltution: performnase yada yada,
+
+results: millasia uhrim‰‰ri‰, mit‰ k‰vi, kuvia, kuinka nopea, miten malli kuinka nopeesti ohi, snapshots
+
+coclusion: nkjlsnalf
+
+appendix: kuvia
 
 
 \end{document}

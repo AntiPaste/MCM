@@ -63,9 +63,11 @@ public class VaccinationSupplier implements Modelable {
         if (currentDay <= this.openingDay) {
             return;
         }
+        
         //greedyQueue(currentDay);
-        //processQueue(currentDay);
-        evenQueue(currentDay);
+        processQueue(currentDay);
+        //evenQueue(currentDay);
+        
         for (VaccinationSchedule s : this.schedules){
             s.update(currentDay);
         }

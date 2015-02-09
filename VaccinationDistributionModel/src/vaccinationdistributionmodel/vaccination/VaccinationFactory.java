@@ -39,6 +39,25 @@ public class VaccinationFactory implements Modelable {
         });
 
         pollSuppliers();
+        //greedySuppliers();
+    }
+    
+    private void greedySuppliers() {
+        long leftToGive = this.vaccinesToDistribute;
+        long suppliersToGiveTo = this.customers.size();
+
+        for (VaccinationSupplier supplier : this.customers){
+            long supplierNeed = supplier.currentNeed();
+            
+            long give = leftToGive / suppliersToGiveTo +1;
+            suppliersToGiveTo --;
+            give = Math.min(give, supplierNeed);
+            give = Math.min(give, leftToGive);
+            supplier.giveVaccines(give);
+            this.vaccinationsGiven += give;
+            leftToGive -= give;
+            if (leftToGive==0) break;
+        }
     }
 
     private void pollSuppliers() {
@@ -51,7 +70,7 @@ public class VaccinationFactory implements Modelable {
             
             long give = (long) (this.vaccinesToDistribute * supplierNeed 
                     / ((double) totalNeed));
-            give = Math.max(give, supplierNeed);
+            give = Math.min(give, supplierNeed);
             give = Math.min(give, leftToGive);
             supplier.giveVaccines(give);
             this.vaccinationsGiven += give;
