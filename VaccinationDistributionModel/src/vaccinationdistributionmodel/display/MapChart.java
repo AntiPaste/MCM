@@ -127,7 +127,7 @@ public class MapChart extends JFrame {
                 boolean isBig = this.globe.getRegions().getBigRegions().contains(region);
                 int[] colours;
                 
-                if (this.mode == 0)
+                if (this.mode == 1)
                     colours = region.vaccinationLevel();
                 else
                     colours = region.ebolaLevel();

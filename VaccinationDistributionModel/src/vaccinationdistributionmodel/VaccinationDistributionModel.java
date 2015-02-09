@@ -92,12 +92,13 @@ public class VaccinationDistributionModel {
         int height = 1200;
 
         Globe globe = new Globe();
-        globe.getRegions().getBigRegions().get(0).getCities().get(0).getValues().contaminate(4);
-
-        //VaccinationFactory hienoTehdas = new VaccinationFactory(globe.getRegions().getBigRegions().get(0), globe.getRegions().getBigRegions().get(0).getCities().get(0), 30, 5, 3000);
-        List<VaccinationFactory> lista = new ArrayList<>();
-       // lista.add(hienoTehdas);
         
+        for (Region region : globe.getRegions().getNodes()) {
+            if (region.name.equals("Sierra Leone")) {
+                region.getCities().get(0).getValues().contaminate(10);
+            }
+        }
+
         MapChart m = new MapChart(globe, height * 2, height);
         m.pack();
         m.setSize(height * 2, height);
