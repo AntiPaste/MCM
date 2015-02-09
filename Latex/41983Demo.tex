@@ -27,25 +27,135 @@
 
 \begin{document}
 
-\setlength{\parindent}{0cm}
+%\setlength{\parindent}{0cm}
+
 \abstract
+
+\noindent 
+The Ebola virus has posed a serious threat to the welfare of many African countries, and in it's latest outbreak the entire world. The greatest challenge in eradicating this pestilence lies in finding the cure to the disease, but another important factor in defeating the disease is the correct distribution of the medication to those in need. This paper analyses different strategies of medication distribution to stop the Ebola pandemic.
+
+
+We use a modified version of the widely used and tested SEIR model. We add an Advanced state to the model, to depict those whose disease has progressed so far that the medication will not be able to heal them. Thus, we arrive at the SEIAR model which we tune with empirical data from the latest ebola outbreak to improve our results.
+
+
+We considered three different approaches. Firstly a greedy approach, where we fully clear discrete areas (cities in our model) of Ebola, as many at a time as feasible production speeds will allow. Secondly we look at a strategy of evenly distributing medication everywhere at once, though not exactly evenly for example in the case that some areas will be cleared sooner than others. Lastly we consider a balanced strategy, that distributes medication to everywhere at once, but biases areas where more medication is needed. That is, it balances supply and demand of different areas, so that their ratios will be the same.
+
+
+We found that the balanced algorithm seems to be the best in distributing medication. The different approaches are have quite similar results, the duration of the outbreak differs by a few weeks at most, and the deathtoll differs at most one percent from other distribution models.
 
 \newpage
 
 \tableofcontents
 
+\newpage
+
+\noindent
+\textbf{Dear Academic Fellows},
+
+\hspace{10mm}
+
+\noindent
+It gives us great pleasure to stand amongst the frontier against the Ebola virus. While tackling the anatomy of this vicious pestilence has surely been a true challenge, and we wish to congratulate You thereof. But there are still hardships to overcome. For one, we must be able to take care of the production of the medicine, but also to deal with the ever so important distribution. 
+
+In order to eradicate the virus, we have designed ingenious mathematical model BORA, Balanced Operational Rescue Algorithm, to both accurately predict the evolution of epidemic and effectively determine how a medication plan would damage the spread. With this supreme model, we were able to pinpoint efficient strategies to best the pest.
+
+\TD  
+
+%Without a shadow a doubt
+
 \maketitle
 
+\newpage
+
 \section{Introduction}
+
+Viruses like ebola can have serious effect on global scale. The latest massive Ebola outbreak has taken serious toll in West Africa. Although scientifically the serious problem seems to pin down the medical properties of the virus and hence find the cure, some care is needed while dealing with the distribution of the vaccine to ensure a fast, humane and economical solution. 
+
+In this paper we tackle the latter problem by exploring different strategies of distribution with mathematical models. We use our own extension of well established disease prediction models to best emulate the behaviour or Ebola. First, we build a model to model the progress of Ebola outbreak based on population distribution. Then the element of medicine production and distribution is introduced. We investigate how the global distribution behaviour affects the large scale outcome of the spread: how can Ebola be combated by efficient medication distribution methods to save lives.
+
+To achieve our goal, first of all we needed a realistic model of how Ebola behaves and spreads in a complex network. To simplify our task we make a large scale model, where the smallest unit of measure is a single city. Since the number of cities in the world is too large to model effectively we have limited the model to about 3000 major cities, that is not too heavy to model but descriptive of the global scenario.
 
 \newpage
 \section{Plan Of Attack}
 
+In order to model the development of the Ebola outbreak and it's eradication, we combine multiple celebrated mathematical models. We recognise activity on multiple levels: city, region, and global. On the city level, we use an extension of classical SIR model \NB , SEIAR for the in-city dynamics. A region consists of cities, which interact (according to model \NB) with each other, spreading the infection between them. All cities in a region are considered to be connected. Regions also interact with each other on a higher level through the most critical cities in a region. The Regions are connected as a global graph. The largest $\sqrt(number of cities)$ regions are the hubs of the graph and are all pairwise connected. The other regions are connected to at least one of these central regions, as well as several of the closest regions.
+
+One of the regions is seeded with a small number of Ebola infections, and then the model is run until the outbreak ends. The vaccination production and distribution are started 3 months after the start of model of the pandemic to depict the current stage of events, and the start of the vaccination effort in the middle of the pandemic. 
+
+The 'World Map' is created with data about the current (around 3000) most populated cities \NB. Traffic information is used to estimate movement between cities \NB. This data in mind, a network between cities and regions is created: the Ebola only disperses through these routes.
+
+Medicine factories are distributed in the biggest regions. In every region there is a vaccine supplier, which takes care of region. Supplier sends requests to the medicine factories, which try to satisfy their needs every day. Upon receiving their medicine packages, suppliers deliver the medicine to the cities. When the medicine has been shipped to the city, it's distributed from that point on at a rate depending on the size of the city.
+
+We estimate the effectiveness of the medication strategy with a simple idea. We count the amount of vaccines used to fight the contagion, and the amount of lives lost. These two numbers will give us a good idea of which distribution strategy is the best. Naturally, the primary optimisation will be to minimize the amount of lives lost, but the cost effectiveness is also important to consider.
+
+
+
+%Different vaccination strategies are tested evolutively \TD and their expense estimated using results from similar disease spreads and vaccination costs (see \NB) \TD.
+
 \newpage
 \section{Assumptions}
 
+(We make several assumptions to simplify our model)
+\begin{itemize}
+
+\item Spread of Ebola can be modelled by day by day simulation similar to classical SIR models
+\item Ebola can be cured with a (magical) medicine, which takes effect within a day, (thus essentially immediately according to our model,) which leaves the person in a recovered state: they are immune to disease and cannot infect other people
+\item Affect of change of seasons, natural births and deaths, immigration and political conflicts, is omitted
+\item Medicine production rates are based on vaccine production rates in \NB
+
+
+\end{itemize}
+
 \newpage
-\section{The Algorithm}
+\section{The Algorithm For Virus Distribution}
+
+We implemented our model with the Java programming language. The basic idea is to run a set of procedures which affect the state of the world (e.g. infections, vaccinations...) daily.
+
+First we run procedures which implement SEIAR modelling in-city, which is illustrated in the following sections in detail. Then a similar procedure is run on an inter-city level, with different parameters, and finally on an inter-regional level.
+
+\subsection{SIR model}
+
+SIR model is a simple, three-compartment model used for modelling the spread of infectious diseases. The three compartments are Susceptible, Infected, and Recovered, between which the population moves based on the following differential equations, where constants $\beta = \text{transmission rate}$, $\gamma = \text{recovery rate}$, and $N = \text{population}$:
+
+$$\frac{dS}{dt} = \frac{-\beta I S}{N}$$
+$$\frac{dI}{dt} = \frac{\beta I S}{N} - \gamma I$$
+$$\frac{dR}{dt} = \gamma I$$
+
+The SIR model and its variants have been used extensively in modelling past diseases. \NB
+
+\subsection{SEIR model}
+
+SEIR model is an extension to the SIR model, whereby a new state of Exposed has been added. This is due to many important infections having a significant incubation period. \NB
+
+The addition of the Exposed state changes the differential equations, shown below, significantly. The constants are similar, but a few have been added, notably $\mu = \text{death rate}$ and $a^{-1} = \text{average incubation period}$.
+
+$$\frac{dS}{dt} = \mu N - \mu S - \beta \frac{I}{N} S$$
+$$\frac{dE}{dt} = \beta \frac{I}{N} S - (\mu + a) E$$
+$$\frac{dI}{dt} = a E - (\gamma +\mu ) I$$
+$$\frac{dR}{dt} = \gamma I  - \mu R$$
+
+\subsection{SEIAR model}
+
+SEIAR model was developed by our team as a necessary extension to the SEIR model to match the scope of the problem. We added another state, Advanced, to model Ebola more accurately and distinguish those who can be medicated from those who are in the late stages of the disease and cannot be medicated.
+
+\newpage
+
+\section{The Algorithms for distribution of the cure}
+
+In our approach we examine different approaches to distribute the cure on a regional level. On the city-level, the cure is distributed as fast as possible. The distribution algorithm decides how medicine produced in factories is distributed between regions, and how the medicine is distributed to the cities of every region. In a region demand will most likely outmatch supply, so tradeoffs will have to be made. We have chosen to study the effectiveness of three different approaches to solve this issue. These algorithms can be implemented on the regional level as well as the global level. 
+
+\subsection{Greedy approach}
+
+In the greedy approach, as many medicines are given to a region or city as they can use, or as many are left to give. Especially in the beginning some cities and regions will get optimal amounts, while some will get none. Eventually, the first cities and regions to receive treatment will no longer need it, and the rest will also be served. The motivation behind this algorithm is, that although some areas are not cared for immediately, other areas are cleaned of \E as quickly as possible.
+
+\subsection{Even approach}
+
+In this approach every region or city is given roughly the same amount of medicine. No more medicines are given than are required, so the amounts are not always completely even. While the greedy algorithm tries to quickly clean some cities at the expense of others, this algorithm combats the pandemic evenly, and combats \E everywhere at once.
+
+\subsection{Balanced approach}
+
+Like the even algorithm, the balanced algorithm serves the whole world at once. The difference is, that instead of naively giving every city or region the same amount of medicine most of the time, the balanced algorithm balances the amounts of medicine according to the different needs of different regions or cities. The algorithm scales the amount of medicine according to the ratio of the need of the city or region and the total need of all cities or regions that medicine will be delivered to. That is, for example, if a city accounts for one tenth of the medicine demand of it's region, it will be supplied one tenth of the available medicine. This algorithm serves all regions and cities at once, and also attempts to give more medicine to cities or regions which need it most.
+
 
 \newpage
 \section{Results}
@@ -53,12 +163,13 @@
 \newpage
 \section{Strengths and Weaknesses}
 
+Since the development of an epidemic can be quite complicated and random, some harsh simplifications must be done in order to keep the computational complexity in reasonable scope. We extended a classical mathematical model with statistical flower trying to combine their strength, since they can both be a bit weak on themselves. Classical models have been in great use, so they can be deemed fairly reliable, but playing with them on a global scale can still cause substantial inaccuracies. Also fairly natural things i.e. political conflict etc. mentioned in the section Assumption could in real life a serious effect on the birth of the epidemic.
+
 \newpage
 \section{Conclusion}
 
 \newpage
 \section{Appendix}
 
-ada
 
 \end{document}
