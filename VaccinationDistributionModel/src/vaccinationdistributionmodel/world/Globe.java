@@ -3,16 +3,17 @@ package vaccinationdistributionmodel.world;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.Set;
 import vaccinationdistributionmodel.Modelable;
+import vaccinationdistributionmodel.vaccination.VaccinationFactory;
+import vaccinationdistributionmodel.vaccination.VaccinationSupplier;
 
 public class Globe implements Modelable {
 
     private Graph<Region> regionGraph;
+    private List<VaccinationFactory> factories;
 
     public Globe() {
         Map<String, List<City>> countries = new HashMap();
@@ -63,6 +64,25 @@ public class Globe implements Modelable {
         Graph<Region> graph = new Graph();
         graph.makeRegionEdges(regions);
         this.regionGraph = graph;
+        
+        initializeVaccinationScheme();
+    }
+    
+    private void initializeVaccinationScheme(){
+        this.factories = new ArrayList<>();
+        List<VaccinationSupplier> suppliers = new ArrayList<>();
+        
+        for (Region region : this.regionGraph.getNodes()){
+            City homecity = region.getGraph().getBigCities().get(0);
+            VaccinationSupplier supplier = new VaccinationSupplier(region, homecity, 
+                    GlobalParameters.STARTING_DAY);
+            
+            suppliers.add(supplier);
+        }
+        
+        for (Region bigRegion : this.regionGraph.getBigRegions()){
+            VaccinationFactory fac = new VaccinationFactory(suppliers, GlobalParameters.PRODUCTION_DAY);
+        }
     }
     
     public Globe(List<Region> regions){
@@ -116,6 +136,10 @@ public class Globe implements Modelable {
         
         for (Region region : this.regionGraph.getNodes()) {
             region.update(currentDay);
+        }
+        
+        for (VaccinationFactory factory : this.factories){
+            factory.update(currentDay);
         }
     }
 }

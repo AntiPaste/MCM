@@ -159,7 +159,7 @@ public class Graph<T> {
                     continue;
                 }
                 Region region = (Region) one;
-                Region otherRegion = (Region) one;
+                Region otherRegion = (Region) other;
                 this.edges.add(new Edge<>(one, other, distance(
                         region.latitude, region.longitude, otherRegion.latitude, otherRegion.longitude)));
             }

@@ -46,10 +46,6 @@ public class VaccinationSupplier implements Modelable {
 
         this.initializeQueue();
     }
-    
-    public void designateFactory(VaccinationFactory factory){
-        this.factory = factory;
-    }
 
     private void initializeQueue() {
         for (City c : this.homeRegion.getCities()) {
