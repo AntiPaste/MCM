@@ -29,7 +29,7 @@
 
 \section{Plan of Attack}
 
-In order to model the development of the Ebola outbreak and it's eradication, we combine multiple celebrated mathematical models. We recognise activity on multiple levels: city, region, and global. On the city level, we use an extension of classical SIR model \NB , SEIAR for the in-city dynamics. A region consists of cities, which interact (according to model \NB) with each other, spreading the infection between them. All cities in a region are considered to be connected. Regions also interact with each other on a higher level through the most critical cities in a region. The Regions are connected as a global graph. The largest $\sqrt(number of cities)$ regions are the hubs of the graph and are all pairwise connected. The other regions are connected to at least one of these central regions, as well as several of the closest regions.
+In order to model the development of the Ebola outbreak and it's eradication, we combine multiple celebrated mathematical models. We recognise activity on multiple levels: city, region, and global. On the city level, we use an extension of classical SIR model \NB , SEIAR for the in-city dynamics. A region consists of cities, which interact (according to model \NB) with each other, spreading the infection between them. All cities in a region are considered to be connected. Regions also interact with each other on a higher level through the most critical cities in a region. The Regions are connected as a global graph. The largest $\sqrt{n}$, where n is the number of regions, regions are the hubs of the graph and are all pairwise connected. The other regions are connected to at least one of these central regions, as well as several of the closest regions.
 
 One of the regions is seeded with a small number of Ebola infections, and then the model is run until the outbreak ends. The vaccination production and distribution are started 3 months after the start of model of the pandemic to depict the current stage of events, and the start of the vaccination effort in the middle of the pandemic. 
 
@@ -37,7 +37,7 @@ The 'World Map' is created with data about the current (around 3000) most popula
 
 Medicine factories are distributed in the biggest regions. In every region there is a vaccine supplier, which takes care of region. Supplier sends requests to the medicine factories, which try to satisfy their needs every day. Upon receiving their medicine packages, suppliers deliver the medicine to the cities. When the medicine has been shipped to the city, it's distributed from that point on at a rate depending on the size of the city.
 
-We estimate the effectiveness of the medication strategy with a simple idea. \TD
+We estimate the effectiveness of the medication strategy with a simple idea. We count the amount of vaccines used to fight the contagion, and the amount of lives lost. These two numbers will give us a good idea of which distribution strategy is the best. Naturally, the primary optimisation will be to minimize the amount of lives lost, but the cost effectiveness is also important to consider.
 
 
 
