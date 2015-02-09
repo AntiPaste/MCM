@@ -53,7 +53,6 @@ public class CityState {
             shots -= heal;
             this.exposedWaiting[i] -= heal;
         }
-        if (shots != 0) System.out.println("wasting vaccines: " + shots);
         
         this.vaccinated += amount;
     }
@@ -204,5 +203,9 @@ public class CityState {
         
         System.out.println();
         System.out.println();
+    }
+    
+    public long getSaveable(){
+        return this.susceptible + this.amountOfExposed() + this.infected;
     }
 }

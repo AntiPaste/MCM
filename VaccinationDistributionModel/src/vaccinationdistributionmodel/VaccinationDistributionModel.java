@@ -10,9 +10,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 import vaccinationdistributionmodel.display.Chart;
 import vaccinationdistributionmodel.display.MapChart;
+<<<<<<< HEAD
 import vaccinationdistributionmodel.display.PieChart;
 import vaccinationdistributionmodel.vaccination.SimpleVaccinator;
+=======
+>>>>>>> 2d208f3bd9b0d6e7f9574d9b93c71e09f2941dd0
 import vaccinationdistributionmodel.vaccination.VaccinationFactory;
+import vaccinationdistributionmodel.vaccination.VaccinationSupplier;
 import vaccinationdistributionmodel.vaccination.VaccinationSchedule;
 import vaccinationdistributionmodel.world.City;
 import vaccinationdistributionmodel.world.CityParameters;
@@ -33,8 +37,7 @@ public class VaccinationDistributionModel {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        //globeDemo();
-        chartOneCity();
+        globeDemo();
     }
 
     public static void regionVaccinationPalikka() {
@@ -54,17 +57,16 @@ public class VaccinationDistributionModel {
         City hienolinna = hienomesta.getGraph().getBigCities().get(0);
         City ebolalinna = ebolamesta.getGraph().getBigCities().get(0);
 
-        VaccinationFactory hienoTehdas = new VaccinationFactory(hienomesta, hienolinna, 30, 5, 3000);
-        VaccinationFactory ebolaTehdas = new VaccinationFactory(ebolamesta, ebolalinna, 30, 5, 3000);
-        List<VaccinationFactory> lista = new ArrayList<>();
+        VaccinationSupplier hienoTehdas = new VaccinationSupplier(hienomesta, hienolinna, 40);
+        VaccinationSupplier ebolaTehdas = new VaccinationSupplier(ebolamesta, ebolalinna, 40);
+        List<VaccinationSupplier> lista = new ArrayList<>();
         lista.add(hienoTehdas);
         lista.add(ebolaTehdas);
         
-        SimpleVaccinator vaccinator = new SimpleVaccinator(lista);
+        VaccinationFactory producer = new VaccinationFactory(lista, 30);
 
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 200; i++) {
             g.update(i);
-            vaccinator.update(i);
         }
 
         chartCity(hienolinna);
@@ -72,6 +74,8 @@ public class VaccinationDistributionModel {
 
         chartCity(hienomesta.getCities().get(4));
         chartCity(ebolamesta.getCities().get(4));
+        
+        System.out.println(g.getDeaths());
 
 //        regions.stream().forEach((Region r) -> {
 //            for (City c : r.getCities()) {

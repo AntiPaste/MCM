@@ -85,7 +85,7 @@ public class City implements Modelable {
         other.values.contaminate(contaminations);
     }
 
-    public void vaccinate(int amount, boolean targetInfected) {
+    public void vaccinate(long amount, boolean targetInfected) {
         this.values.vaccinate(amount, targetInfected);
     }
 
@@ -127,5 +127,9 @@ public class City implements Modelable {
         builder.append(String.format("Dead: %d (%.2f%%)\n", this.values.dead, this.values.dead / fPopulation * 100));
 
         return builder.toString();
+    }
+    
+    public long getSaveable(){
+        return this.values.getSaveable();
     }
 }

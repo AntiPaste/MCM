@@ -22,6 +22,7 @@ public class Region implements Modelable {
     public double latitude;
     public double longitude;
     public String name;
+    public double necessityConstant = 1.0;
 
     public Region(RegionParameters params, Graph<City> cities) {
         this.cities = cities;
@@ -218,5 +219,12 @@ public class Region implements Modelable {
 		/*for (Region nearRegion : this.neighbouringRegions) {
          this.interact(nearRegion);
          }*/
+    }
+    
+    public long getSaveable(){
+        long s = 0;
+        s = this.getCities().stream().map((c) ->
+                c.getSaveable()).reduce(s, (accumulator, _item) -> accumulator + _item);
+        return s;
     }
 }

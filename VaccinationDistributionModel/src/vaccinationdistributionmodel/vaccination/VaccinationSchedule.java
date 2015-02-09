@@ -9,11 +9,11 @@ import vaccinationdistributionmodel.world.CityState;
 public class VaccinationSchedule implements Modelable {
 
     private City city;
-    private int vaccinations;
+    private long vaccinations;
     private double targetingRatio;
     private int startingDay;
 
-    public VaccinationSchedule(City city, int startingDay, int vaccinations, double targetingRatio) {
+    public VaccinationSchedule(City city, int startingDay, long vaccinations, double targetingRatio) {
         this.vaccinations = vaccinations;
         this.targetingRatio = targetingRatio;
         this.city = city;
@@ -28,12 +28,12 @@ public class VaccinationSchedule implements Modelable {
     public void update(int currentDay) {
         if (currentDay < this.startingDay) return;
         
-        int give = Constraints.maximumDailyVaccination;
+        long give = Constraints.maximumDailyVaccination;
         if (give > vaccinations) {
             give = vaccinations;
         }
-        int inf = (int) (give * this.targetingRatio);
-        int uninf = give - inf;
+        long inf = (int) (give * this.targetingRatio);
+        long uninf = give - inf;
                
         this.city.vaccinate(inf, true);
         this.city.vaccinate(uninf, false);
