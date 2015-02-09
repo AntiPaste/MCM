@@ -1,0 +1,48 @@
+\documentclass[12pt]{article}
+\usepackage[latin1]{inputenc}
+\usepackage{enumerate}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{epstopdf}
+\usepackage{comment}
+\usepackage{alltt}
+\usepackage{url}
+\usepackage{xcolor}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+\newcommand{\NB}[0]{\textcolor{red}{\textbf{!lähde!}}}
+\newcommand{\TD}[0]{\textcolor{red}{\textbf{!TODO!}}}
+\newcommand{\E}[0]{\textbf{Ebola }}
+
+\title{EBORA - Evolutively Balanced Operational Rescue Algorithm}
+\author{Team 41983}
+\date{}                                           % Activate to display a given date or no date
+
+\begin{document}
+
+\setlength{\parindent}{0cm}
+
+
+\section{Algorithms for distribution of the cure}
+
+In our approach we examine different approaches to distribute the cure on a regional level. On the city-level, the cure is distributed as fast as possible. The distribution algorithm decides how medicine produced in factories is distributed between regions, and how the medicine is distributed to the cities of every region. In a region demand will most likely outmatch supply, so tradeoffs will have to be made. We have chosen to study the effectiveness of three different approaches to solve this issue. These algorithms can be implemented on the regional level as well as the global level. 
+
+\subsection{Greedy approach}
+
+In the greedy approach, as many medicines are given to a region or city as they can use, or as many are left to give. Especially in the beginning some cities and regions will get optimal amounts, while some will get none. Eventually, the first cities and regions to receive treatment will no longer need it, and the rest will also be served. The motivation behind this algorithm is, that although some areas are not cared for immediately, other areas are cleaned of \E as quickly as possible.
+
+\subsection{Even approach}
+
+In this approach every region or city is given roughly the same amount of medicine. No more medicines are given than are required, so the amounts are not always completely even. While the greedy algorithm tries to quickly clean some cities at the expense of others, this algorithm combats the pandemic evenly, and combats \E everywhere at once.
+
+\subsection{Balanced approach}
+
+Like the even algorithm, the balanced algorithm serves the whole world at once. The difference is, that instead of naively giving every city or region the same amount of medicine most of the time, the balanced algorithm balances the amounts of medicine according to the different needs of different regions or cities. The algorithm scales the amount of medicine according to the ratio of the need of the city or region and the total need of all cities or regions that medicine will be delivered to. That is, for example, if a city accounts for one tenth of the medicine demand of it's region, it will be supplied one tenth of the available medicine. This algorithm serves all regions and cities at once, and also attempts to give more medicine to cities or regions which need it most. 
+
+
+
+\end{document}

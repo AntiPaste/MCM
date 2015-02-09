@@ -1,0 +1,45 @@
+\documentclass[12pt]{article}
+\usepackage[UTF-8]{inputenc}
+\usepackage{enumerate}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{epstopdf}
+\usepackage{comment}
+\usepackage{alltt}
+\usepackage{url}
+\usepackage{xcolor}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+\newcommand{\NB}[0]{\textcolor{red}{\textbf{!lähde!}}}
+\newcommand{\TD}[0]{\textcolor{red}{\textbf{!TODO!}}}
+\newcommand{\E}[0]{\textbf{Ebola }}
+
+\title{EBORA - Evolutively Balanced Operational Rescue Algorithm}
+\author{Team 41983}
+\date{}                                           % Activate to display a given date or no date
+
+\begin{document}
+
+\setlength{\parindent}{0cm}
+
+
+\section{Algorithms for distribution of the cure}
+
+In our approach we examine different approaches to distribute the cure on a regional level. On the city-level, the cure is distributed as fast as possible. The distribution algorithm decides how medicine produced in factories is distributed between regions, and how the medicine is distributed to the cities of every region. In a region demand will most likely outmatch supply, so tradeoffs will have to be made.
+
+\subsection{Greedy approach}
+
+The greedy approach is quite simple. 
+
+\subsection{Even approach}
+
+\subsection{Balanced approach}
+
+
+
+
+\end{document}
