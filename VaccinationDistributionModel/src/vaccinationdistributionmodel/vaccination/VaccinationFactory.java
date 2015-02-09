@@ -14,8 +14,9 @@ import vaccinationdistributionmodel.Modelable;
  */
 public class VaccinationFactory implements Modelable {
 
-    private int vaccinesDaily = 700_000; // ~ 5M weekly
+    private long vaccinesDaily = 700_000; // ~ 5M weekly
     private long vaccinesToDistribute = 0;
+    private long storageCapacity = 100_000_000;
     private int openingDay;
     private List<VaccinationSupplier> customers;
 
@@ -29,7 +30,8 @@ public class VaccinationFactory implements Modelable {
         if (currentDay <= this.openingDay) {
             return;
         }
-        this.vaccinesToDistribute += this.vaccinesDaily;
+        this.vaccinesToDistribute = Math.min(this.vaccinesDaily + this.vaccinesToDistribute,
+                this.storageCapacity);
 
         this.customers.stream().forEach((c) -> {
             c.update(currentDay);
