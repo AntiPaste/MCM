@@ -15,7 +15,7 @@ import vaccinationdistributionmodel.Modelable;
 public class VaccinationFactory implements Modelable {
 
     private int vaccinesDaily = 700_000; // ~ 5M weekly
-    private int vaccinesToDistribute = 0;
+    private long vaccinesToDistribute = 0;
     private int openingDay;
     private List<VaccinationSupplier> customers;
 

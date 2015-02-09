@@ -92,7 +92,7 @@ public class VaccinationDistributionModel {
         int height = 1200;
 
         Globe globe = new Globe();
-        globe.getRegions().getBigRegions().get(0).getCities().get(0).getValues().contaminate(500_000);
+        globe.getRegions().getBigRegions().get(0).getCities().get(0).getValues().contaminate(4);
 
         //VaccinationFactory hienoTehdas = new VaccinationFactory(globe.getRegions().getBigRegions().get(0), globe.getRegions().getBigRegions().get(0).getCities().get(0), 30, 5, 3000);
         List<VaccinationFactory> lista = new ArrayList<>();
@@ -109,7 +109,7 @@ public class VaccinationDistributionModel {
             
             m.repaint();
             try {
-                Thread.sleep(50);
+                Thread.sleep(100);
             } catch (Exception e) {
             }
         }

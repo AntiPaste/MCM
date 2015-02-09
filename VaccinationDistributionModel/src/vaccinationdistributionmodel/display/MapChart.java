@@ -127,7 +127,7 @@ public class MapChart extends JFrame {
                 boolean isBig = this.globe.getRegions().getBigRegions().contains(region);
                 int[] colours;
                 
-                if (this.mode == 0)
+                if (this.mode == 1)
                     colours = region.vaccinationLevel();
                 else
                     colours = region.ebolaLevel();
@@ -143,10 +143,14 @@ public class MapChart extends JFrame {
                 this.g2d.setColor(Color.red);
             }
 
-            this.g2d.drawString(String.format("Population: %d", this.globe.getPopulation()), 5, 15);
-            this.g2d.drawString(String.format("Recovered: %d", this.globe.getRecovered()), 5, 30);
-            this.g2d.drawString(String.format("Deaths: %d", this.globe.getDeaths()), 5, 45);
-            this.g2d.drawString(String.format("Vaccinated: %d", this.globe.getVaccinated()), 5, 60);
+            this.g2d.drawString(String.format("Day: %d", this.globe.days), 5, 15);
+            this.g2d.drawString(String.format("Population: %d", this.globe.getPopulation()), 5, 30);
+            this.g2d.drawString(String.format("Recovered: %d", this.globe.getRecovered()), 5, 45);
+            this.g2d.drawString(String.format("Deaths: %d", this.globe.getDeaths()), 5, 60);
+            this.g2d.drawString(String.format("Vaccinated: %d", this.globe.getVaccinated()), 5, 75);
+            this.g2d.drawString(String.format("Exposed: %d", this.globe.getExposed()), 5, 90);
+            this.g2d.drawString(String.format("Infected: %d", this.globe.getInfected()), 5, 105);
+            this.g2d.drawString(String.format("Advanced: %d", this.globe.getAdvanced()), 5, 120);
 
             if (this.displayRegion == null) {
                 return;

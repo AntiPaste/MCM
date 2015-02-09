@@ -70,7 +70,7 @@ public class Region implements Modelable {
         List<City> cities = this.getCities();
         long totalAlive = 0;
         long totalPopulation = 0;
-        double vaccinationLevel = 0;
+        long vaccinationLevel = 0;
 
         for (City city : cities) {
             long alive = city.getValues().amountOfExposed() + city.getValues().infected + city.getValues().advanced + city.getValues().vaccinated
@@ -82,9 +82,9 @@ public class Region implements Modelable {
         }
 
         return new int[]{
-            (int) (255.0 * (1.0 - (vaccinationLevel / totalAlive))),
+            (int) (255.0 * (1.0 - (((double) vaccinationLevel) / totalAlive))),
             0,
-            (int) (255.0 * (vaccinationLevel / totalAlive))
+            (int) (255.0 * (((double) vaccinationLevel) / totalAlive))
         };
     }
 
@@ -122,6 +122,33 @@ public class Region implements Modelable {
         }
 
         return vaccinated;
+    }
+    
+    public long getExposed() {
+        long exposed = 0;
+        for (City city : this.getCities()) {
+            exposed += city.getValues().amountOfExposed();
+        }
+
+        return exposed;
+    }
+    
+    public long getInfected() {
+        long infected = 0;
+        for (City city : this.getCities()) {
+            infected += city.getValues().infected;
+        }
+
+        return infected;
+    }
+    
+    public long getAdvanced() {
+        long advanced = 0;
+        for (City city : this.getCities()) {
+            advanced += city.getValues().advanced;
+        }
+
+        return advanced;
     }
 
     private void computeAverageLatitudeAndLongitude() {

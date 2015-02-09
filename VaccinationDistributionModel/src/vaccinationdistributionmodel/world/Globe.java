@@ -14,6 +14,7 @@ public class Globe implements Modelable {
 
     private Graph<Region> regionGraph;
     private List<VaccinationFactory> factories;
+    public long days = 0;
 
     public Globe() {
         Map<String, List<City>> countries = new HashMap();
@@ -138,6 +139,33 @@ public class Globe implements Modelable {
         
         return vaccinated;
     }
+    
+    public long getExposed() {
+        long exposed = 0;
+        for (Region region : this.regionGraph.getNodes()) {
+            exposed += region.getExposed();
+        }
+        
+        return exposed;
+    }
+    
+    public long getInfected() {
+        long infected = 0;
+        for (Region region : this.regionGraph.getNodes()) {
+            infected += region.getInfected();
+        }
+        
+        return infected;
+    }
+    
+    public long getAdvanced() {
+        long advanced = 0;
+        for (Region region : this.regionGraph.getNodes()) {
+            advanced += region.getAdvanced();
+        }
+        
+        return advanced;
+    }
 
     @Override
     public void update(int currentDay) {
@@ -152,5 +180,7 @@ public class Globe implements Modelable {
         for (VaccinationFactory factory : this.factories){
             factory.update(currentDay);
         }
+        
+        this.days++;
     }
 }
