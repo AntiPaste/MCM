@@ -8,6 +8,7 @@ package vaccinationdistributionmodel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import vaccinationdistributionmodel.display.AreaChart;
 import vaccinationdistributionmodel.display.Chart;
 import vaccinationdistributionmodel.display.MapChart;
 import vaccinationdistributionmodel.display.PieChart;
@@ -96,12 +97,14 @@ public class VaccinationDistributionModel {
 
         //for (int day = 140; day < 158; day += 4) {
             Globe globe = new Globe();
+            City city = null;
             //GlobalParameters.STARTING_DAY = day+2;
             //GlobalParameters.PRODUCTION_DAY = day;
 
             for (Region region : globe.getRegions().getNodes()) {
                 if (region.name.equals("Sierra Leone")) {
-                    region.getCities().get(0).getValues().contaminate(10);
+                    city = region.getCities().get(0);
+                    city.getValues().contaminate(10);
                 }
             }
 
@@ -115,8 +118,7 @@ public class VaccinationDistributionModel {
                 //vaccinator.update(i);
 
                 if (globe.daysToOutbreakEnd == 0) {
-                    System.out.println(globe.getDeaths());
-                    Chart chart = new Chart(globe.getHistory());
+                    PieChart chart = new PieChart(city.getHistory());
                     chart.draw();
                     chart.pack();
                     chart.setVisible(true);

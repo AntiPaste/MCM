@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2015.2.9)  10 FEB 2015 00:07
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2015.2.9)  10 FEB 2015 00:24
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -492,22 +492,40 @@ Package pdftex.def Info: Death.png used on input line 47.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
+<area.png, id=5, 795.97375pt x 598.235pt>
+File: area.png Graphic file (type png)
+ <use area.png>
+Package pdftex.def Info: area.png used on input line 54.
+(pdftex.def)             Requested size: 501.87683pt x 377.19127pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<pie.png, id=6, 797.98125pt x 602.25pt>
+File: pie.png Graphic file (type png)
+ <use pie.png>
+Package pdftex.def Info: pie.png used on input line 61.
+(pdftex.def)             Requested size: 501.87683pt x 378.77623pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
 [1
 
-{/usr/local/texlive/2014/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./map.png>] [2 <./chart.png>] [3 <./Death.png>] (/Users/Branch/Documents/MCM/Latex/.texpadtmp/41983-Pictures.aux) ) 
+{/usr/local/texlive/2014/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./map.png>] [2 <./chart.png>] [3 <./Death.png>] [4 <./area.png>] [5 <./pie.png>] (/Users/Branch/Documents/MCM/Latex/.texpadtmp/41983-Pictures.aux) ) 
 Here is how much of TeX's memory you used:
- 3648 strings out of 493117
- 47997 string characters out of 6135434
- 118187 words of memory out of 5000000
- 7052 multiletter control sequences out of 15000+600000
+ 3658 strings out of 493117
+ 48110 string characters out of 6135434
+ 119187 words of memory out of 5000000
+ 7060 multiletter control sequences out of 15000+600000
  4544 words of font info for 17 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  42i,7n,35p,328b,281s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb>
-Output written on /Users/Branch/Documents/MCM/Latex/.texpadtmp/41983-Pictures.pdf (3 pages, 672466 bytes).
+Output written on /Users/Branch/Documents/MCM/Latex/.texpadtmp/41983-Pictures.pdf (5 pages, 744861 bytes).
 PDF statistics:
- 29 PDF objects out of 1000 (max. 8388607)
- 15 compressed objects within 1 object stream
+ 39 PDF objects out of 1000 (max. 8388607)
+ 19 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 16 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 26 words of extra memory for PDF output out of 10000 (max. 10000000)
 

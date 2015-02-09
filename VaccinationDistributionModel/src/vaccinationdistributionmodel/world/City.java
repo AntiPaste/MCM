@@ -110,7 +110,7 @@ public class City implements Modelable {
         /*if (this.name.equals("Surakarta"))
             this.values.printWaiting();*/
         
-        //this.history.addState(this.values);
+        this.history.addState(this.values);
     }
 
     @Override
