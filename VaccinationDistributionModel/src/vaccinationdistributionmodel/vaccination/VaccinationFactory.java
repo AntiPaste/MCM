@@ -17,7 +17,8 @@ public class VaccinationFactory implements Modelable {
     private long vaccinesDaily = 700_000; // ~ 5M weekly
     private long vaccinesToDistribute = 0;
     private long storageCapacity = 100_000_000;
-    private int openingDay;
+    private int  openingDay;
+    private long vaccinationsGiven = 0;
     private List<VaccinationSupplier> customers;
 
     public VaccinationFactory(List<VaccinationSupplier> customers, int openingDay) {
@@ -53,8 +54,13 @@ public class VaccinationFactory implements Modelable {
             give = Math.max(give, supplierNeed);
             give = Math.min(give, leftToGive);
             supplier.giveVaccines(give);
+            this.vaccinationsGiven += give;
             leftToGive -= give;
             if (leftToGive==0) break;
         }
+    }
+    
+    public long vaccinationsGiven(){
+        return this.vaccinationsGiven;
     }
 }

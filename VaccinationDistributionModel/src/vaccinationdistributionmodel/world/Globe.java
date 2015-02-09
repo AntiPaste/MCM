@@ -98,6 +98,13 @@ public class Globe implements Modelable {
         this.regionGraph = graph;
     }
 
+    public double cost(){
+        long cost = 0;
+        for (VaccinationFactory f: this.factories){
+            cost += f.vaccinationsGiven();
+        }
+        return ((double) (this.getRecovered() + this.getVaccinated())) / cost;
+    }
 
 
     public Graph<Region> getRegions() {
