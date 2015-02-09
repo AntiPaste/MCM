@@ -8,8 +8,8 @@ package vaccinationdistributionmodel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.jfree.data.xy.XYSeries;
 import vaccinationdistributionmodel.display.Chart;
+import vaccinationdistributionmodel.display.MapChart;
 import vaccinationdistributionmodel.display.PieChart;
 import vaccinationdistributionmodel.vaccination.VaccinationFactory;
 import vaccinationdistributionmodel.vaccination.VaccinationSupplier;
@@ -91,13 +91,13 @@ public class VaccinationDistributionModel {
     public static void globeDemo() {
         int height = 1200;
         
-        Chart chart = new Chart();
-        XYSeries series = new XYSeries("deaths");
+        /*Chart chart = new Chart();
+        XYSeries series = new XYSeries("deaths");*/
 
-        for (int day = 1; day < 600; day += 50) {
+        //for (int day = 140; day < 158; day += 4) {
             Globe globe = new Globe();
-            GlobalParameters.STARTING_DAY = day+2;
-            GlobalParameters.PRODUCTION_DAY = day;
+            //GlobalParameters.STARTING_DAY = day+2;
+            //GlobalParameters.PRODUCTION_DAY = day;
 
             for (Region region : globe.getRegions().getNodes()) {
                 if (region.name.equals("Sierra Leone")) {
@@ -105,39 +105,41 @@ public class VaccinationDistributionModel {
                 }
             }
 
-            /*MapChart m = new MapChart(globe, height * 2, height);
+            MapChart m = new MapChart(globe, height * 2, height);
             m.pack();
             m.setSize(height * 2, height);
-            m.setVisible(true);*/
+            m.setVisible(true);
 
             for (int i = 0;; i++) {
                 globe.update(i);
                 //vaccinator.update(i);
 
                 if (globe.daysToOutbreakEnd == 0) {
-                    /*Chart chart = new Chart(globe.getHistory());
+                    System.out.println(globe.getDeaths());
+                    Chart chart = new Chart(globe.getHistory());
                     chart.draw();
                     chart.pack();
-                    chart.setVisible(true);*/
+                    chart.setVisible(true);
                     
+                    /*System.out.println(globe.getDeaths());
                     series.add(day, globe.getDeaths());
-                    System.out.println("Finished day " + day);
+                    System.out.println("Finished day " + day);*/
                     break;
                 }
 
-                /*m.repaint();
+                m.repaint();
                 try {
                     //Thread.sleep(100);
                 } catch (Exception e) {
-                }*/
+                }
             }
-        }
+        //}
         
-        chart.addSeries(series);
+        /*chart.addSeries(series);
         
-        chart.draw();
+        chart.justFuckingDraw();
         chart.pack();
-        chart.setVisible(true);
+        chart.setVisible(true);*/
     }
 
     public static void sth() {
