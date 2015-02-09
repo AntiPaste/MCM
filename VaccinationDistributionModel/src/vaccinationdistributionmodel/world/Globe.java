@@ -82,7 +82,9 @@ public class Globe implements Modelable {
         
         for (Region bigRegion : this.regionGraph.getBigRegions()){
             VaccinationFactory fac = new VaccinationFactory(suppliers, GlobalParameters.PRODUCTION_DAY);
+            this.factories.add(fac);
         }
+       
     }
     
     public Globe(List<Region> regions){
